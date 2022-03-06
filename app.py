@@ -71,9 +71,7 @@ df_miss['land_time'] = pd.to_datetime(df_miss['landDate.utc']).dt.time
 df_miss['launch_date'] = df_miss['vagueLaunchDate']
 df_miss['land_date'] = pd.to_datetime(df_miss['landDate.utc']).dt.date
 
-del df_miss['vagueLaunchDate']
-del df_miss['landDate.utc']
-del df_miss['launchDate.utc']
+del df_miss['vagueLaunchDate'],df_miss['landDate.utc'], df_miss['launchDate.utc']
 
 #Join astronaut database with mission database
 df_full = pd.merge(df_miss,df_astro,how='left',on=['astronaut_id'])
@@ -81,14 +79,68 @@ df_full = pd.merge(df_miss,df_astro,how='left',on=['astronaut_id'])
 # Number of Awards per Astronaut
 df_full['num_awards'] = df_full['awards'].str.len()
 del df_full['lastLaunchDate.utc']
-astro_db = df_full
 
+
+df_full = df_full.rename(columns={'name_x': 'mission_name'})
+df_full = df_full.rename(columns={'name_y': 'astronaut_name'})
+
+
+#Get the countries
+from bs4 import BeautifulSoup
+#!pip install selenium
+from selenium import webdriver
+#!pip install webdriver_manager
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+
+data = []
+
+url = 'https://www.supercluster.com/astronauts?ascending=false&limit=5000&list=true&sort=launch%20order'
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+driver.maximize_window()
+time.sleep(5)
+driver.get(url)
+time.sleep(5)
+
+soup = BeautifulSoup(driver.page_source, 'lxml')
+tags = soup.select('.astronaut_cell.x')
+
+for item in tags:
+    name = item.select_one('.bau.astronaut_cell__title.bold.mr05').get_text()
+    #print(name.text)
+    country = item.select_one('.mouseover__contents.rel.py05.px075.bau.caps.small.ac')
+    if country:
+        country=country.get_text()
+    #print(country)
+    
+    data.append([name, country])
+
+
+
+cols=['name','country']
+df = pd.DataFrame(data,columns=cols)
+
+df['names'] = df['name'].str.split(", ")
+
+df['last_names'] = df['names'].str[0]
+df['first_names'] = df['names'].str[1]
+df['full_names'] = df['first_names'] + ' ' + df['last_names']
+del df['names'], df['first_names'], df['name'], df['last_names']
+
+df = df.rename(columns={'full_names': 'astronaut_name'})
+#df_full.iloc[0:5, 10:20]
+
+#Join country onto full astro df
+astro_db = pd.merge(df_full,df,how='left',on=['astronaut_name'])
+astro_db['country'].unique()
 
 
 
 #choice - test out dropdown
 
-name_choices = astro_db['name_y'].unique()
+name_choices = astro_db['astronaut_name'].unique()
 
 
 
@@ -203,7 +255,7 @@ def render_content(tab):
 
 def network(dd1):
     
-    filtered = astro_db[['mission_id','name_y']]
+    filtered = astro_db[['mission_id','astronaut_name']]
     #filtered = filtered[filtered['name_y']==dd1]
 
 
@@ -217,7 +269,7 @@ def network(dd1):
         return pd.DataFrame(pairs, columns=['Source', 'Target']) 
    
     df_pairs = (
-        filtered.groupby(['mission_id'])['name_y']
+        filtered.groupby(['mission_id'])['astronaut_name']
         .apply(assets_pairs)   # create asset pairs per group 
         .groupby(['Source', 'Target'], as_index=False)  # compute the weights  by 
         .agg(Weights = ('Source', 'size'))              # counting the unique ('Source', 'Target') pairs
