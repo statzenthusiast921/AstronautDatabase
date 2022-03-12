@@ -136,13 +136,11 @@ df = df.rename(columns={'full_names': 'astronaut_name'})
 astro_db = pd.merge(df_full,df,how='left',on=['astronaut_name'])
 astro_db['country'].unique()
 
-
+#astro_db.to_csv('/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/astro_db.csv', index=False)
 
 #choice - test out dropdown
 
-name_choices = astro_db['astronaut_name'].unique()
-
-
+country_choices = astro_db['country'].unique()
 
 tabs_styles = {
     'height': '44px'
@@ -205,8 +203,8 @@ app.layout = html.Div([
                             dcc.Dropdown(
                                 id='dropdown1',
                                 style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in name_choices],
-                                value=name_choices[0]
+                                options=[{'label': i, 'value': i} for i in country_choices],
+                                value=country_choices[0]
                             ),
                             visdcc.Network(
                                 id='ng',
@@ -255,27 +253,13 @@ def render_content(tab):
 
 def network(dd1):
     
-    filtered = astro_db[['mission_id','astronaut_name']]
-    #filtered = filtered[filtered['name_y']==dd1]
+    filtered = astro_db[['country','mission_id','astronaut_name']]
+    filtered['Weights'] = 1
+    filtered = filtered[filtered['country']=="United States of America"]
 
-
-    def assets_pairs(astronauts):
-        unique_astronauts = set(astronauts)
-        if len(unique_astronauts) == 1:
-            x = astronauts.iat[0]  # get the only unique asset
-            pairs = [[x, x]]
-        else:
-            pairs = it.permutations(unique_astronauts, r=2)  # get all the unique pairs without repeated elements
-        return pd.DataFrame(pairs, columns=['Source', 'Target']) 
-   
-    df_pairs = (
-        filtered.groupby(['mission_id'])['astronaut_name']
-        .apply(assets_pairs)   # create asset pairs per group 
-        .groupby(['Source', 'Target'], as_index=False)  # compute the weights  by 
-        .agg(Weights = ('Source', 'size'))              # counting the unique ('Source', 'Target') pairs
-    )
-
-    new_df = df_pairs[df_pairs['Source']==dd1]
+    new_df = filtered
+    new_df.rename(columns={new_df.columns[1]: "Source"}, inplace = True)
+    new_df.rename(columns={new_df.columns[2]: "Target"}, inplace = True)
 
     node_list = list(
         set(new_df['Source'].unique().tolist()+new_df['Target'].unique().tolist())
