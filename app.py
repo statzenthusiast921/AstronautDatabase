@@ -138,8 +138,12 @@ astro_db['country'].unique()
 
 #astro_db.to_csv('/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/astro_db.csv', index=False)
 
-#choice - test out dropdown
+#Call on the data cleaning script
+exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cleaning_for_astrodb.py").read())
 
+astro_db['country'].value_counts()
+
+#choice - test out dropdown
 country_choices = astro_db['country'].unique()
 
 tabs_styles = {
@@ -253,7 +257,7 @@ def render_content(tab):
 
 def network(dd1):
     
-    filtered = astro_db[['country','mission_id','astronaut_name']]
+    filtered = astro_db[['country','mission_name','astronaut_name']]
     filtered['Weights'] = 1
     filtered = filtered[filtered['country']==dd1]
 
@@ -299,9 +303,6 @@ def network(dd1):
     data = {'nodes':nodes, 'edges': edges}
 
     return data
-
-
-
 
 
 
