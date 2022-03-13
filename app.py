@@ -255,7 +255,7 @@ def network(dd1):
     
     filtered = astro_db[['country','mission_id','astronaut_name']]
     filtered['Weights'] = 1
-    filtered = filtered[filtered['country']=="United States of America"]
+    filtered = filtered[filtered['country']==dd1]
 
     new_df = filtered
     new_df.rename(columns={new_df.columns[1]: "Source"}, inplace = True)
@@ -265,13 +265,25 @@ def network(dd1):
         set(new_df['Source'].unique().tolist()+new_df['Target'].unique().tolist())
     )
 
-    nodes = [{
+    nodes = [
+        ({
         'id': node_name, 
         'label': node_name,
         'shape':'dot',
+        'color':'green',
         'size':15
-        }
-        for i, node_name in enumerate(node_list)]
+        })
+        if node_name in new_df['Source'].unique()
+        else
+        ({
+        'id': node_name, 
+        'label': node_name,
+        'shape':'dot',
+        'color':'grey',
+
+        'size':15
+        })       
+        for _, node_name in enumerate(node_list)]
 
     #Create edges from df
     edges=[]
