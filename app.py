@@ -143,8 +143,11 @@ exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cle
 
 astro_db['country'].value_counts()
 
+astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
+
 #choice - test out dropdown
-country_choices = astro_db['country'].unique()
+country_choices = astro_db['country'].astype('str').unique()
+year_choices = astro_db['launch_year'].unique()
 
 tabs_styles = {
     'height': '44px'
@@ -209,7 +212,30 @@ app.layout = html.Div([
                                 style={'color':'black'},
                                 options=[{'label': i, 'value': i} for i in country_choices],
                                 value=country_choices[0]
-                            ),
+                            )
+                       ],width=6),
+                       dbc.Col([
+                            dcc.RangeSlider(
+                                    id='range_slider',
+                                    min=year_choices.min(),
+                                    max=year_choices.max(),
+                                    step=1,
+                                    value=[year_choices.min(), year_choices.max()],
+                                    marks={
+                                        1950: '1950',
+                                        1960: '1960',
+                                        1970: '1970',
+                                        1980: '1980',
+                                        1990: '1990',
+                                        2000: '2000',
+                                        2010: '2010',
+                                        2020: '2020'
+                                    }
+                                    #marks={i: '{}'.format(i) for i in range(year_choices.min(),year_choices.max())}
+                                ),
+
+                       ],width=6),
+                       dbc.Col([
                             visdcc.Network(
                                 id='ng',
                                 options = dict(
@@ -252,18 +278,20 @@ def render_content(tab):
 
 @app.callback(
     Output('ng','data'),
-    Input('dropdown1','value')
+    Input('dropdown1','value'),
+    Input('range_slider','value')
 )
 
-def network(dd1):
+def network(dd1,range_slider1):
     
-    filtered = astro_db[['country','mission_name','astronaut_name']]
+    filtered = astro_db[['mission_name','astronaut_name','country','launch_year']]
     filtered['Weights'] = 1
     filtered = filtered[filtered['country']==dd1]
+    filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
 
     new_df = filtered
-    new_df.rename(columns={new_df.columns[1]: "Source"}, inplace = True)
-    new_df.rename(columns={new_df.columns[2]: "Target"}, inplace = True)
+    new_df.rename(columns={new_df.columns[0]: "Source"}, inplace = True)
+    new_df.rename(columns={new_df.columns[1]: "Target"}, inplace = True)
 
     node_list = list(
         set(new_df['Source'].unique().tolist()+new_df['Target'].unique().tolist())
