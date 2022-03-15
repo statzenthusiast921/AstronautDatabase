@@ -220,7 +220,10 @@ app.layout = html.Div([
                                     min=year_choices.min(),
                                     max=year_choices.max(),
                                     step=1,
-                                    value=[year_choices.min(), year_choices.max()],
+                                    value=[2010, year_choices.max()],
+                                    allowCross=False,
+                                    pushable=2,
+                                    tooltip={"placement": "bottom", "always_visible": True},
                                     marks={
                                         1950: '1950',
                                         1960: '1960',
