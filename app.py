@@ -105,6 +105,7 @@ driver.get(url)
 time.sleep(5)
 
 soup = BeautifulSoup(driver.page_source, 'lxml')
+driver.close()
 tags = soup.select('.astronaut_cell.x')
 
 for item in tags:
@@ -234,7 +235,6 @@ app.layout = html.Div([
                                         2010: '2010',
                                         2020: '2020'
                                     }
-                                    #marks={i: '{}'.format(i) for i in range(year_choices.min(),year_choices.max())}
                                 ),
 
                        ],width=6),
