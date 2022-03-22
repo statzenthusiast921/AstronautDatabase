@@ -147,7 +147,14 @@ astro_db['country'].value_counts()
 astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
 
 #choice - test out dropdown
-country_choices = astro_db['country'].astype('str').unique()
+astro_db['ones'] = 1
+country_condensed = astro_db[['country','ones']]
+country_condensed = country_condensed.groupby(['country']).sum().reset_index()
+country_condensed = country_condensed[country_condensed['ones']>1]
+
+country_choices = country_condensed['country'].astype('str').unique()
+
+country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
 
 tabs_styles = {
@@ -204,7 +211,31 @@ app.layout = html.Div([
 
 
                ]),
-        dcc.Tab(label='Network Graph',value='tab-2',style=tab_style, selected_style=tab_selected_style,
+        dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_selected_style,
+        children=[
+            dbc.Row([
+                dbc.Col([
+                    dcc.Dropdown(
+                        id='dropdown0',
+                        style={'color':'black'},
+                        options=[{'label': i, 'value': i} for i in country_choices],
+                        value=country_choices[-1]
+                    ),
+                    dbc.Card(id='total_astros')
+
+                ])
+            ])
+        ]),
+
+        dcc.Tab(label='Astronauts',value='tab-3',style=tab_style, selected_style=tab_selected_style,
+               children=[
+                   dbc.Row([
+                       dbc.Col([
+            
+                       ])
+                   ])
+               ]),
+        dcc.Tab(label='Network Graph',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
                        dbc.Col([
@@ -212,7 +243,7 @@ app.layout = html.Div([
                                 id='dropdown1',
                                 style={'color':'black'},
                                 options=[{'label': i, 'value': i} for i in country_choices],
-                                value=country_choices[0]
+                                value=country_choices[-1]
                             )
                        ],width=6),
                        dbc.Col([
@@ -256,7 +287,7 @@ app.layout = html.Div([
                                     scaling='value'
                                 )
                             )
-                       ])
+                       ],width=12)
                    ])
                ]
         )
@@ -265,7 +296,7 @@ app.layout = html.Div([
 ])
 
 
-#Configure Reactibity for Tab Colors
+#Configure Reactivity for Tab Colors
 @app.callback(Output('tabs-content-inline', 'children'),
               Input('tabs-styled-with-inline', 'value'))
 def render_content(tab):
@@ -278,11 +309,26 @@ def render_content(tab):
             html.H3('Tab content 2')
         ])
 
+    elif tab == 'tab-3':
+        return html.Div([
+            html.H3('Tab content 3')
+        ])
 
+    elif tab == 'tab-4':
+        return html.Div([
+            html.H3('Tab content 4')
+        ])
+
+
+
+
+
+#Configure callback for network graph
 @app.callback(
     Output('ng','data'),
     Input('dropdown1','value'),
     Input('range_slider','value')
+
 )
 
 def network(dd1,range_slider1):
@@ -334,6 +380,33 @@ def network(dd1,range_slider1):
     data = {'nodes':nodes, 'edges': edges}
 
     return data
+
+#Configure callback for astronaut totals
+@app.callback(
+    Output('total_astros','children'),
+    Input('dropdown0','value')
+)
+def total_astros(dd0):
+    
+    filtered = astro_db[astro_db['country']==dd0]
+    total_num = filtered.shape[0]
+
+    card1 = dbc.Card([
+        dbc.CardBody([
+            html.H5(f'Total # of People: {total_num}'),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    return card1
+
 
 
 
