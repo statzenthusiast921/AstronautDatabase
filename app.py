@@ -1,6 +1,8 @@
 #Import packages
+from enum import unique
 import pandas as pd
 import numpy as np
+import os
 import plotly.express as px
 import dash
 import dash_core_components as dcc
@@ -12,7 +14,7 @@ import requests
 from IPython.display import JSON
 import visdcc
 import itertools as it
-
+import re
 
 #Download the astronaut database from SuperCluster
 astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
@@ -176,7 +178,7 @@ tab_selected_style = {
 
 
 
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__,assets_folder=os.path.join(os.curdir,"assets"))
 server = app.server
 app.layout = html.Div([
     dcc.Tabs([
@@ -221,9 +223,19 @@ app.layout = html.Div([
                         options=[{'label': i, 'value': i} for i in country_choices],
                         value=country_choices[-1]
                     ),
+                ],width=12),
+                dbc.Col([
                     dbc.Card(id='total_astros')
-
-                ])
+                ],width=4),
+                dbc.Col([
+                    dcc.Graph(id='timeline_graph')
+                ],width=8),
+                dbc.Col([
+                    dbc.Card(id='unique_awards')
+                ],width=4),
+                dbc.Col([
+                    dcc.Graph(id='award_bar_chart')
+                ],width=8)
             ])
         ]),
 
@@ -384,10 +396,14 @@ def network(dd1,range_slider1):
 #Configure callback for astronaut totals
 @app.callback(
     Output('total_astros','children'),
+    Output('timeline_graph','figure'),
+    Output('award_bar_chart','figure'),
+
     Input('dropdown0','value')
 )
-def total_astros(dd0):
+def countries_page(dd0):
     
+    #Total # of astronauts card
     filtered = astro_db[astro_db['country']==dd0]
     total_num = filtered.shape[0]
 
@@ -405,7 +421,58 @@ def total_astros(dd0):
            'fontSize':16},
     outline=True)
 
-    return card1
+    #Timeline of astronaut launches
+    timeline_df = filtered[['launch_year','ones']]
+    timeline_df = timeline_df.groupby('launch_year').sum().reset_index()
+
+
+    fig = px.line(timeline_df, x="launch_year", y="ones",markers=True)
+
+    #Pull out unique awards per country
+    unique_awards = filtered[['country','awards']]
+    unique_awards['awards_string'] = [','.join(map(str, l)) for l in unique_awards['awards']]
+    
+    
+    unique_awards['ISS_Visitor'] = np.where(unique_awards['awards_string'].str.contains('ISS Visitor'),1,0)
+    unique_awards['Crossed_Karman'] = np.where(unique_awards['awards_string'].str.contains('Crossed Kármán Line'),1,0)
+    unique_awards['Elite_Spacewalker'] = np.where(unique_awards['awards_string'].str.contains('Elite Spacewalker'),1,0)
+    unique_awards['Space_Resident'] = np.where(unique_awards['awards_string'].str.contains('Space Resident'),1,0)
+    unique_awards['Frequent_Walker'] = np.where(unique_awards['awards_string'].str.contains('Frequent Walker'),1,0)
+    unique_awards['Frequent_Flyer'] = np.where(unique_awards['awards_string'].str.contains('Frequent Flyer'),1,0)
+    unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards_string'].str.contains('Elite Spaceflyer'),1,0)
+    del unique_awards['awards'], unique_awards['awards_string']
+
+
+    a_df = unique_awards.groupby('country').sum().reset_index()
+
+    bar_fig = px.bar(
+        x = [
+            "ISS_Visitor", 
+            "Crossed_Karman", 
+            "Elite_Spacewalker",
+            "Space_Resident",
+            "Frequent_Walker",
+            "Frequent_Flyer",
+            "Elite_Spaceflyer"
+        ], 
+        y = [
+            a_df['ISS_Visitor'][0],
+            a_df['Crossed_Karman'][0],
+            a_df['Elite_Spacewalker'][0],
+            a_df['Space_Resident'][0],
+            a_df['Frequent_Walker'][0],
+            a_df['Frequent_Flyer'][0],
+            a_df['Elite_Spaceflyer'][0]
+        ]
+    )
+    bar_fig
+
+    
+    #Make bar chart of frequency of awards per country
+
+
+
+    return card1, fig, bar_fig
 
 
 
