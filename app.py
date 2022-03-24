@@ -15,6 +15,8 @@ from IPython.display import JSON
 import visdcc
 import itertools as it
 import re
+import collections
+
 
 #Download the astronaut database from SuperCluster
 astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
@@ -226,16 +228,13 @@ app.layout = html.Div([
                 ],width=12),
                 dbc.Col([
                     dbc.Card(id='total_astros')
-                ],width=4),
+                ],width=2),
                 dbc.Col([
                     dcc.Graph(id='timeline_graph')
-                ],width=8),
-                dbc.Col([
-                    dbc.Card(id='unique_awards')
-                ],width=4),
+                ],width=5),
                 dbc.Col([
                     dcc.Graph(id='award_bar_chart')
-                ],width=8)
+                ],width=5)
             ])
         ]),
 
@@ -406,10 +405,11 @@ def countries_page(dd0):
     #Total # of astronauts card
     filtered = astro_db[astro_db['country']==dd0]
     total_num = filtered.shape[0]
+    #country = filtered['country'][0]
 
     card1 = dbc.Card([
         dbc.CardBody([
-            html.H5(f'Total # of People: {total_num}'),
+            html.H5(f"Number of [INSERT COUNTRY] Space Program Astronauts: {total_num}"),
         ])
     ],
     style={'display': 'inline-block',
@@ -426,7 +426,7 @@ def countries_page(dd0):
     timeline_df = timeline_df.groupby('launch_year').sum().reset_index()
 
 
-    fig = px.line(timeline_df, x="launch_year", y="ones",markers=True)
+    fig = px.line(timeline_df, x="launch_year", y="ones",markers=True,template='plotly_dark')
 
     #Pull out unique awards per country
     unique_awards = filtered[['country','awards']]
@@ -444,32 +444,34 @@ def countries_page(dd0):
 
 
     a_df = unique_awards.groupby('country').sum().reset_index()
+    num1 =  a_df['ISS_Visitor'][0]
+    num2 =  a_df['Crossed_Karman'][0]
+    num3 =  a_df['Elite_Spacewalker'][0]
+    num4 =  a_df['Space_Resident'][0]
+    num5 =  a_df['Frequent_Walker'][0]
+    num6 =  a_df['Frequent_Flyer'][0]
+    num7 =  a_df['Elite_Spaceflyer'][0]
 
-    bar_fig = px.bar(
-        x = [
-            "ISS_Visitor", 
-            "Crossed_Karman", 
-            "Elite_Spacewalker",
-            "Space_Resident",
-            "Frequent_Walker",
-            "Frequent_Flyer",
-            "Elite_Spaceflyer"
-        ], 
-        y = [
-            a_df['ISS_Visitor'][0],
-            a_df['Crossed_Karman'][0],
-            a_df['Elite_Spacewalker'][0],
-            a_df['Space_Resident'][0],
-            a_df['Frequent_Walker'][0],
-            a_df['Frequent_Flyer'][0],
-            a_df['Elite_Spaceflyer'][0]
-        ]
+    bar_dict = {
+        num1: 'ISS Visitor',
+        num2: 'Crossed Kármán Line',
+        num3: 'Elite Spacewalker',
+        num4: 'Space Resident',
+        num5: 'Frequent Walker',
+        num6: 'Frequent Flyer',
+        num7: 'Elite Spaceflyer'
+    }
+    
+
+
+    od = collections.OrderedDict(sorted(bar_dict.items(),reverse=True))
+    new_df = pd.DataFrame(od.items(), columns=['Number', 'Award'])
+    bar_fig = px.bar(new_df,
+        x = 'Award',
+        y = 'Number',
+        template='plotly_dark'
     )
     bar_fig
-
-    
-    #Make bar chart of frequency of awards per country
-
 
 
     return card1, fig, bar_fig
