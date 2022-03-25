@@ -161,19 +161,23 @@ country_choices = country_condensed['country'].astype('str').unique()
 country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
 
+
 tabs_styles = {
     'height': '44px'
 }
 tab_style = {
     'borderBottom': '1px solid #d6d6d6',
     'padding': '6px',
-    'fontWeight': 'bold'
+    'fontWeight': 'bold',
+    'color':'white',
+    'backgroundColor': '#222222'
+
 }
 
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     'borderBottom': '1px solid #d6d6d6',
-    'backgroundColor': '#119DFF',
+    'backgroundColor': 'grey',
     'color': 'white',
     'padding': '6px'
 }
@@ -225,16 +229,15 @@ app.layout = html.Div([
                         options=[{'label': i, 'value': i} for i in country_choices],
                         value=country_choices[-1]
                     ),
+                    dbc.Card(id='total_astros')
+
                 ],width=12),
                 dbc.Col([
-                    dbc.Card(id='total_astros')
-                ],width=2),
-                dbc.Col([
                     dcc.Graph(id='timeline_graph')
-                ],width=5),
+                ],width=6),
                 dbc.Col([
                     dcc.Graph(id='award_bar_chart')
-                ],width=5)
+                ],width=6)
             ])
         ]),
 
@@ -362,7 +365,7 @@ def network(dd1,range_slider1):
         'id': node_name, 
         'label': node_name,
         'shape':'dot',
-        'color':'green',
+        'color':'#626ffb',
         'size':15
         })
         if node_name in new_df['Source'].unique()
@@ -404,12 +407,12 @@ def countries_page(dd0):
     
     #Total # of astronauts card
     filtered = astro_db[astro_db['country']==dd0]
-    total_num = filtered.shape[0]
-    #country = filtered['country'][0]
+    total_num = len(filtered['astronaut_name'].unique())
+    country = filtered['country'].unique()[0]
 
     card1 = dbc.Card([
         dbc.CardBody([
-            html.H5(f"Number of [INSERT COUNTRY] Space Program Astronauts: {total_num}"),
+            html.H5(f"# Astronauts in Space Program from {country}: {total_num}"),
         ])
     ],
     style={'display': 'inline-block',
@@ -426,10 +429,17 @@ def countries_page(dd0):
     timeline_df = timeline_df.groupby('launch_year').sum().reset_index()
 
 
-    fig = px.line(timeline_df, x="launch_year", y="ones",markers=True,template='plotly_dark')
+    fig = px.line(
+        timeline_df, 
+        x="launch_year", y="ones",
+        markers=True,
+        template='plotly_dark',
+        labels={'ones':'# Astronauts','launch_year':'Year of Launch'}
+    )
+    fig.update_traces(marker=dict(color='white'))
 
     #Pull out unique awards per country
-    unique_awards = filtered[['country','awards']]
+    unique_awards = filtered[['astronaut_name','country','awards']]
     unique_awards['awards_string'] = [','.join(map(str, l)) for l in unique_awards['awards']]
     
     
@@ -440,17 +450,20 @@ def countries_page(dd0):
     unique_awards['Frequent_Walker'] = np.where(unique_awards['awards_string'].str.contains('Frequent Walker'),1,0)
     unique_awards['Frequent_Flyer'] = np.where(unique_awards['awards_string'].str.contains('Frequent Flyer'),1,0)
     unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards_string'].str.contains('Elite Spaceflyer'),1,0)
-    del unique_awards['awards'], unique_awards['awards_string']
+    unique_awards['Moonwalker'] = np.where(unique_awards['awards_string'].str.contains('Moonwalker'),1,0)
+
+    del unique_awards['awards'], unique_awards['awards_string'], unique_awards['country']
 
 
-    a_df = unique_awards.groupby('country').sum().reset_index()
-    num1 =  a_df['ISS_Visitor'][0]
-    num2 =  a_df['Crossed_Karman'][0]
-    num3 =  a_df['Elite_Spacewalker'][0]
-    num4 =  a_df['Space_Resident'][0]
-    num5 =  a_df['Frequent_Walker'][0]
-    num6 =  a_df['Frequent_Flyer'][0]
-    num7 =  a_df['Elite_Spaceflyer'][0]
+    num1 = len(unique_awards[unique_awards['ISS_Visitor']==1]['astronaut_name'].unique())
+    num2 = len(unique_awards[unique_awards['Crossed_Karman']==1]['astronaut_name'].unique())
+    num3 = len(unique_awards[unique_awards['Elite_Spacewalker']==1]['astronaut_name'].unique())
+    num4 = len(unique_awards[unique_awards['Space_Resident']==1]['astronaut_name'].unique())
+    num5 = len(unique_awards[unique_awards['Frequent_Walker']==1]['astronaut_name'].unique())
+    num6 = len(unique_awards[unique_awards['Frequent_Flyer']==1]['astronaut_name'].unique())
+    num7 = len(unique_awards[unique_awards['Elite_Spaceflyer']==1]['astronaut_name'].unique())
+    num8 = len(unique_awards[unique_awards['Moonwalker']==1]['astronaut_name'].unique())
+
 
     bar_dict = {
         num1: 'ISS Visitor',
@@ -459,20 +472,21 @@ def countries_page(dd0):
         num4: 'Space Resident',
         num5: 'Frequent Walker',
         num6: 'Frequent Flyer',
-        num7: 'Elite Spaceflyer'
+        num7: 'Elite Spaceflyer',
+        num8: 'Moonwalker'
     }
     
 
 
     od = collections.OrderedDict(sorted(bar_dict.items(),reverse=True))
-    new_df = pd.DataFrame(od.items(), columns=['Number', 'Award'])
+    new_df = pd.DataFrame(od.items(), columns=['# Astronauts', 'Awards'])
     bar_fig = px.bar(new_df,
-        x = 'Award',
-        y = 'Number',
+        x = 'Awards',
+        y = '# Astronauts',
         template='plotly_dark'
     )
     bar_fig
-
+    bar_fig.update_xaxes(tickangle=35)
 
     return card1, fig, bar_fig
 
