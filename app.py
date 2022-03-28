@@ -242,9 +242,8 @@ app.layout = html.Div([
                 dbc.Col([
                     dcc.Graph(id='award_bar_chart')
                 ],width=6),
-                dbc.Col([
+                dbc.Row([
                     dbc.Button("Click Here for Award Descriptions",id='open0',block=True,size='lg')
-
                 ]),
                 #Button for Award Description
                 html.Div([
@@ -253,23 +252,24 @@ app.layout = html.Div([
                             dbc.ModalHeader("Award Descriptions"),
                             dbc.ModalBody(
                                 children=[
-                                    html.P('1.) ISS Visitor'),
+
+                                    html.P(dcc.Markdown('''**1.) ISS Visitor**''')),
                                     html.P('This astronaut visited the International Space Station.'),
-                                    html.P('2.) Crossed Kármán Line'),
+                                    html.P(dcc.Markdown('''**2.) Crossed Kármán Line**''')),
                                     html.P('This astronaut crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
-                                    html.P('3.) Elite Spacewalker'),
+                                    html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
                                     html.P('This astronaut is in the top 5% for total spacewalking time.'),
-                                    html.P('4.) Space Resident'),
+                                    html.P(dcc.Markdown('''**4.) Space Resident**''')),
                                     html.P('This astronaut has spent over a month in space.'),
-                                    html.P('5.): Frequent Walker'),
+                                    html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
                                     html.P('This astronaut is in the top 5% for number of space walks.'),
-                                    html.P('6.) Frequent Flyer'),
+                                    html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
                                     html.P('This astronaut is in the top 5% for number of missions.'),
-                                    html.P('7.) Elite Spaceflyer'),
+                                    html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
                                     html.P('This astronaut is in the top 5% for total time in space.'),
-                                    html.P('8.) Moonwalker'),
+                                    html.P(dcc.Markdown('''**8.) Moonwalker**''')),
                                     html.P('This astronaut walked on the moon.'),
-                                    html.P('9.) Memorial'),
+                                    html.P(dcc.Markdown('''**9.) Memorial**''')),
                                     html.P('This astronaut gave their life in the pursuit of space exploration.')
                             
                                 ]
@@ -277,7 +277,7 @@ app.layout = html.Div([
                             dbc.ModalFooter(
                                 dbc.Button("Close", id="close0")#,color='Secondary',className='me-1')
                             ),
-                        ],id="modal0", size="xl"
+                        ],id="modal0", size="xl",scrollable=True
 
                     )
                 ])
