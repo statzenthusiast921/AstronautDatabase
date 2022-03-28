@@ -8,7 +8,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import json
 import requests
 from IPython.display import JSON
@@ -16,6 +16,7 @@ import visdcc
 import itertools as it
 import re
 import collections
+import dash_table
 
 
 #Download the astronaut database from SuperCluster
@@ -96,17 +97,19 @@ from selenium import webdriver
 #!pip install webdriver_manager
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+from selenium.webdriver.chrome.options import Options
 
 
 data = []
 
 url = 'https://www.supercluster.com/astronauts?ascending=false&limit=5000&list=true&sort=launch%20order'
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+options = Options()
+options.add_argument("--headless")
+driver = webdriver.Chrome(ChromeDriverManager().install(),options=options)
 driver.maximize_window()
-time.sleep(5)
 driver.get(url)
-time.sleep(5)
+time.sleep(10)
 
 soup = BeautifulSoup(driver.page_source, 'lxml')
 driver.close()
@@ -160,6 +163,7 @@ country_choices = country_condensed['country'].astype('str').unique()
 
 country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
+
 
 
 tabs_styles = {
@@ -237,7 +241,46 @@ app.layout = html.Div([
                 ],width=6),
                 dbc.Col([
                     dcc.Graph(id='award_bar_chart')
-                ],width=6)
+                ],width=6),
+                dbc.Col([
+                    dbc.Button("Click Here for Award Descriptions",id='open0',block=True,size='lg')
+
+                ]),
+                #Button for Award Description
+                html.Div([
+                    dbc.Modal(
+                        children=[
+                            dbc.ModalHeader("Award Descriptions"),
+                            dbc.ModalBody(
+                                children=[
+                                    html.P('1.) ISS Visitor'),
+                                    html.P('This astronaut visited the International Space Station.'),
+                                    html.P('2.) Crossed Kármán Line'),
+                                    html.P('This astronaut crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
+                                    html.P('3.) Elite Spacewalker'),
+                                    html.P('This astronaut is in the top 5% for total spacewalking time.'),
+                                    html.P('4.) Space Resident'),
+                                    html.P('This astronaut has spent over a month in space.'),
+                                    html.P('5.): Frequent Walker'),
+                                    html.P('This astronaut is in the top 5% for number of space walks.'),
+                                    html.P('6.) Frequent Flyer'),
+                                    html.P('This astronaut is in the top 5% for number of missions.'),
+                                    html.P('7.) Elite Spaceflyer'),
+                                    html.P('This astronaut is in the top 5% for total time in space.'),
+                                    html.P('8.) Moonwalker'),
+                                    html.P('This astronaut walked on the moon.'),
+                                    html.P('9.) Memorial'),
+                                    html.P('This astronaut gave their life in the pursuit of space exploration.')
+                            
+                                ]
+                            ),
+                            dbc.ModalFooter(
+                                dbc.Button("Close", id="close0")#,color='Secondary',className='me-1')
+                            ),
+                        ],id="modal0", size="xl"
+
+                    )
+                ])
             ])
         ]),
 
@@ -400,7 +443,6 @@ def network(dd1,range_slider1):
     Output('total_astros','children'),
     Output('timeline_graph','figure'),
     Output('award_bar_chart','figure'),
-
     Input('dropdown0','value')
 )
 def countries_page(dd0):
@@ -412,7 +454,7 @@ def countries_page(dd0):
 
     card1 = dbc.Card([
         dbc.CardBody([
-            html.H5(f"# Astronauts in Space Program from {country}: {total_num}"),
+            html.H5(f"# Astronauts from {country} Space Program: {total_num}"),
         ])
     ],
     style={'display': 'inline-block',
@@ -451,6 +493,7 @@ def countries_page(dd0):
     unique_awards['Frequent_Flyer'] = np.where(unique_awards['awards_string'].str.contains('Frequent Flyer'),1,0)
     unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards_string'].str.contains('Elite Spaceflyer'),1,0)
     unique_awards['Moonwalker'] = np.where(unique_awards['awards_string'].str.contains('Moonwalker'),1,0)
+    unique_awards['Memorial'] = np.where(unique_awards['awards_string'].str.contains('Memorial'),1,0)
 
     del unique_awards['awards'], unique_awards['awards_string'], unique_awards['country']
 
@@ -463,6 +506,7 @@ def countries_page(dd0):
     num6 = len(unique_awards[unique_awards['Frequent_Flyer']==1]['astronaut_name'].unique())
     num7 = len(unique_awards[unique_awards['Elite_Spaceflyer']==1]['astronaut_name'].unique())
     num8 = len(unique_awards[unique_awards['Moonwalker']==1]['astronaut_name'].unique())
+    num9 = len(unique_awards[unique_awards['Memorial']==1]['astronaut_name'].unique())
 
 
     bar_dict = {
@@ -473,7 +517,8 @@ def countries_page(dd0):
         num5: 'Frequent Walker',
         num6: 'Frequent Flyer',
         num7: 'Elite Spaceflyer',
-        num8: 'Moonwalker'
+        num8: 'Moonwalker',
+        num9: 'Memorial'
     }
     
 
@@ -488,8 +533,20 @@ def countries_page(dd0):
     bar_fig
     bar_fig.update_xaxes(tickangle=35)
 
+
     return card1, fig, bar_fig
 
+@app.callback(
+    Output("modal0", "is_open"),
+    Input("open0", "n_clicks"), 
+    Input("close0", "n_clicks"),
+    State("modal0", "is_open")
+)
+
+def toggle_modal0(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
 
 
 
