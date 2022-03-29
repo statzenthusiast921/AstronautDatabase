@@ -152,6 +152,9 @@ exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cle
 astro_db['country'].value_counts()
 
 astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
+#astro_db.to_csv('/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/astro_db.csv', index=False)
+
+
 
 #choice - test out dropdown
 astro_db['ones'] = 1
@@ -163,8 +166,7 @@ country_choices = country_condensed['country'].astype('str').unique()
 
 country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
-
-
+mission_choices = sorted(astro_db['mission_name'].unique().tolist())
 
 tabs_styles = {
     'height': '44px'
@@ -232,19 +234,36 @@ app.layout = html.Div([
                         style={'color':'black'},
                         options=[{'label': i, 'value': i} for i in country_choices],
                         value=country_choices[-1]
-                    ),
-                    dbc.Card(id='total_astros')
-
-                ],width=12),
+                    )
+                ])
+            ]),
+            dbc.Row([
+                #Row of cards
+                dbc.Col([
+                    dbc.Card(id='card1')
+                ],width=3),
+                dbc.Col([
+                    dbc.Card(id='card2')
+                ],width=3),
+                 dbc.Col([
+                    dbc.Card(id='card3')
+                ],width=3),                
+                dbc.Col([
+                    dbc.Card(id='card4')
+                ],width=3)
+            ]),
+            dbc.Row([
+                #Graph row - Timeline chart and bar chart of awards
                 dbc.Col([
                     dcc.Graph(id='timeline_graph')
                 ],width=6),
                 dbc.Col([
                     dcc.Graph(id='award_bar_chart')
-                ],width=6),
-                dbc.Row([
-                    dbc.Button("Click Here for Award Descriptions",id='open0',block=True,size='lg')
-                ]),
+                ],width=6)
+            ]),
+            dbc.Row([
+                dbc.Button("Click Here for Award Descriptions",id='open0',block=True,size='lg'),
+            
                 #Button for Award Description
                 html.Div([
                     dbc.Modal(
@@ -254,23 +273,23 @@ app.layout = html.Div([
                                 children=[
 
                                     html.P(dcc.Markdown('''**1.) ISS Visitor**''')),
-                                    html.P('This astronaut visited the International Space Station.'),
+                                    html.P('Visited the International Space Station.'),
                                     html.P(dcc.Markdown('''**2.) Crossed Kármán Line**''')),
-                                    html.P('This astronaut crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
+                                    html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
                                     html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
-                                    html.P('This astronaut is in the top 5% for total spacewalking time.'),
+                                    html.P('Top 5% for total spacewalking time.'),
                                     html.P(dcc.Markdown('''**4.) Space Resident**''')),
-                                    html.P('This astronaut has spent over a month in space.'),
+                                    html.P('Spent over a month in space.'),
                                     html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
-                                    html.P('This astronaut is in the top 5% for number of space walks.'),
+                                    html.P('Top 5% for number of space walks.'),
                                     html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
-                                    html.P('This astronaut is in the top 5% for number of missions.'),
+                                    html.P('Top 5% for number of missions.'),
                                     html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
-                                    html.P('This astronaut is in the top 5% for total time in space.'),
+                                    html.P('Top 5% for total time in space.'),
                                     html.P(dcc.Markdown('''**8.) Moonwalker**''')),
-                                    html.P('This astronaut walked on the moon.'),
+                                    html.P('Walked on the moon.'),
                                     html.P(dcc.Markdown('''**9.) Memorial**''')),
-                                    html.P('This astronaut gave their life in the pursuit of space exploration.')
+                                    html.P('Gave their life in the pursuit of space exploration.')
                             
                                 ]
                             ),
@@ -292,9 +311,17 @@ app.layout = html.Div([
                        ])
                    ])
                ]),
-        dcc.Tab(label='Network Graph',value='tab-4',style=tab_style, selected_style=tab_selected_style,
+        dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
+                        dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown1a',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in mission_choices],
+                                value=mission_choices[0]
+                            )
+                       ],width=4),
                        dbc.Col([
                             dcc.Dropdown(
                                 id='dropdown1',
@@ -302,7 +329,7 @@ app.layout = html.Div([
                                 options=[{'label': i, 'value': i} for i in country_choices],
                                 value=country_choices[-1]
                             )
-                       ],width=6),
+                       ],width=4),
                        dbc.Col([
                             dcc.RangeSlider(
                                     id='range_slider',
@@ -325,7 +352,9 @@ app.layout = html.Div([
                                     }
                                 ),
 
-                       ],width=6),
+                       ],width=4)
+                   ]),
+                   dbc.Row([
                        dbc.Col([
                             visdcc.Network(
                                 id='ng',
@@ -384,11 +413,12 @@ def render_content(tab):
 @app.callback(
     Output('ng','data'),
     Input('dropdown1','value'),
+    Input('dropdown1a','value'),
     Input('range_slider','value')
 
 )
 
-def network(dd1,range_slider1):
+def network(dd1,dd1a,range_slider1):
     
     filtered = astro_db[['mission_name','astronaut_name','country','launch_year']]
     filtered['Weights'] = 1
@@ -411,6 +441,7 @@ def network(dd1,range_slider1):
         'color':'#626ffb',
         'size':15
         })
+        
         if node_name in new_df['Source'].unique()
         else
         ({
@@ -418,9 +449,9 @@ def network(dd1,range_slider1):
         'label': node_name,
         'shape':'dot',
         'color':'grey',
-
         'size':15
-        })       
+        })  
+      
         for _, node_name in enumerate(node_list)]
 
     #Create edges from df
@@ -440,7 +471,11 @@ def network(dd1,range_slider1):
 
 #Configure callback for astronaut totals
 @app.callback(
-    Output('total_astros','children'),
+    Output('card1','children'),
+    Output('card2','children'),
+    Output('card3','children'),
+    Output('card4','children'),
+
     Output('timeline_graph','figure'),
     Output('award_bar_chart','figure'),
     Input('dropdown0','value')
@@ -454,7 +489,53 @@ def countries_page(dd0):
 
     card1 = dbc.Card([
         dbc.CardBody([
-            html.H5(f"# Astronauts from {country} Space Program: {total_num}"),
+            html.P('# Astronauts in Space Program'),
+            html.H5(f"{total_num}"),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    card2 = dbc.Card([
+        dbc.CardBody([
+            html.P('Description of Metric'),
+            html.H5(f"Card 2 Metric"),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    card3 = dbc.Card([
+        dbc.CardBody([
+            html.P('Description of Metric'),
+            html.H5(f"Card 3 Metric"),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    card4 = dbc.Card([
+        dbc.CardBody([
+            html.P('Description of Metric'),
+            html.H5(f"Card 4 Metric"),
         ])
     ],
     style={'display': 'inline-block',
@@ -525,6 +606,9 @@ def countries_page(dd0):
 
     od = collections.OrderedDict(sorted(bar_dict.items(),reverse=True))
     new_df = pd.DataFrame(od.items(), columns=['# Astronauts', 'Awards'])
+    
+    new_df = new_df[new_df['# Astronauts']>0]
+    
     bar_fig = px.bar(new_df,
         x = 'Awards',
         y = '# Astronauts',
@@ -534,7 +618,7 @@ def countries_page(dd0):
     bar_fig.update_xaxes(tickangle=35)
 
 
-    return card1, fig, bar_fig
+    return card1, card2, card3, card4, fig, bar_fig
 
 @app.callback(
     Output("modal0", "is_open"),
