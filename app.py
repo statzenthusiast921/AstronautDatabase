@@ -16,7 +16,7 @@ import visdcc
 import itertools as it
 import re
 import collections
-import dash_table
+from dash import dash_table as dt
 
 
 #Download the astronaut database from SuperCluster
@@ -183,7 +183,7 @@ tab_style = {
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     'borderBottom': '1px solid #d6d6d6',
-    'backgroundColor': 'grey',
+    'backgroundColor': '#626ffb',
     'color': 'white',
     'padding': '6px'
 }
@@ -241,16 +241,13 @@ app.layout = html.Div([
                 #Row of cards
                 dbc.Col([
                     dbc.Card(id='card1')
-                ],width=3),
+                ],width=4),
                 dbc.Col([
                     dbc.Card(id='card2')
-                ],width=3),
+                ],width=4),
                  dbc.Col([
                     dbc.Card(id='card3')
-                ],width=3),                
-                dbc.Col([
-                    dbc.Card(id='card4')
-                ],width=3)
+                ],width=4)
             ]),
             dbc.Row([
                 #Graph row - Timeline chart and bar chart of awards
@@ -271,24 +268,25 @@ app.layout = html.Div([
                             dbc.ModalHeader("Award Descriptions"),
                             dbc.ModalBody(
                                 children=[
-
-                                    html.P(dcc.Markdown('''**1.) ISS Visitor**''')),
-                                    html.P('Visited the International Space Station.'),
+                                    html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
+                                    html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
                                     html.P(dcc.Markdown('''**2.) Crossed Kármán Line**''')),
                                     html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
-                                    html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
+                                    html.P(dcc.Markdown('''**3.) ISS Visitor**''')),
+                                    html.P('Visited the International Space Station.'),
+                                    html.P(dcc.Markdown('''**4.) Elite Spacewalker**''')),
                                     html.P('Top 5% for total spacewalking time.'),
-                                    html.P(dcc.Markdown('''**4.) Space Resident**''')),
+                                    html.P(dcc.Markdown('''**5.) Space Resident**''')),
                                     html.P('Spent over a month in space.'),
-                                    html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
+                                    html.P(dcc.Markdown('''**6.): Frequent Walker**''')),
                                     html.P('Top 5% for number of space walks.'),
-                                    html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
+                                    html.P(dcc.Markdown('''**7.) Frequent Flyer**''')),
                                     html.P('Top 5% for number of missions.'),
-                                    html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
+                                    html.P(dcc.Markdown('''**8.) Elite Spaceflyer**''')),
                                     html.P('Top 5% for total time in space.'),
-                                    html.P(dcc.Markdown('''**8.) Moonwalker**''')),
+                                    html.P(dcc.Markdown('''**9.) Moonwalker**''')),
                                     html.P('Walked on the moon.'),
-                                    html.P(dcc.Markdown('''**9.) Memorial**''')),
+                                    html.P(dcc.Markdown('''**10.) Memorial**''')),
                                     html.P('Gave their life in the pursuit of space exploration.')
                             
                                 ]
@@ -356,6 +354,9 @@ app.layout = html.Div([
                    ]),
                    dbc.Row([
                        dbc.Col([
+                            html.P(id='mission_table')
+                       ],width=6),
+                       dbc.Col([
                             visdcc.Network(
                                 id='ng',
                                 options = dict(
@@ -373,7 +374,7 @@ app.layout = html.Div([
                                     scaling='value'
                                 )
                             )
-                       ],width=12)
+                       ],width=6)
                    ])
                ]
         )
@@ -406,7 +407,34 @@ def render_content(tab):
         ])
 
 
+#Configure callback for mission table
+@app.callback(
+    Output('mission_table','children'),
+    Input('dropdown1a','value'),
+    Input('range_slider','value')
+)
+def filter_table(dd1a,range_slider1):
+    filtered = astro_db[['mission_name','shortDescription','launch_year']]
+    filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
 
+    filtered = filtered[filtered['mission_name']==dd1a]
+    del filtered['launch_year'], filtered['mission_name']
+    #Only keep first row - make sure still pandas df
+
+
+    mission_table = dt.DataTable(
+        columns=[{"name": i, "id": i} for i in filtered.columns],
+        data=filtered.to_dict('records'),
+        style_data={
+            'whiteSpace': 'normal',
+            'height': '150px',
+            'color':'black',
+            'backgroundColor': 'white'
+        },
+        style_cell={'textAlign': 'left'}
+    )
+
+    return mission_table
 
 
 #Configure callback for network graph
@@ -474,7 +502,6 @@ def network(dd1,dd1a,range_slider1):
     Output('card1','children'),
     Output('card2','children'),
     Output('card3','children'),
-    Output('card4','children'),
 
     Output('timeline_graph','figure'),
     Output('award_bar_chart','figure'),
@@ -484,13 +511,20 @@ def countries_page(dd0):
     
     #Total # of astronauts card
     filtered = astro_db[astro_db['country']==dd0]
-    total_num = len(filtered['astronaut_name'].unique())
-    country = filtered['country'].unique()[0]
+    metric1 = len(filtered['astronaut_name'].unique())
+    filtered = filtered.drop_duplicates(subset='astronaut_name', keep="first")
+    
+    total_min = int(filtered['totalMinutesInSpace'].sum())
+    metric2 = "{:,}".format(total_min)
+
+    total_sw = int(filtered['spacewalkCount'].sum())
+    metric3 = "{:,}".format(total_sw)
+
 
     card1 = dbc.Card([
         dbc.CardBody([
             html.P('# Astronauts in Space Program'),
-            html.H5(f"{total_num}"),
+            html.H5(f"{metric1}"),
         ])
     ],
     style={'display': 'inline-block',
@@ -504,8 +538,8 @@ def countries_page(dd0):
 
     card2 = dbc.Card([
         dbc.CardBody([
-            html.P('Description of Metric'),
-            html.H5(f"Card 2 Metric"),
+            html.P('Total Min in Space - NEED TO FIX'),
+            html.H5("@ astro level, want mission"),
         ])
     ],
     style={'display': 'inline-block',
@@ -519,23 +553,8 @@ def countries_page(dd0):
 
     card3 = dbc.Card([
         dbc.CardBody([
-            html.P('Description of Metric'),
-            html.H5(f"Card 3 Metric"),
-        ])
-    ],
-    style={'display': 'inline-block',
-           'width': '100%',
-           'text-align': 'center',
-           'background-color': '#70747c',
-           'color':'white',
-           'fontWeight': 'bold',
-           'fontSize':16},
-    outline=True)
-
-    card4 = dbc.Card([
-        dbc.CardBody([
-            html.P('Description of Metric'),
-            html.H5(f"Card 4 Metric"),
+            html.P('Total # of Spacewalks'),
+            html.H5(f"{metric3}"),
         ])
     ],
     style={'display': 'inline-block',
@@ -575,31 +594,34 @@ def countries_page(dd0):
     unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards_string'].str.contains('Elite Spaceflyer'),1,0)
     unique_awards['Moonwalker'] = np.where(unique_awards['awards_string'].str.contains('Moonwalker'),1,0)
     unique_awards['Memorial'] = np.where(unique_awards['awards_string'].str.contains('Memorial'),1,0)
+    unique_awards['Crossed_80KM'] = np.where(unique_awards['awards_string'].str.contains('Crossed 80km Line'),1,0)
 
     del unique_awards['awards'], unique_awards['awards_string'], unique_awards['country']
 
 
-    num1 = len(unique_awards[unique_awards['ISS_Visitor']==1]['astronaut_name'].unique())
+    num1 = len(unique_awards[unique_awards['Crossed_80KM']==1]['astronaut_name'].unique())
     num2 = len(unique_awards[unique_awards['Crossed_Karman']==1]['astronaut_name'].unique())
-    num3 = len(unique_awards[unique_awards['Elite_Spacewalker']==1]['astronaut_name'].unique())
-    num4 = len(unique_awards[unique_awards['Space_Resident']==1]['astronaut_name'].unique())
-    num5 = len(unique_awards[unique_awards['Frequent_Walker']==1]['astronaut_name'].unique())
-    num6 = len(unique_awards[unique_awards['Frequent_Flyer']==1]['astronaut_name'].unique())
-    num7 = len(unique_awards[unique_awards['Elite_Spaceflyer']==1]['astronaut_name'].unique())
-    num8 = len(unique_awards[unique_awards['Moonwalker']==1]['astronaut_name'].unique())
-    num9 = len(unique_awards[unique_awards['Memorial']==1]['astronaut_name'].unique())
+    num3 = len(unique_awards[unique_awards['ISS_Visitor']==1]['astronaut_name'].unique())
+    num4 = len(unique_awards[unique_awards['Elite_Spacewalker']==1]['astronaut_name'].unique())
+    num5 = len(unique_awards[unique_awards['Space_Resident']==1]['astronaut_name'].unique())
+    num6 = len(unique_awards[unique_awards['Frequent_Walker']==1]['astronaut_name'].unique())
+    num7 = len(unique_awards[unique_awards['Frequent_Flyer']==1]['astronaut_name'].unique())
+    num8 = len(unique_awards[unique_awards['Elite_Spaceflyer']==1]['astronaut_name'].unique())
+    num9 = len(unique_awards[unique_awards['Moonwalker']==1]['astronaut_name'].unique())
+    num10 = len(unique_awards[unique_awards['Memorial']==1]['astronaut_name'].unique())
 
 
     bar_dict = {
-        num1: 'ISS Visitor',
+        num1: 'Crossed 80KM Line',
         num2: 'Crossed Kármán Line',
-        num3: 'Elite Spacewalker',
-        num4: 'Space Resident',
-        num5: 'Frequent Walker',
-        num6: 'Frequent Flyer',
-        num7: 'Elite Spaceflyer',
-        num8: 'Moonwalker',
-        num9: 'Memorial'
+        num3: 'ISS Visitor',
+        num4: 'Elite Spacewalker',
+        num5: 'Space Resident',
+        num6: 'Frequent Walker',
+        num7: 'Frequent Flyer',
+        num8: 'Elite Spaceflyer',
+        num9: 'Moonwalker',
+        num10: 'Memorial'
     }
     
 
@@ -615,10 +637,10 @@ def countries_page(dd0):
         template='plotly_dark'
     )
     bar_fig
-    bar_fig.update_xaxes(tickangle=35)
+    #bar_fig.update_xaxes(tickangle=35)
 
 
-    return card1, card2, card3, card4, fig, bar_fig
+    return card1, card2, card3, fig, bar_fig
 
 @app.callback(
     Output("modal0", "is_open"),
@@ -633,7 +655,5 @@ def toggle_modal0(n1, n2, is_open):
     return is_open
 
 
-
-#app.run_server(host='0.0.0.0',port='8055')
 if __name__=='__main__':
 	app.run_server()
