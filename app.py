@@ -5,10 +5,14 @@ import numpy as np
 import os
 import plotly.express as px
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+
+from dash import html
+
+
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
+
 import json
 import requests
 from IPython.display import JSON
@@ -144,7 +148,6 @@ df = df.rename(columns={'full_names': 'astronaut_name'})
 astro_db = pd.merge(df_full,df,how='left',on=['astronaut_name'])
 astro_db['country'].unique()
 
-#astro_db.to_csv('/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/astro_db.csv', index=False)
 
 #Call on the data cleaning script
 exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cleaning_for_astrodb.py").read())
@@ -152,7 +155,6 @@ exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cle
 astro_db['country'].value_counts()
 
 astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
-#astro_db.to_csv('/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/astro_db.csv', index=False)
 
 
 
@@ -167,6 +169,17 @@ country_choices = country_condensed['country'].astype('str').unique()
 country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
 mission_choices = sorted(astro_db['mission_name'].unique().tolist())
+
+year_mission_df = astro_db[['launch_year','mission_name']]
+year_mission_df = year_mission_df.sort_values('launch_year')
+
+
+year_mission_df.set_index('launch_year', inplace=True)
+ym_dict = year_mission_df.groupby('launch_year').apply(lambda x: x.to_dict('list')).reset_index(drop=True).to_dict()
+
+
+
+
 
 tabs_styles = {
     'height': '44px'
@@ -312,22 +325,6 @@ app.layout = html.Div([
         dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
-                        dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown1a',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in mission_choices],
-                                value=mission_choices[0]
-                            )
-                       ],width=4),
-                       dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown1',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in country_choices],
-                                value=country_choices[-1]
-                            )
-                       ],width=4),
                        dbc.Col([
                             dcc.RangeSlider(
                                     id='range_slider',
@@ -350,15 +347,25 @@ app.layout = html.Div([
                                     }
                                 ),
 
-                       ],width=4)
+                       ],width=6),
+           
+                       dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown1',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in country_choices],
+                                value=country_choices[-1]
+                            )
+                       ],width=6)
                    ]),
                    dbc.Row([
                        dbc.Col([
-                            html.P(id='mission_table')
-                       ],width=6),
-                       dbc.Col([
                             visdcc.Network(
                                 id='ng',
+                                selection = {
+                                        'nodes':[], 
+                                        'edges':[]
+                                },
                                 options = dict(
                                     height='600px', 
                                     width='100%',
@@ -374,7 +381,11 @@ app.layout = html.Div([
                                     scaling='value'
                                 )
                             )
-                       ],width=6)
+                       ],width=6),
+                       dbc.Col([
+                            html.Div(id = 'nodes'),
+                            html.Div(id = 'edges')
+                       ],width=6),
                    ])
                ]
         )
@@ -407,46 +418,17 @@ def render_content(tab):
         ])
 
 
-#Configure callback for mission table
-@app.callback(
-    Output('mission_table','children'),
-    Input('dropdown1a','value'),
-    Input('range_slider','value')
-)
-def filter_table(dd1a,range_slider1):
-    filtered = astro_db[['mission_name','shortDescription','launch_year']]
-    filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
-
-    filtered = filtered[filtered['mission_name']==dd1a]
-    del filtered['launch_year'], filtered['mission_name']
-    #Only keep first row - make sure still pandas df
-
-
-    mission_table = dt.DataTable(
-        columns=[{"name": i, "id": i} for i in filtered.columns],
-        data=filtered.to_dict('records'),
-        style_data={
-            'whiteSpace': 'normal',
-            'height': '150px',
-            'color':'black',
-            'backgroundColor': 'white'
-        },
-        style_cell={'textAlign': 'left'}
-    )
-
-    return mission_table
-
 
 #Configure callback for network graph
 @app.callback(
     Output('ng','data'),
     Input('dropdown1','value'),
-    Input('dropdown1a','value'),
+    #Input('dropdown1a','value'),
     Input('range_slider','value')
 
 )
 
-def network(dd1,dd1a,range_slider1):
+def network(dd1,range_slider1):
     
     filtered = astro_db[['mission_name','astronaut_name','country','launch_year']]
     filtered['Weights'] = 1
@@ -469,7 +451,6 @@ def network(dd1,dd1a,range_slider1):
         'color':'#626ffb',
         'size':15
         })
-        
         if node_name in new_df['Source'].unique()
         else
         ({
@@ -477,9 +458,9 @@ def network(dd1,dd1a,range_slider1):
         'label': node_name,
         'shape':'dot',
         'color':'grey',
+
         'size':15
-        })  
-      
+        })       
         for _, node_name in enumerate(node_list)]
 
     #Create edges from df
@@ -496,6 +477,38 @@ def network(dd1,dd1a,range_slider1):
     data = {'nodes':nodes, 'edges': edges}
 
     return data
+
+
+
+#Configure callback for clicking on nodes in network graph
+#Put edges in this callback too - do an else if statement so we dont get errors
+
+@app.callback(
+    Output('nodes', 'children'),
+    Input('ng', 'selection')
+)
+def myfun(x): 
+    s = "Mission Description: "
+    c = ""
+    if len(x['nodes']) > 0 : 
+        s += str(x['nodes'][0])
+        #print(s)
+        mission_name = s.split(": ",1)[1]
+        header = s.split(": ",1)[0] + ": " 
+
+        b = astro_db[astro_db['mission_name']==mission_name]
+        c = header + b['shortDescription'].values[0]
+    return c
+
+@app.callback(
+    Output('edges', 'children'),
+    [Input('ng', 'selection')])
+def myfun(x): 
+    s = 'Selected edges : '
+    if len(x['edges']) > 0 : 
+        s = [s] + [html.Div(i) for i in x['edges']]
+    return s
+
 
 #Configure callback for astronaut totals
 @app.callback(
@@ -637,7 +650,7 @@ def countries_page(dd0):
         template='plotly_dark'
     )
     bar_fig
-    #bar_fig.update_xaxes(tickangle=35)
+    #bar_fig.update_xaxes(tickangle=90)
 
 
     return card1, card2, card3, fig, bar_fig
