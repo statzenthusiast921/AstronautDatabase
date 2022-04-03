@@ -168,16 +168,21 @@ country_choices = country_condensed['country'].astype('str').unique()
 
 country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
-mission_choices = sorted(astro_db['mission_name'].unique().tolist())
 
-year_mission_df = astro_db[['launch_year','mission_name']]
-year_mission_df = year_mission_df.sort_values('launch_year')
+astro_db['astronaut_name'] = astro_db['astronaut_name'].astype('str')
+astronaut_choices = sorted(astro_db['astronaut_name'].unique().tolist())
+del astronaut_choices[-1]
+
+# year_mission_df = astro_db[['launch_year','mission_name']]
+# year_mission_df = year_mission_df.sort_values('launch_year')
 
 
-year_mission_df.set_index('launch_year', inplace=True)
-ym_dict = year_mission_df.groupby('launch_year').apply(lambda x: x.to_dict('list')).reset_index(drop=True).to_dict()
+# year_mission_df.set_index('launch_year', inplace=True)
+# ym_dict = year_mission_df.groupby('launch_year').apply(lambda x: x.to_dict('list')).reset_index(drop=True).to_dict()
 
-
+df_for_dict = astro_db[['country','astronaut_name']]
+df_for_dict = df_for_dict.drop_duplicates(subset='astronaut_name',keep='first')
+country_astro_dict = df_for_dict.groupby('country')['astronaut_name'].apply(list).to_dict()
 
 
 
@@ -318,9 +323,34 @@ app.layout = html.Div([
                children=[
                    dbc.Row([
                        dbc.Col([
-            
-                       ])
-                   ])
+                            dcc.Dropdown(
+                                id='dropdown1',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in country_choices],
+                                value=country_choices[-1]
+                            )
+                       ],width=6),
+                        dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown2',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in astronaut_choices],
+                                value=astronaut_choices[0]
+                            )
+                       ],width=6)
+                   ]),
+                    dbc.Row([
+                        #Row of cards
+                        dbc.Col([
+                            dbc.Card(id='card4')
+                        ],width=4),
+                        dbc.Col([
+                            dbc.Card(id='card5')
+                        ],width=4),
+                        dbc.Col([
+                            dbc.Card(id='card6')
+                        ],width=4)
+                    ]),
                ]),
         dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
@@ -331,7 +361,7 @@ app.layout = html.Div([
                                     min=year_choices.min(),
                                     max=year_choices.max(),
                                     step=1,
-                                    value=[2010, year_choices.max()],
+                                    value=[2015, year_choices.max()],
                                     allowCross=False,
                                     pushable=2,
                                     tooltip={"placement": "bottom", "always_visible": True},
@@ -347,16 +377,9 @@ app.layout = html.Div([
                                     }
                                 ),
 
-                       ],width=6),
+                       ],width=12),
            
-                       dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown1',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in country_choices],
-                                value=country_choices[-1]
-                            )
-                       ],width=6)
+  
                    ]),
                    dbc.Row([
                        dbc.Col([
@@ -422,17 +445,15 @@ def render_content(tab):
 #Configure callback for network graph
 @app.callback(
     Output('ng','data'),
-    Input('dropdown1','value'),
-    #Input('dropdown1a','value'),
     Input('range_slider','value')
 
 )
 
-def network(dd1,range_slider1):
+def network(range_slider1):
     
-    filtered = astro_db[['mission_name','astronaut_name','country','launch_year']]
+    filtered = astro_db[['mission_name','astronaut_name','launch_year']]
     filtered['Weights'] = 1
-    filtered = filtered[filtered['country']==dd1]
+    #filtered = filtered[filtered['country']==dd1]
     filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
 
     new_df = filtered
@@ -468,7 +489,7 @@ def network(dd1,range_slider1):
     for row in new_df.to_dict(orient='records'):
         source, target = row['Source'], row['Target']
         edges.append({
-            'id':source + "__" + target,
+            'id':str(source) + "__" + str(target),
             'from': source,
             'to': target,
             'width': 2
@@ -498,6 +519,8 @@ def myfun(x):
 
         b = astro_db[astro_db['mission_name']==mission_name]
         c = header + b['shortDescription'].values[0]
+    else:
+        c=""
     return c
 
 @app.callback(
@@ -510,7 +533,7 @@ def myfun(x):
     return s
 
 
-#Configure callback for astronaut totals
+#Configure callback for cards and graphs - country stats
 @app.callback(
     Output('card1','children'),
     Output('card2','children'),
@@ -520,7 +543,7 @@ def myfun(x):
     Output('award_bar_chart','figure'),
     Input('dropdown0','value')
 )
-def countries_page(dd0):
+def countries_and_stuff(dd0):
     
     #Total # of astronauts card
     filtered = astro_db[astro_db['country']==dd0]
@@ -654,6 +677,86 @@ def countries_page(dd0):
 
 
     return card1, card2, card3, fig, bar_fig
+
+@app.callback(
+    Output('dropdown2', 'options'), #--> filter astronauts
+    Output('dropdown2', 'value'),
+    Input('dropdown1', 'value') #--> choose country
+)
+def set_astro_options(selected_astronaut):
+    return [{'label': i, 'value': i} for i in country_astro_dict[selected_astronaut]], country_astro_dict[selected_astronaut][0],
+
+
+
+#Configure callback for cards - individual astros
+@app.callback(
+    Output('card4','children'),
+    Output('card5','children'),
+    Output('card6','children'),
+    Input('dropdown2','value')
+)
+
+def astros_and_stuff(dd2):
+    
+    #Total # of astronauts card
+    filtered = astro_db[astro_db['astronaut_name']==dd2]
+    metric1 = len(filtered['mission_name'].unique())
+
+    filtered = filtered.drop_duplicates(subset='astronaut_name', keep="first")
+    
+
+    total_min = int(filtered['totalMinutesInSpace'].sum())
+    metric2 = "{:,}".format(total_min)
+
+    total_sw = int(filtered['spacewalkCount'].sum())
+    metric3 = "{:,}".format(total_sw)
+
+    card4 = dbc.Card([
+        dbc.CardBody([
+            html.P('# Missions'),
+            html.H5(f"{metric1}"),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    card5 = dbc.Card([
+        dbc.CardBody([
+            html.P('Total Min in Space'),
+            html.H5(f"{metric2}")
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    card6 = dbc.Card([
+        dbc.CardBody([
+            html.P('Total # of Spacewalks'),
+            html.H5(f"{metric3}"),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+    return card4, card5, card6
 
 @app.callback(
     Output("modal0", "is_open"),
