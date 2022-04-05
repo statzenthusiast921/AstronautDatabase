@@ -170,15 +170,8 @@ country_choices = sorted(country_choices)
 year_choices = astro_db['launch_year'].unique()
 
 astro_db['astronaut_name'] = astro_db['astronaut_name'].astype('str')
+astro_db.drop(astro_db[astro_db['astronaut_name'] =='nan'].index, inplace=True)
 astronaut_choices = sorted(astro_db['astronaut_name'].unique().tolist())
-del astronaut_choices[-1]
-
-# year_mission_df = astro_db[['launch_year','mission_name']]
-# year_mission_df = year_mission_df.sort_values('launch_year')
-
-
-# year_mission_df.set_index('launch_year', inplace=True)
-# ym_dict = year_mission_df.groupby('launch_year').apply(lambda x: x.to_dict('list')).reset_index(drop=True).to_dict()
 
 df_for_dict = astro_db[['country','astronaut_name']]
 df_for_dict = df_for_dict.drop_duplicates(subset='astronaut_name',keep='first')
@@ -223,7 +216,12 @@ app.layout = html.Div([
                         html.P(dcc.Markdown('''**What is the purpose of this dashboard?**''')),
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
-                       html.P("blah blah blah."),
+                       html.P("This dashboard was created as a tool to do several things: "),
+                       html.P("1.) Visualize the networks of astronauts and understand how they are all connected."),
+                       html.P("2.) Get practice with web-scraping tools."),
+                       html.P("3.) A third thing"),
+
+
                        html.Br()
                    ]),
                    html.Div([
@@ -231,14 +229,14 @@ app.layout = html.Div([
                    ],style={'text-decoration': 'underline'}),
                    
                    html.Div([
-                       html.P(["Blah blah"]),
+                       html.P(["The data utilized for this dashboard was scraped from the ",html.A('SuperCluster Astronaut Database.',href='https://www.supercluster.com/astronauts')]),
                        html.Br()
                    ]),
                    html.Div([
                        html.P(dcc.Markdown('''**What are the limitations of this data?**''')),
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
-                       html.P("BLah blah blah")
+                       html.P("When assigning a country as a feature of an astronaut, there is no clear distinction for Russian cosmonauts who participated in their nation's space program before vs. after the fall of the Soviet Union.  This is only an issue for cosmonauts who went into space around the late 1980s and early 1990s.  Further, it was difficult to determine how to categorize a cosmonaut who participated in a mission before the fall of the Soviet Union and then participated in another mission after the fall of the Soviet Union.")
                    ])
 
 
@@ -286,25 +284,25 @@ app.layout = html.Div([
                             dbc.ModalHeader("Award Descriptions"),
                             dbc.ModalBody(
                                 children=[
-                                    html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
-                                    html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
-                                    html.P(dcc.Markdown('''**2.) Crossed Kármán Line**''')),
+                                    # html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
+                                    # html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
+                                    html.P(dcc.Markdown('''**1.) Crossed Kármán Line**''')),
                                     html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
-                                    html.P(dcc.Markdown('''**3.) ISS Visitor**''')),
+                                    html.P(dcc.Markdown('''**2.) ISS Visitor**''')),
                                     html.P('Visited the International Space Station.'),
-                                    html.P(dcc.Markdown('''**4.) Elite Spacewalker**''')),
+                                    html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
                                     html.P('Top 5% for total spacewalking time.'),
-                                    html.P(dcc.Markdown('''**5.) Space Resident**''')),
+                                    html.P(dcc.Markdown('''**4.) Space Resident**''')),
                                     html.P('Spent over a month in space.'),
-                                    html.P(dcc.Markdown('''**6.): Frequent Walker**''')),
+                                    html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
                                     html.P('Top 5% for number of space walks.'),
-                                    html.P(dcc.Markdown('''**7.) Frequent Flyer**''')),
+                                    html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
                                     html.P('Top 5% for number of missions.'),
-                                    html.P(dcc.Markdown('''**8.) Elite Spaceflyer**''')),
+                                    html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
                                     html.P('Top 5% for total time in space.'),
-                                    html.P(dcc.Markdown('''**9.) Moonwalker**''')),
+                                    html.P(dcc.Markdown('''**8.) Moonwalker**''')),
                                     html.P('Walked on the moon.'),
-                                    html.P(dcc.Markdown('''**10.) Memorial**''')),
+                                    html.P(dcc.Markdown('''**9.) Memorial**''')),
                                     html.P('Gave their life in the pursuit of space exploration.')
                             
                                 ]
@@ -516,21 +514,33 @@ def myfun(x):
         #print(s)
         mission_name = s.split(": ",1)[1]
         header = s.split(": ",1)[0] + ": " 
+        blank = ''
 
         b = astro_db[astro_db['mission_name']==mission_name]
-        c = header + b['shortDescription'].values[0]
+        c = [header, blank, b['shortDescription'].values[0]]
+        d = [html.Div(i) for i in c]
     else:
-        c=""
-    return c
+        d=""
+    return d
 
 @app.callback(
     Output('edges', 'children'),
     [Input('ng', 'selection')])
 def myfun(x): 
-    s = 'Selected edges : '
+    s = 'Astronauts: '
+    header = ['Astronauts: ']
     if len(x['edges']) > 0 : 
         s = [s] + [html.Div(i) for i in x['edges']]
-    return s
+        test = list(map(str, s))
+        del test[0]
+        subs = [item.split('__') for item in test]
+        b = [el[1] for el in subs]
+        sub2 = [item.split("')") for item in b]
+        b2 = [el2[0] for el2 in sub2]
+        b3 = header+b2
+        print(b3)
+        b4 = [html.Div(i) for i in b3]
+    return b4
 
 
 #Configure callback for cards and graphs - country stats
