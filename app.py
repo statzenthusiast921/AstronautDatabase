@@ -341,14 +341,34 @@ app.layout = html.Div([
                         #Row of cards
                         dbc.Col([
                             dbc.Card(id='card4')
-                        ],width=4),
+                        ],width=3),
                         dbc.Col([
                             dbc.Card(id='card5')
-                        ],width=4),
+                        ],width=3),
                         dbc.Col([
                             dbc.Card(id='card6')
-                        ],width=4)
+                        ],width=3),
+                        dbc.Col([
+                            dbc.Card(id='card7')
+                        ],width=3),
                     ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id='bio_paragraph')
+                        ],width=4),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(
+                                id="mission_list",
+                                style={'overflow':'auto','maxHeight':'400px'}
+                            )
+                        ],width=4),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id="award_list")
+                        ],width=4)
+                    ])
                ]),
         dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
@@ -359,7 +379,7 @@ app.layout = html.Div([
                                     min=year_choices.min(),
                                     max=year_choices.max(),
                                     step=1,
-                                    value=[2015, year_choices.max()],
+                                    value=[2016, year_choices.max()],
                                     allowCross=False,
                                     pushable=2,
                                     tooltip={"placement": "bottom", "always_visible": True},
@@ -404,6 +424,7 @@ app.layout = html.Div([
                             )
                        ],width=6),
                        dbc.Col([
+                            html.Label(dcc.Markdown('''**Click on a blue node to reveal information about a mission**'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.Div(id = 'nodes'),
                             html.Div(id = 'edges')
                        ],width=6),
@@ -500,47 +521,49 @@ def network(range_slider1):
 
 
 #Configure callback for clicking on nodes in network graph
-#Put edges in this callback too - do an else if statement so we dont get errors
-
 @app.callback(
     Output('nodes', 'children'),
+    Output('edges','children'),
     Input('ng', 'selection')
 )
 def myfun(x): 
     s = "Mission Description: "
     c = ""
+    line_break = html.Br()
+
     if len(x['nodes']) > 0 : 
         s += str(x['nodes'][0])
-        #print(s)
         mission_name = s.split(": ",1)[1]
         header = s.split(": ",1)[0] + ": " 
-        blank = ''
 
         b = astro_db[astro_db['mission_name']==mission_name]
-        c = [header, blank, b['shortDescription'].values[0]]
+        c = [
+            "Mission Name: ", mission_name, 
+            line_break, 
+            header, b['shortDescription'].values[0]
+        ]
         d = [html.Div(i) for i in c]
     else:
         d=""
-    return d
 
-@app.callback(
-    Output('edges', 'children'),
-    [Input('ng', 'selection')])
-def myfun(x): 
-    s = 'Astronauts: '
+
+    s2 = ''
     header = ['Astronauts: ']
     if len(x['edges']) > 0 : 
-        s = [s] + [html.Div(i) for i in x['edges']]
-        test = list(map(str, s))
-        del test[0]
+        s2 = [html.Div(i) for i in x['edges']]
+        test = list(map(str, s2))
         subs = [item.split('__') for item in test]
         b = [el[1] for el in subs]
         sub2 = [item.split("')") for item in b]
         b2 = [el2[0] for el2 in sub2]
+        #print(len(b2))
         b3 = header+b2
-        print(b3)
-        b4 = [html.Div(i) for i in b3]
-    return b4
+        b4 = [line_break] + [html.Div(i) for i in b3]
+    else:
+        b4=""
+    return d, b4
+
+
 
 
 #Configure callback for cards and graphs - country stats
@@ -688,6 +711,7 @@ def countries_and_stuff(dd0):
 
     return card1, card2, card3, fig, bar_fig
 
+#Configure callback for defining dependent dropdown boxes
 @app.callback(
     Output('dropdown2', 'options'), #--> filter astronauts
     Output('dropdown2', 'value'),
@@ -703,6 +727,11 @@ def set_astro_options(selected_astronaut):
     Output('card4','children'),
     Output('card5','children'),
     Output('card6','children'),
+    Output('card7','children'),
+
+    Output('mission_list','children'),
+    Output('award_list','children'),
+
     Input('dropdown2','value')
 )
 
@@ -710,16 +739,31 @@ def astros_and_stuff(dd2):
     
     #Total # of astronauts card
     filtered = astro_db[astro_db['astronaut_name']==dd2]
+    #filtered_table = filtered[['mission_name','shortDescription']]
+    #Metric #1 - Number of Missions
     metric1 = len(filtered['mission_name'].unique())
 
-    filtered = filtered.drop_duplicates(subset='astronaut_name', keep="first")
+    filtered_nodups = filtered.drop_duplicates(subset='astronaut_name', keep="first")
     
-
-    total_min = int(filtered['totalMinutesInSpace'].sum())
+    #Metric #2 - Sum Min In Space
+    total_min = int(filtered_nodups['totalMinutesInSpace'].sum())
     metric2 = "{:,}".format(total_min)
 
-    total_sw = int(filtered['spacewalkCount'].sum())
+    #Metric #3 - # of SpaceWalks
+    total_sw = int(filtered_nodups['spacewalkCount'].sum())
     metric3 = "{:,}".format(total_sw)
+
+    #Metric #4 - Sum Min Spacewalking
+    total_min_sw = round(filtered_nodups['totalSecondsSpacewalking'].sum()/60)
+    metric4 = "{:,}".format(total_min_sw)
+
+    award_row = filtered['awards'].iloc[0]
+    awards_list = [html.Div(i) for i in award_row]
+
+    mission_col_list = filtered['mission_name'].tolist()
+    mission_list = [html.Div(i) for i in mission_col_list]
+
+
 
     card4 = dbc.Card([
         dbc.CardBody([
@@ -739,7 +783,7 @@ def astros_and_stuff(dd2):
     card5 = dbc.Card([
         dbc.CardBody([
             html.P('Total Min in Space'),
-            html.H5(f"{metric2}")
+            html.H5(f"{metric2} minutes")
         ])
     ],
     style={'display': 'inline-block',
@@ -766,7 +810,38 @@ def astros_and_stuff(dd2):
            'fontSize':16},
     outline=True)
 
-    return card4, card5, card6
+    card7 = dbc.Card([
+        dbc.CardBody([
+            html.P('Total Min Spacewalking'),
+            html.H5(f"{metric4} minutes"),
+        ])
+    ],
+    style={'display': 'inline-block',
+           'width': '100%',
+           'text-align': 'center',
+           'background-color': '#70747c',
+           'color':'white',
+           'fontWeight': 'bold',
+           'fontSize':16},
+    outline=True)
+
+
+    #WERE GONNA PUT THIS IN A BUTTON
+
+    # mission_table = dt.DataTable(
+    #     columns=[{"name": i, "id": i} for i in filtered_table.columns],
+    #     data=filtered_table.to_dict('records'),
+    #     style_data={
+    #         'whiteSpace': 'normal',
+    #         'height': '150px',
+    #         'color':'black',
+    #         'backgroundColor': 'white'
+    #     },
+    #     style_cell={'textAlign': 'left'}
+    # )
+
+
+    return card4, card5, card6, card7, mission_list, awards_list
 
 @app.callback(
     Output("modal0", "is_open"),
