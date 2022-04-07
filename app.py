@@ -5,9 +5,7 @@ import numpy as np
 import os
 import plotly.express as px
 import dash
-from dash import dcc
-
-from dash import html
+from dash import dcc, html
 
 
 import dash_bootstrap_components as dbc
@@ -241,7 +239,84 @@ app.layout = html.Div([
 
 
                ]),
-        dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_selected_style,
+        
+        dcc.Tab(label='Astronauts',value='tab-2',style=tab_style, selected_style=tab_selected_style,
+               children=[
+                   dbc.Row([
+                       dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown1',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in country_choices],
+                                value=country_choices[-1]
+                            )
+                       ],width=6),
+                        dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown2',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in astronaut_choices],
+                                value=astronaut_choices[0]
+                            )
+                       ],width=6)
+                   ]),
+                    dbc.Row([
+                        #Row of cards
+                        # dbc.Col([
+                        #     dbc.Card(id='card4')
+                        # ],width=3),
+                        dbc.Col([
+                            dbc.Card(id='card5')
+                        ],width=4),
+                        dbc.Col([
+                            dbc.Card(id='card6')
+                        ],width=4),
+                        dbc.Col([
+                            dbc.Card(id='card7')
+                        ],width=4),
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id='bio_paragraph')
+                        ],width=4),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(
+                                id="mission_list",
+                                style={'overflow':'auto','maxHeight':'400px'}
+                            )
+                        ],width=4),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id="award_list")
+                        ],width=4)
+                    ]),
+                    dbc.Row([
+                        dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
+                    #Button for Award Description
+                        html.Div([
+                            dbc.Modal(
+                                children=[
+                                    dbc.ModalHeader("Mission Descriptions"),
+                                    dbc.ModalBody(
+                                        children=[
+                                            html.P(
+                                                id='mission_table',
+                                                style={'overflow':'auto','maxHeight':'400px'}
+                                            ),
+                                        ]
+                                    ),
+                                    dbc.ModalFooter(
+                                        dbc.Button("Close", id="close1")#,color='Secondary',className='me-1')
+                                    ),
+                                ],id="modal1", size="xl",scrollable=True
+
+                            )
+                        ])
+                    ])
+               ]),
+dcc.Tab(label='Countries',value='tab-3',style=tab_style, selected_style=tab_selected_style,
         children=[
             dbc.Row([
                 dbc.Col([
@@ -316,60 +391,6 @@ app.layout = html.Div([
                 ])
             ])
         ]),
-
-        dcc.Tab(label='Astronauts',value='tab-3',style=tab_style, selected_style=tab_selected_style,
-               children=[
-                   dbc.Row([
-                       dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown1',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in country_choices],
-                                value=country_choices[-1]
-                            )
-                       ],width=6),
-                        dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown2',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in astronaut_choices],
-                                value=astronaut_choices[0]
-                            )
-                       ],width=6)
-                   ]),
-                    dbc.Row([
-                        #Row of cards
-                        dbc.Col([
-                            dbc.Card(id='card4')
-                        ],width=3),
-                        dbc.Col([
-                            dbc.Card(id='card5')
-                        ],width=3),
-                        dbc.Col([
-                            dbc.Card(id='card6')
-                        ],width=3),
-                        dbc.Col([
-                            dbc.Card(id='card7')
-                        ],width=3),
-                    ]),
-                    dbc.Row([
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id='bio_paragraph')
-                        ],width=4),
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(
-                                id="mission_list",
-                                style={'overflow':'auto','maxHeight':'400px'}
-                            )
-                        ],width=4),
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id="award_list")
-                        ],width=4)
-                    ])
-               ]),
         dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
@@ -724,11 +745,11 @@ def set_astro_options(selected_astronaut):
 
 #Configure callback for cards - individual astros
 @app.callback(
-    Output('card4','children'),
+    #Output('card4','children'),
     Output('card5','children'),
     Output('card6','children'),
     Output('card7','children'),
-
+    Output('mission_table','children'),
     Output('mission_list','children'),
     Output('award_list','children'),
 
@@ -739,9 +760,9 @@ def astros_and_stuff(dd2):
     
     #Total # of astronauts card
     filtered = astro_db[astro_db['astronaut_name']==dd2]
-    #filtered_table = filtered[['mission_name','shortDescription']]
+    filtered_table = filtered[['mission_name','shortDescription']]
     #Metric #1 - Number of Missions
-    metric1 = len(filtered['mission_name'].unique())
+    #metric1 = len(filtered['mission_name'].unique())
 
     filtered_nodups = filtered.drop_duplicates(subset='astronaut_name', keep="first")
     
@@ -765,20 +786,20 @@ def astros_and_stuff(dd2):
 
 
 
-    card4 = dbc.Card([
-        dbc.CardBody([
-            html.P('# Missions'),
-            html.H5(f"{metric1}"),
-        ])
-    ],
-    style={'display': 'inline-block',
-           'width': '100%',
-           'text-align': 'center',
-           'background-color': '#70747c',
-           'color':'white',
-           'fontWeight': 'bold',
-           'fontSize':16},
-    outline=True)
+    # card4 = dbc.Card([
+    #     dbc.CardBody([
+    #         html.P('# Missions'),
+    #         html.H5(f"{metric1}"),
+    #     ])
+    # ],
+    # style={'display': 'inline-block',
+    #        'width': '100%',
+    #        'text-align': 'center',
+    #        'background-color': '#70747c',
+    #        'color':'white',
+    #        'fontWeight': 'bold',
+    #        'fontSize':16},
+    # outline=True)
 
     card5 = dbc.Card([
         dbc.CardBody([
@@ -826,28 +847,39 @@ def astros_and_stuff(dd2):
     outline=True)
 
 
-    #WERE GONNA PUT THIS IN A BUTTON
 
-    # mission_table = dt.DataTable(
-    #     columns=[{"name": i, "id": i} for i in filtered_table.columns],
-    #     data=filtered_table.to_dict('records'),
-    #     style_data={
-    #         'whiteSpace': 'normal',
-    #         'height': '150px',
-    #         'color':'black',
-    #         'backgroundColor': 'white'
-    #     },
-    #     style_cell={'textAlign': 'left'}
-    # )
+    mission_table = dt.DataTable(
+        columns=[{"name": i, "id": i} for i in filtered_table.columns],
+        data=filtered_table.to_dict('records'),
+        style_data={
+            'whiteSpace': 'normal',
+            'height': '150px',
+            'color':'black',
+            'backgroundColor': 'white'
+        },
+        style_cell={'textAlign': 'left'}
+    )
 
 
-    return card4, card5, card6, card7, mission_list, awards_list
+    return card5, card6, card7, mission_table, mission_list, awards_list
 
 @app.callback(
     Output("modal0", "is_open"),
     Input("open0", "n_clicks"), 
     Input("close0", "n_clicks"),
     State("modal0", "is_open")
+)
+
+def toggle_modal0(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+@app.callback(
+    Output("modal1", "is_open"),
+    Input("open1", "n_clicks"), 
+    Input("close1", "n_clicks"),
+    State("modal1", "is_open")
 )
 
 def toggle_modal0(n1, n2, is_open):
