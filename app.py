@@ -19,12 +19,31 @@ import itertools as it
 import re
 import collections
 from dash import dash_table as dt
+### Read image from URL
+from PIL import Image
+import requests
+from io import BytesIO
+import plotly.graph_objects as go
 
 
 #Download the astronaut database from SuperCluster
 astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
 astronauts_db = requests.get(astronaut_db_url).json()
 
+#Load bio data
+bio_data = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/name_bio.csv',encoding='latin-1')
+
+
+#Clean up bio data
+bio_data['names'] = bio_data['name'].str.split(", ")
+
+bio_data['last_names'] = bio_data['names'].str[0]
+bio_data['first_names'] = bio_data['names'].str[1]
+bio_data['full_names'] = bio_data['first_names'] + ' ' + bio_data['last_names']
+del bio_data['names'], bio_data['first_names'], bio_data['name'], bio_data['last_names'], bio_data['bio'], bio_data['Remove End'], bio_data['Remove Front'], bio_data['Check'], bio_data['Last_Name'],bio_data['Name_in_Bio']
+
+# bio_data["bio"] = bio_data["bio"].str.replace("WIKIPEDIA EXCERPT", "")
+# bio_data["bio"] = bio_data["bio"].str.replace(".source", "")
 
 #Make dataframes
 df1 = pd.json_normalize(astronauts_db['astronauts'])
@@ -32,7 +51,7 @@ df2 = pd.json_normalize(astronauts_db['missions'])
 
 #Grab columns
 df_astro = df1[['_id','astroNumber','awards','name','gender','inSpace','overallNumber','spacewalkCount','species','speciesGroup',
-                'totalMinutesInSpace','totalSecondsSpacewalking','lastLaunchDate.utc']]
+                'totalMinutesInSpace','totalSecondsSpacewalking','lastLaunchDate.utc','image.asset.url']]
 
 df_miss = df2[['_id','astronauts','keywords','name',
                'seriesName','shortDescription','vagueLaunchDate',
@@ -149,10 +168,13 @@ astro_db['country'].unique()
 
 #Call on the data cleaning script
 exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cleaning_for_astrodb.py").read())
-
-astro_db['country'].value_counts()
-
 astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
+
+
+#Join bio data on astro_db
+del bio_data['Duplicate']
+astro_db = pd.merge(astro_db,bio_data,how='left',left_on = "astronaut_name",right_on='full_names')
+
 
 
 
@@ -174,7 +196,6 @@ astronaut_choices = sorted(astro_db['astronaut_name'].unique().tolist())
 df_for_dict = astro_db[['country','astronaut_name']]
 df_for_dict = df_for_dict.drop_duplicates(subset='astronaut_name',keep='first')
 country_astro_dict = df_for_dict.groupby('country')['astronaut_name'].apply(list).to_dict()
-
 
 
 tabs_styles = {
@@ -277,20 +298,25 @@ app.layout = html.Div([
                     ]),
                     dbc.Row([
                         dbc.Col([
+                            html.Img(id='bio_pic', style={'height':'40%', 'width':'20%'})
+                        ],width=4),
+                        dbc.Col([
                             html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(id='bio_paragraph')
-                        ],width=4),
+                        ],width=8)
+                    ]),
+                    dbc.Row([
                         dbc.Col([
                             html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(
                                 id="mission_list",
                                 style={'overflow':'auto','maxHeight':'400px'}
                             )
-                        ],width=4),
+                        ],width=6),
                         dbc.Col([
                             html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(id="award_list")
-                        ],width=4)
+                        ],width=6)
                     ]),
                     dbc.Row([
                         dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
@@ -752,7 +778,8 @@ def set_astro_options(selected_astronaut):
     Output('mission_table','children'),
     Output('mission_list','children'),
     Output('award_list','children'),
-
+    Output('bio_pic','src'),
+    Output('bio_paragraph','children'),
     Input('dropdown2','value')
 )
 
@@ -860,8 +887,16 @@ def astros_and_stuff(dd2):
         style_cell={'textAlign': 'left'}
     )
 
+    #Output the picture
+    pic = filtered['image.asset.url'].iloc[0]
+    response = requests.get(pic)
+    img = Image.open(BytesIO(response.content))
 
-    return card5, card6, card7, mission_table, mission_list, awards_list
+    #Output the bio paragraph
+    bio = filtered['bio_cleaned'].iloc[0]
+
+
+    return card5, card6, card7, mission_table, mission_list, awards_list, img, bio
 
 @app.callback(
     Output("modal0", "is_open"),
