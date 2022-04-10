@@ -42,8 +42,10 @@ bio_data['first_names'] = bio_data['names'].str[1]
 bio_data['full_names'] = bio_data['first_names'] + ' ' + bio_data['last_names']
 del bio_data['names'], bio_data['first_names'], bio_data['name'], bio_data['last_names'], bio_data['bio'], bio_data['Remove End'], bio_data['Remove Front'], bio_data['Check'], bio_data['Last_Name'],bio_data['Name_in_Bio']
 
-# bio_data["bio"] = bio_data["bio"].str.replace("WIKIPEDIA EXCERPT", "")
-# bio_data["bio"] = bio_data["bio"].str.replace(".source", "")
+bio_data['full_names'] = bio_data['full_names'].str.replace('Robert Kimbrough','Robert S. Kimbrough')
+bio_data['full_names'] = bio_data['full_names'].str.replace('Michael Adams','Michael J. Adams')
+bio_data['full_names'] = bio_data['full_names'].str.replace('Neil Armstrong','Neil A. Armstrong')
+bio_data['full_names'] = bio_data['full_names'].str.replace('K. McArthur','K. Megan McArthur')
 
 #Make dataframes
 df1 = pd.json_normalize(astronauts_db['astronauts'])
@@ -298,7 +300,7 @@ app.layout = html.Div([
                     ]),
                     dbc.Row([
                         dbc.Col([
-                            html.Img(id='bio_pic', style={'height':'40%', 'width':'20%'})
+                            html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'})
                         ],width=4),
                         dbc.Col([
                             html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
