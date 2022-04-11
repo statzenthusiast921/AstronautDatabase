@@ -46,6 +46,10 @@ bio_data['full_names'] = bio_data['full_names'].str.replace('Robert Kimbrough','
 bio_data['full_names'] = bio_data['full_names'].str.replace('Michael Adams','Michael J. Adams')
 bio_data['full_names'] = bio_data['full_names'].str.replace('Neil Armstrong','Neil A. Armstrong')
 bio_data['full_names'] = bio_data['full_names'].str.replace('K. McArthur','K. Megan McArthur')
+bio_data['full_names'] = bio_data['full_names'].str.replace('Sian  Proctor','Dr. Sian Proctor')
+
+
+
 
 #Make dataframes
 df1 = pd.json_normalize(astronauts_db['astronauts'])
@@ -177,7 +181,7 @@ astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
 del bio_data['Duplicate']
 astro_db = pd.merge(astro_db,bio_data,how='left',left_on = "astronaut_name",right_on='full_names')
 
-
+astro_db.to_csv('filename.csv',index=False)
 
 
 #choice - test out dropdown
@@ -589,7 +593,9 @@ def myfun(x):
         c = [
             "Mission Name: ", mission_name, 
             line_break, 
-            header, b['shortDescription'].values[0]
+            header, b['shortDescription'].values[0],
+            line_break, 
+            "Launch Date: ", b['launch_date'].values[0]
         ]
         d = [html.Div(i) for i in c]
     else:
