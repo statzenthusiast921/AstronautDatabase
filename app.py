@@ -42,13 +42,15 @@ bio_data['first_names'] = bio_data['names'].str[1]
 bio_data['full_names'] = bio_data['first_names'] + ' ' + bio_data['last_names']
 del bio_data['names'], bio_data['first_names'], bio_data['name'], bio_data['last_names'], bio_data['bio'], bio_data['Remove End'], bio_data['Remove Front'], bio_data['Check'], bio_data['Last_Name'],bio_data['Name_in_Bio']
 
-bio_data['full_names'] = bio_data['full_names'].str.replace('Robert Kimbrough','Robert S. Kimbrough')
-bio_data['full_names'] = bio_data['full_names'].str.replace('Michael Adams','Michael J. Adams')
-bio_data['full_names'] = bio_data['full_names'].str.replace('Neil Armstrong','Neil A. Armstrong')
-bio_data['full_names'] = bio_data['full_names'].str.replace('K. McArthur','K. Megan McArthur')
-bio_data['full_names'] = bio_data['full_names'].str.replace('Sian  Proctor','Dr. Sian Proctor')
+#Fix discrepancies between names (usually middle initial)
+exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cleaning_for_bio_name.py").read())
+#exec(open("https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_bio_name.py").read())
 
 
+
+
+bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ê',' ')
+bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Krmn','Karman')
 
 
 #Make dataframes
