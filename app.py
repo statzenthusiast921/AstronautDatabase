@@ -6,6 +6,7 @@ import os
 import plotly.express as px
 import dash
 from dash import dcc, html
+import urllib.request
 
 
 import dash_bootstrap_components as dbc
@@ -43,14 +44,20 @@ bio_data['full_names'] = bio_data['first_names'] + ' ' + bio_data['last_names']
 del bio_data['names'], bio_data['first_names'], bio_data['name'], bio_data['last_names'], bio_data['bio'], bio_data['Remove End'], bio_data['Remove Front'], bio_data['Check'], bio_data['Last_Name'],bio_data['Name_in_Bio']
 
 #Fix discrepancies between names (usually middle initial)
-exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cleaning_for_bio_name.py").read())
-#exec(open("https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_bio_name.py").read())
+
+code1 = 'https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_bio_name.py'
+response1 = urllib.request.urlopen(code1)
+data1 = response1.read()
+
+exec(data1)
 
 
 
 
 bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ê',' ')
 bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Krmn','Karman')
+bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('©','')
+bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ã','')
 
 
 #Make dataframes
@@ -175,7 +182,12 @@ astro_db['country'].unique()
 
 
 #Call on the data cleaning script
-exec(open("/Users/jonzimmerman/Desktop/Data Projects/Astronaut Database/data_cleaning_for_astrodb.py").read())
+code2 = 'https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_astrodb.py'
+response2 = urllib.request.urlopen(code2)
+data2 = response2.read()
+
+exec(data2)
+
 astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
 
 
