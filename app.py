@@ -318,25 +318,23 @@ app.layout = html.Div([
                     ]),
                     dbc.Row([
                         dbc.Col([
-                            html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'})
-                        ],width=4),
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id='bio_paragraph')
-                        ],width=8)
-                    ]),
-                    dbc.Row([
-                        dbc.Col([
+                            html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'}),
                             html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(
                                 id="mission_list",
                                 style={'overflow':'auto','maxHeight':'400px'}
                             )
-                        ],width=6),
+                        ],width=2),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id='bio_paragraph')
+                        ],width=8),
+  
+                     
                         dbc.Col([
                             html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(id="award_list")
-                        ],width=6)
+                        ],width=2)
                     ]),
                     dbc.Row([
                         dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
@@ -364,13 +362,26 @@ app.layout = html.Div([
                ]),
 dcc.Tab(label='Countries',value='tab-3',style=tab_style, selected_style=tab_selected_style,
         children=[
+        
+            
             dbc.Row([
                 dbc.Col([
-                    dcc.Dropdown(
-                        id='dropdown0',
-                        style={'color':'black'},
-                        options=[{'label': i, 'value': i} for i in country_choices],
-                        value=country_choices[-1]
+                    dcc.Slider(
+                        min=year_choices.min(),
+                        max=year_choices.max(),
+                        step=1, 
+                        value=year_choices.max(), 
+                        id='slider0',
+                        marks={
+                            1950: '1950',
+                            1960: '1960',
+                            1970: '1970',
+                            1980: '1980',
+                            1990: '1990',
+                            2000: '2000',
+                            2010: '2010',
+                            2020: '2020'
+                        }
                     )
                 ])
             ]),
@@ -643,12 +654,12 @@ def myfun(x):
 
     Output('timeline_graph','figure'),
     Output('award_bar_chart','figure'),
-    Input('dropdown0','value')
+    Input('slider0','value')
 )
-def countries_and_stuff(dd0):
+def countries_and_stuff(slider0):
     
     #Total # of astronauts card
-    filtered = astro_db[astro_db['country']==dd0]
+    filtered = astro_db[astro_db['launch_year']==slider0]
     metric1 = len(filtered['astronaut_name'].unique())
     filtered = filtered.drop_duplicates(subset='astronaut_name', keep="first")
     
@@ -704,19 +715,21 @@ def countries_and_stuff(dd0):
            'fontSize':16},
     outline=True)
 
-    #Timeline of astronaut launches
-    timeline_df = filtered[['launch_year','ones']]
-    timeline_df = timeline_df.groupby('launch_year').sum().reset_index()
 
+    #Lets make bar graph of # astronauts per country in the year
+    country_df = filtered[['country','ones']]
+    country_df = country_df.groupby('country').sum().reset_index()
+    country_df = country_df.sort_values(by=['ones'],ascending=True)
 
-    fig = px.line(
-        timeline_df, 
-        x="launch_year", y="ones",
-        markers=True,
+    fig = px.bar(
+        country_df, 
+        x="ones", y="country",
+        #markers=True,
+        orientation='h',
         template='plotly_dark',
-        labels={'ones':'# Astronauts','launch_year':'Year of Launch'}
+        labels={'ones':'# Astronauts','country':'Country'}
     )
-    fig.update_traces(marker=dict(color='white'))
+    #fig.update_traces(marker=dict(color='white'))
 
     #Pull out unique awards per country
     unique_awards = filtered[['astronaut_name','country','awards']]
