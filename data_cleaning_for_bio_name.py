@@ -1,9 +1,9 @@
 
-#Fix NULLs for country values
+#Fix:
+#1.) Names that were spelled differently
+#2.) Inclusion or Exclusion of Middle initial
+#3.) Special characters that got messed up (eg: accents)
 
-
-# astro_db.loc[astro_db['astronaut_name'] == "Sergey V. Prokopyev", 'country'] = "Russia"
-# astro_db.loc[astro_db['astronaut_name'] == "Serena M. Auñón-Chancellor", 'country'] = "United States of America"
 
 
 bio_data['full_names'] = bio_data['full_names'].str.replace('Robert Kimbrough','Robert S. Kimbrough')
@@ -191,6 +191,7 @@ bio_data['full_names'] = bio_data['full_names'].str.replace('Abdul Mohmand','Abd
 bio_data['full_names'] = bio_data['full_names'].str.replace('James Bagian','James P. Bagian')
 bio_data['full_names'] = bio_data['full_names'].str.replace('Manley Carter','Manley L. Carter Jr.')
 
+bio_data['full_names'] = bio_data['full_names'].str.replace('Alan Shepard','Alan B. Shepard Jr.')
 bio_data['full_names'] = bio_data['full_names'].str.replace('Aleksandr Balandin','Aleksandr N. Balandin')
 bio_data['full_names'] = bio_data['full_names'].str.replace('John Casper','John H. Casper')
 bio_data['full_names'] = bio_data['full_names'].str.replace('David Hilmers','David C. Hilmers')

@@ -218,6 +218,9 @@ df_for_dict = df_for_dict.drop_duplicates(subset='astronaut_name',keep='first')
 country_astro_dict = df_for_dict.groupby('country')['astronaut_name'].apply(list).to_dict()
 
 
+country_astro_dict_sorted = {l: sorted(m) for l, m in country_astro_dict.items()} #sort value by list
+
+
 tabs_styles = {
     'height': '44px'
 }
@@ -252,115 +255,37 @@ app.layout = html.Div([
                    ]),
                    
                    html.Div([
-                        html.P(dcc.Markdown('''**What is the purpose of this dashboard?**''')),
+                        html.P(dcc.Markdown('''**What is the purpose of this dashboard?**'''),style={'color':'white'}),
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
-                       html.P("This dashboard was created as a tool to do several things: "),
-                       html.P("1.) Visualize the networks of astronauts and understand how they are all connected."),
-                       html.P("2.) Get practice with web-scraping tools."),
-                       html.P("3.) A third thing"),
+                       html.P("This dashboard was created as a tool to do several things: ",style={'color':'white'}),
+                       html.P("1.) Visualize the networks of astronauts and understand how they are all connected.",style={'color':'white'}),
+                       html.P("2.) Get practice with web-scraping tools.",style={'color':'white'}),
+                       html.P("3.) A third thing",style={'color':'white'}),
 
 
                        html.Br()
                    ]),
                    html.Div([
-                       html.P(dcc.Markdown('''**What data is being used for this analysis?**''')),
+                       html.P(dcc.Markdown('''**What data is being used for this analysis?**'''),style={'color':'white'}),
                    ],style={'text-decoration': 'underline'}),
                    
                    html.Div([
-                       html.P(["The data utilized for this dashboard was scraped from the ",html.A('SuperCluster Astronaut Database.',href='https://www.supercluster.com/astronauts')]),
+                       html.P(["The data utilized for this dashboard was scraped from the ",html.A('SuperCluster Astronaut Database.',href='https://www.supercluster.com/astronauts')],style={'color':'white'}),
                        html.Br()
                    ]),
                    html.Div([
-                       html.P(dcc.Markdown('''**What are the limitations of this data?**''')),
+                       html.P(dcc.Markdown('''**What are the limitations of this data?**'''),style={'color':'white'}),
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
-                       html.P("When assigning a country as a feature of an astronaut, there is no clear distinction for Russian cosmonauts who participated in their nation's space program before vs. after the fall of the Soviet Union.  This is only an issue for cosmonauts who went into space around the late 1980s and early 1990s.  Further, it was difficult to determine how to categorize a cosmonaut who participated in a mission before the fall of the Soviet Union and then participated in another mission after the fall of the Soviet Union.")
+                       html.P("When assigning a country as a feature of an astronaut, there is no clear distinction for Russian cosmonauts who participated in their nation's space program before vs. after the fall of the Soviet Union.  This is only an issue for cosmonauts who went into space around the late 1980s and early 1990s.  Further, it was difficult to determine how to categorize a cosmonaut who participated in a mission before the fall of the Soviet Union and then participated in another mission after the fall of the Soviet Union.",style={'color':'white'})
                    ])
 
 
                ]),
         
-        dcc.Tab(label='Astronauts',value='tab-2',style=tab_style, selected_style=tab_selected_style,
-               children=[
-                   dbc.Row([
-                       dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown1',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in country_choices],
-                                value=country_choices[-1]
-                            )
-                       ],width=6),
-                        dbc.Col([
-                            dcc.Dropdown(
-                                id='dropdown2',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in astronaut_choices],
-                                value=astronaut_choices[0]
-                            )
-                       ],width=6)
-                   ]),
-                    dbc.Row([
-                        #Row of cards
-                        # dbc.Col([
-                        #     dbc.Card(id='card4')
-                        # ],width=3),
-                        dbc.Col([
-                            dbc.Card(id='card5')
-                        ],width=4),
-                        dbc.Col([
-                            dbc.Card(id='card6')
-                        ],width=4),
-                        dbc.Col([
-                            dbc.Card(id='card7')
-                        ],width=4),
-                    ]),
-                    dbc.Row([
-                        dbc.Col([
-                            html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'}),
-                            html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(
-                                id="mission_list",
-                                style={'overflow':'auto','maxHeight':'400px'}
-                            )
-                        ],width=2),
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id='bio_paragraph')
-                        ],width=8),
-  
-                     
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id="award_list")
-                        ],width=2)
-                    ]),
-                    dbc.Row([
-                        dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
-                    #Button for Award Description
-                        html.Div([
-                            dbc.Modal(
-                                children=[
-                                    dbc.ModalHeader("Mission Descriptions"),
-                                    dbc.ModalBody(
-                                        children=[
-                                            html.P(
-                                                id='mission_table',
-                                                style={'overflow':'auto','maxHeight':'400px'}
-                                            ),
-                                        ]
-                                    ),
-                                    dbc.ModalFooter(
-                                        dbc.Button("Close", id="close1")#,color='Secondary',className='me-1')
-                                    ),
-                                ],id="modal1", size="xl",scrollable=True
-
-                            )
-                        ])
-                    ])
-               ]),
-dcc.Tab(label='Countries',value='tab-3',style=tab_style, selected_style=tab_selected_style,
+        
+dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_selected_style,
         children=[
         
             
@@ -448,6 +373,85 @@ dcc.Tab(label='Countries',value='tab-3',style=tab_style, selected_style=tab_sele
                 ])
             ])
         ]),
+        dcc.Tab(label='Astronauts',value='tab-3',style=tab_style, selected_style=tab_selected_style,
+               children=[
+                   dbc.Row([
+                       dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown1',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in country_choices],
+                                value=country_choices[-1]
+                            )
+                       ],width=6),
+                        dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown2',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in astronaut_choices],
+                                value=astronaut_choices[0]
+                            )
+                       ],width=6)
+                   ]),
+                    dbc.Row([
+                        #Row of cards
+                        # dbc.Col([
+                        #     dbc.Card(id='card4')
+                        # ],width=3),
+                        dbc.Col([
+                            dbc.Card(id='card5')
+                        ],width=4),
+                        dbc.Col([
+                            dbc.Card(id='card6')
+                        ],width=4),
+                        dbc.Col([
+                            dbc.Card(id='card7')
+                        ],width=4),
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'}),
+                            html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(
+                                id="mission_list",
+                                style={'overflow':'auto','maxHeight':'400px','color':'white'}
+                            )
+                        ],width=2),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id='bio_paragraph',style={'color':'white'})
+                        ],width=8),
+  
+                     
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id="award_list",style={'color':'white'})
+                        ],width=2)
+                    ]),
+                    dbc.Row([
+                        dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
+                    #Button for Award Description
+                        html.Div([
+                            dbc.Modal(
+                                children=[
+                                    dbc.ModalHeader("Mission Descriptions"),
+                                    dbc.ModalBody(
+                                        children=[
+                                            html.P(
+                                                id='mission_table',
+                                                style={'overflow':'auto','maxHeight':'400px'}
+                                            ),
+                                        ]
+                                    ),
+                                    dbc.ModalFooter(
+                                        dbc.Button("Close", id="close1")#,color='Secondary',className='me-1')
+                                    ),
+                                ],id="modal1", size="xl",scrollable=True
+
+                            )
+                        ])
+                    ])
+               ]),
         dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
@@ -503,8 +507,8 @@ dcc.Tab(label='Countries',value='tab-3',style=tab_style, selected_style=tab_sele
                        ],width=6),
                        dbc.Col([
                             html.Label(dcc.Markdown('''**Click on a blue node to reveal information about a mission**'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.Div(id = 'nodes'),
-                            html.Div(id = 'edges')
+                            html.Div(id = 'nodes',style={'color':'white'}),
+                            html.Div(id = 'edges',style={'color':'white'})
                        ],width=6),
                    ])
                ]
@@ -800,7 +804,7 @@ def countries_and_stuff(slider0):
     Input('dropdown1', 'value') #--> choose country
 )
 def set_astro_options(selected_astronaut):
-    return [{'label': i, 'value': i} for i in country_astro_dict[selected_astronaut]], country_astro_dict[selected_astronaut][0],
+    return [{'label': i, 'value': i} for i in country_astro_dict_sorted[selected_astronaut]], country_astro_dict_sorted[selected_astronaut][0],
 
 
 
