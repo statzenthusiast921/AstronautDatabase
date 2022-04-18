@@ -260,6 +260,8 @@ bio_data['full_names'] = bio_data['full_names'].str.replace('Garrett Reisman','G
 bio_data['full_names'] = bio_data['full_names'].str.replace('E. Fincke','E. Michael Fincke')
 bio_data['full_names'] = bio_data['full_names'].str.replace('Richard Garriott','Richard A. Garriott')
 
+bio_data['full_names'] = bio_data['full_names'].str.replace('Aleksandr Skvortsov','Aleksandr A. Skvortsov')
+bio_data['full_names'] = bio_data['full_names'].str.replace('AndrÃ© Kuipers','André Kuipers')
 
 bio_data['full_names'] = bio_data['full_names'].str.replace('Dominic Antonelli','Dominic A. Antonelli')
 bio_data['full_names'] = bio_data['full_names'].str.replace('Joseph Acaba','Joseph M. Acaba')
