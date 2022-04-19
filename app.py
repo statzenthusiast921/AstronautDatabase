@@ -829,12 +829,12 @@ def set_astro_options(selected_astronaut):
 
 
 #Configure callback for defining dependent dropdown boxe from slider
-@app.callback(
-    Output('dropdown3', 'options'), #--> filter missions
-    Input('range_slider', 'value') #--> choose ly
-)
-def set_astro_options(selected_ly_range):
-    return [{'label': i, 'value': i} for i in ly_miss_dict_sorted[selected_ly_range]],
+# @app.callback(
+#     Output('dropdown3', 'options'), #--> filter missions
+#     Input('range_slider', 'value') #--> choose ly
+# )
+# def set_astro_options(selected_ly_range):
+#     return [{'label': i, 'value': i} for i in ly_miss_dict_sorted[selected_ly_range]],
 
 
 #     filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
