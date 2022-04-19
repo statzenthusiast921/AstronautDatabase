@@ -7,11 +7,8 @@ import plotly.express as px
 import dash
 from dash import dcc, html
 import urllib.request
-
-
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
-
 import json
 import requests
 from IPython.display import JSON
@@ -25,200 +22,212 @@ from PIL import Image
 import requests
 from io import BytesIO
 import plotly.graph_objects as go
+import ast
+
+#Read in processed data from github
+astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv')
+
+# #Download the astronaut database from SuperCluster
+# astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
+# astronauts_db = requests.get(astronaut_db_url).json()
+
+# #Load bio data
+# bio_data = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/name_bio.csv',encoding='latin-1')
 
 
-#Download the astronaut database from SuperCluster
-astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
-astronauts_db = requests.get(astronaut_db_url).json()
+# #Clean up bio data
+# bio_data['names'] = bio_data['name'].str.split(", ")
 
-#Load bio data
-bio_data = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/name_bio.csv',encoding='latin-1')
+# bio_data['last_names'] = bio_data['names'].str[0]
+# bio_data['first_names'] = bio_data['names'].str[1]
+# bio_data['full_names'] = bio_data['first_names'] + ' ' + bio_data['last_names']
+# del bio_data['names'], bio_data['first_names'], bio_data['name'], bio_data['last_names'], bio_data['bio'], bio_data['Remove End'], bio_data['Remove Front'], bio_data['Check'], bio_data['Last_Name'],bio_data['Name_in_Bio']
 
-
-#Clean up bio data
-bio_data['names'] = bio_data['name'].str.split(", ")
-
-bio_data['last_names'] = bio_data['names'].str[0]
-bio_data['first_names'] = bio_data['names'].str[1]
-bio_data['full_names'] = bio_data['first_names'] + ' ' + bio_data['last_names']
-del bio_data['names'], bio_data['first_names'], bio_data['name'], bio_data['last_names'], bio_data['bio'], bio_data['Remove End'], bio_data['Remove Front'], bio_data['Check'], bio_data['Last_Name'],bio_data['Name_in_Bio']
-
-#Fix discrepancies between names (usually middle initial)
-
-code1 = 'https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_bio_name.py'
-response1 = urllib.request.urlopen(code1)
-data1 = response1.read()
-
-exec(data1)
+# #Fix discrepancies between names (usually middle initial)
+# code1 = 'https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_bio_name.py'
+# response1 = urllib.request.urlopen(code1)
+# data1 = response1.read()
+# exec(data1)
 
 
 
 
-bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ê',' ')
-bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Krmn','Karman')
-bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('©','')
-bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ã','')
+# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ê',' ')
+# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Krmn','Karman')
+# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('©','')
+# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ã','')
 
 
-#Make dataframes
-df1 = pd.json_normalize(astronauts_db['astronauts'])
-df2 = pd.json_normalize(astronauts_db['missions'])
+# #Make astronaut and mission dataframes
+# df1 = pd.json_normalize(astronauts_db['astronauts'])
+# df2 = pd.json_normalize(astronauts_db['missions'])
 
-#Grab columns
-df_astro = df1[['_id','astroNumber','awards','name','gender','inSpace','overallNumber','spacewalkCount','species','speciesGroup',
-                'totalMinutesInSpace','totalSecondsSpacewalking','lastLaunchDate.utc','image.asset.url']]
+# #Grab columns
+# df_astro = df1[['_id','astroNumber','awards','name','gender','inSpace','overallNumber','spacewalkCount','species','speciesGroup',
+#                 'totalMinutesInSpace','totalSecondsSpacewalking','lastLaunchDate.utc','image.asset.url']]
 
-df_miss = df2[['_id','astronauts','keywords','name',
-               'seriesName','shortDescription','vagueLaunchDate',
-               'landDate.utc','launchDate.utc']]
-
-
-#Change column names
-df_astro = df_astro.rename(columns={'_id': 'astronaut_id'})
-
-#Get row per award
-df_awards = df_astro[['astronaut_id', 'awards']].copy()
-df_awards['awards'] = df_awards['awards'].apply(lambda awards: [award['title'] for award in awards])
-
-#Join awards column back on astronaut df
-df_astro = pd.merge(df_astro,df_awards,how='left',on=['astronaut_id'])
-
-#Clean up astronaut df
-del df_astro['awards_x']
-df_astro = df_astro.rename(columns={'awards_y': 'awards'})
+# df_miss = df2[['_id','astronauts','keywords','name',
+#                'seriesName','shortDescription','vagueLaunchDate',
+#                'landDate.utc','launchDate.utc']]
 
 
-#Change column names
-df_miss = df_miss.rename(columns={'_id': 'mission_id'})
+# #Change column names
+# df_astro = df_astro.rename(columns={'_id': 'astronaut_id'})
 
-#Expand df to have multiple rows (many astronauts per mission)
-df_test = df_miss.explode(['astronauts']).reset_index(drop=True)
+# #Get row per award
+# df_awards = df_astro[['astronaut_id', 'awards']].copy()
+# df_awards['awards'] = df_awards['awards'].apply(lambda awards: [award['title'] for award in awards])
 
+# #Join awards column back on astronaut df
+# df_astro = pd.merge(df_astro,df_awards,how='left',on=['astronaut_id'])
 
-#Pull out list of astronauts from JSON format
-astronauts = pd.json_normalize(df_test['astronauts'])
-
-
-#Add list of astronauts back into mission df
-df_miss = pd.concat([df_test, astronauts], axis=1)
-
-#Change column names
-df_miss = df_miss.rename(columns={'_id': 'astronaut_id'})
-del df_miss['astronauts']
-
-#Cleaning time/day variables
-df_miss['launch_time'] = pd.to_datetime(df_miss['launchDate.utc']).dt.time
-df_miss['land_time'] = pd.to_datetime(df_miss['landDate.utc']).dt.time
-df_miss['launch_date'] = df_miss['vagueLaunchDate']
-df_miss['land_date'] = pd.to_datetime(df_miss['landDate.utc']).dt.date
-
-del df_miss['vagueLaunchDate'],df_miss['landDate.utc'], df_miss['launchDate.utc']
-
-#Join astronaut database with mission database
-df_full = pd.merge(df_miss,df_astro,how='left',on=['astronaut_id'])
-
-# Number of Awards per Astronaut
-df_full['num_awards'] = df_full['awards'].str.len()
-del df_full['lastLaunchDate.utc']
+# #Clean up astronaut df
+# del df_astro['awards_x']
+# df_astro = df_astro.rename(columns={'awards_y': 'awards'})
 
 
-df_full = df_full.rename(columns={'name_x': 'mission_name'})
-df_full = df_full.rename(columns={'name_y': 'astronaut_name'})
+# #Change column names
+# df_miss = df_miss.rename(columns={'_id': 'mission_id'})
+
+# #Expand df to have multiple rows (many astronauts per mission)
+# df_test = df_miss.explode(['astronauts']).reset_index(drop=True)
 
 
-#Get the countries
-from bs4 import BeautifulSoup
-#!pip install selenium
-from selenium import webdriver
-#!pip install webdriver_manager
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-from selenium.webdriver.chrome.options import Options
+# #Pull out list of astronauts from JSON format
+# astronauts = pd.json_normalize(df_test['astronauts'])
 
 
-data = []
+# #Add list of astronauts back into mission df
+# df_miss = pd.concat([df_test, astronauts], axis=1)
 
-url = 'https://www.supercluster.com/astronauts?ascending=false&limit=5000&list=true&sort=launch%20order'
+# #Change column names
+# df_miss = df_miss.rename(columns={'_id': 'astronaut_id'})
+# del df_miss['astronauts']
 
-options = Options()
-options.add_argument("--headless")
-driver = webdriver.Chrome(ChromeDriverManager().install(),options=options)
-driver.maximize_window()
-driver.get(url)
-time.sleep(10)
+# #Cleaning time/day variables
+# df_miss['launch_time'] = pd.to_datetime(df_miss['launchDate.utc']).dt.time
+# df_miss['land_time'] = pd.to_datetime(df_miss['landDate.utc']).dt.time
+# df_miss['launch_date'] = df_miss['vagueLaunchDate']
+# df_miss['land_date'] = pd.to_datetime(df_miss['landDate.utc']).dt.date
 
-soup = BeautifulSoup(driver.page_source, 'lxml')
-driver.close()
-tags = soup.select('.astronaut_cell.x')
+# del df_miss['vagueLaunchDate'],df_miss['landDate.utc'], df_miss['launchDate.utc']
 
-for item in tags:
-    name = item.select_one('.bau.astronaut_cell__title.bold.mr05').get_text()
-    #print(name.text)
-    country = item.select_one('.mouseover__contents.rel.py05.px075.bau.caps.small.ac')
-    if country:
-        country=country.get_text()
-    #print(country)
+# #Join astronaut database with mission database
+# df_full = pd.merge(df_miss,df_astro,how='left',on=['astronaut_id'])
+
+# # Number of Awards per Astronaut
+# df_full['num_awards'] = df_full['awards'].str.len()
+# del df_full['lastLaunchDate.utc']
+
+# #Rename columns
+# df_full = df_full.rename(columns={'name_x': 'mission_name'})
+# df_full = df_full.rename(columns={'name_y': 'astronaut_name'})
+
+
+# #----------Scrape countries from Supercluster site----------#
+# from bs4 import BeautifulSoup
+# #!pip install selenium
+# from selenium import webdriver
+# #!pip install webdriver_manager
+# from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# from selenium.webdriver.chrome.options import Options
+
+
+# data = []
+
+# url = 'https://www.supercluster.com/astronauts?ascending=false&limit=5000&list=true&sort=launch%20order'
+
+# options = Options()
+# options.add_argument("--headless")
+# driver = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+# driver.maximize_window()
+# driver.get(url)
+# time.sleep(10)
+
+# soup = BeautifulSoup(driver.page_source, 'lxml')
+# driver.close()
+# tags = soup.select('.astronaut_cell.x')
+
+# for item in tags:
+#     name = item.select_one('.bau.astronaut_cell__title.bold.mr05').get_text()
+#     #print(name.text)
+#     country = item.select_one('.mouseover__contents.rel.py05.px075.bau.caps.small.ac')
+#     if country:
+#         country=country.get_text()
+#     #print(country)
     
-    data.append([name, country])
+#     data.append([name, country])
 
 
 
-cols=['name','country']
-df = pd.DataFrame(data,columns=cols)
-
-df['names'] = df['name'].str.split(", ")
-
-df['last_names'] = df['names'].str[0]
-df['first_names'] = df['names'].str[1]
-df['full_names'] = df['first_names'] + ' ' + df['last_names']
-del df['names'], df['first_names'], df['name'], df['last_names']
-
-df = df.rename(columns={'full_names': 'astronaut_name'})
-#df_full.iloc[0:5, 10:20]
-
-#Join country onto full astro df
-astro_db = pd.merge(df_full,df,how='left',on=['astronaut_name'])
-astro_db['country'].unique()
+# cols=['name','country']
+# df = pd.DataFrame(data,columns=cols)
 
 
-#Call on the data cleaning script
-code2 = 'https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_astrodb.py'
-response2 = urllib.request.urlopen(code2)
-data2 = response2.read()
+# #Clean up names
+# df['names'] = df['name'].str.split(", ")
+# df['last_names'] = df['names'].str[0]
+# df['first_names'] = df['names'].str[1]
+# df['full_names'] = df['first_names'] + ' ' + df['last_names']
+# del df['names'], df['first_names'], df['name'], df['last_names']
 
-exec(data2)
+# df = df.rename(columns={'full_names': 'astronaut_name'})
+# #df_full.iloc[0:5, 10:20]
 
-astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
-
-
-#Join bio data on astro_db
-del bio_data['Duplicate']
-astro_db = pd.merge(astro_db,bio_data,how='left',left_on = "astronaut_name",right_on='full_names')
-
-astro_db.to_csv('filename.csv',index=False)
+# #Join country onto full astro df
+# astro_db = pd.merge(df_full,df,how='left',on=['astronaut_name'])
+# astro_db['country'].unique()
 
 
-#choice - test out dropdown
+# #Call on the data cleaning script
+# code2 = 'https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data_cleaning_for_astrodb.py'
+# response2 = urllib.request.urlopen(code2)
+# data2 = response2.read()
+# exec(data2)
+
+# #Create launch year variable
+# astro_db['launch_year'] = astro_db['launch_date'].str[0:4].astype(int)
+
+
+# #Join bio data on astro_db
+# del bio_data['Duplicate']
+# astro_db = pd.merge(astro_db,bio_data,how='left',left_on = "astronaut_name",right_on='full_names')
+
+#astro_db.to_csv('filename.csv',index=False)
+
+#----------Create lists and dictionaries for use in dashboard----------#
+
+#1.) List of countries
 astro_db['ones'] = 1
 country_condensed = astro_db[['country','ones']]
 country_condensed = country_condensed.groupby(['country']).sum().reset_index()
 country_condensed = country_condensed[country_condensed['ones']>1]
-
 country_choices = country_condensed['country'].astype('str').unique()
-
 country_choices = sorted(country_choices)
+
+#2.) List of launch years
 year_choices = astro_db['launch_year'].unique()
 
+#3.) List of astronauts
 astro_db['astronaut_name'] = astro_db['astronaut_name'].astype('str')
 astro_db.drop(astro_db[astro_db['astronaut_name'] =='nan'].index, inplace=True)
 astronaut_choices = sorted(astro_db['astronaut_name'].unique().tolist())
 
+#4.) Country --> Astronaut Dictionary
 df_for_dict = astro_db[['country','astronaut_name']]
 df_for_dict = df_for_dict.drop_duplicates(subset='astronaut_name',keep='first')
 country_astro_dict = df_for_dict.groupby('country')['astronaut_name'].apply(list).to_dict()
-
-
 country_astro_dict_sorted = {l: sorted(m) for l, m in country_astro_dict.items()} #sort value by list
+
+#5.) List of Missions
+mission_choices = sorted(astro_db['mission_name'].unique())
+
+#6.) Launch Year --> Mission Dictionary
+df2_for_dict = astro_db[['launch_year','mission_name']]
+df2_for_dict = df2_for_dict.drop_duplicates(subset='mission_name',keep='first')
+ly_miss_dict = df2_for_dict.groupby('launch_year')['mission_name'].apply(list).to_dict()
+ly_miss_dict_sorted = {l: sorted(m) for l, m in ly_miss_dict.items()} #sort value by list
 
 
 tabs_styles = {
@@ -295,6 +304,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                         min=year_choices.min(),
                         max=year_choices.max(),
                         step=1, 
+                        tooltip={"placement": "bottom", "always_visible": True},
                         value=year_choices.max(), 
                         id='slider0',
                         marks={
@@ -325,7 +335,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
             dbc.Row([
                 #Graph row - Timeline chart and bar chart of awards
                 dbc.Col([
-                    dcc.Graph(id='timeline_graph')
+                    dcc.Graph(id='num_astros_chart')
                 ],width=6),
                 dbc.Col([
                     dcc.Graph(id='award_bar_chart')
@@ -411,16 +421,17 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                     dbc.Row([
                         dbc.Col([
                             html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'}),
+                            html.Br(),
                             html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(
                                 id="mission_list",
                                 style={'overflow':'auto','maxHeight':'400px','color':'white'}
                             )
-                        ],width=2),
+                        ],width=3),
                         dbc.Col([
                             html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(id='bio_paragraph',style={'color':'white'})
-                        ],width=8),
+                        ],width=7),
   
                      
                         dbc.Col([
@@ -477,7 +488,15 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                     }
                                 ),
 
-                       ],width=12),
+                       ],width=6),
+                          dbc.Col([
+                            dcc.Dropdown(
+                                id='dropdown3',
+                                style={'color':'black'},
+                                options=[{'label': i, 'value': i} for i in mission_choices],
+                                #value=mission_choices[0]
+                            )
+                       ],width=6)
            
   
                    ]),
@@ -546,16 +565,17 @@ def render_content(tab):
 #Configure callback for network graph
 @app.callback(
     Output('ng','data'),
-    Input('range_slider','value')
+    Input('range_slider','value'),
+    #Input('dropdown3','value')
 
 )
 
-def network(range_slider1):
+def network(range_slider1):#,dd3):
     
     filtered = astro_db[['mission_name','astronaut_name','launch_year']]
     filtered['Weights'] = 1
-    #filtered = filtered[filtered['country']==dd1]
     filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
+    #filtered = filtered[filtered['country']==dd3]
 
     new_df = filtered
     new_df.rename(columns={new_df.columns[0]: "Source"}, inplace = True)
@@ -656,7 +676,7 @@ def myfun(x):
     Output('card2','children'),
     Output('card3','children'),
 
-    Output('timeline_graph','figure'),
+    Output('num_astros_chart','figure'),
     Output('award_bar_chart','figure'),
     Input('slider0','value')
 )
@@ -721,6 +741,7 @@ def countries_and_stuff(slider0):
 
 
     #Lets make bar graph of # astronauts per country in the year
+    filtered['ones'] = 1
     country_df = filtered[['country','ones']]
     country_df = country_df.groupby('country').sum().reset_index()
     country_df = country_df.sort_values(by=['ones'],ascending=True)
@@ -737,21 +758,21 @@ def countries_and_stuff(slider0):
 
     #Pull out unique awards per country
     unique_awards = filtered[['astronaut_name','country','awards']]
-    unique_awards['awards_string'] = [','.join(map(str, l)) for l in unique_awards['awards']]
+    #unique_awards['awards_string'] = [','.join(map(str, l)) for l in unique_awards['awards']]
     
     
-    unique_awards['ISS_Visitor'] = np.where(unique_awards['awards_string'].str.contains('ISS Visitor'),1,0)
-    unique_awards['Crossed_Karman'] = np.where(unique_awards['awards_string'].str.contains('Crossed Kármán Line'),1,0)
-    unique_awards['Elite_Spacewalker'] = np.where(unique_awards['awards_string'].str.contains('Elite Spacewalker'),1,0)
-    unique_awards['Space_Resident'] = np.where(unique_awards['awards_string'].str.contains('Space Resident'),1,0)
-    unique_awards['Frequent_Walker'] = np.where(unique_awards['awards_string'].str.contains('Frequent Walker'),1,0)
-    unique_awards['Frequent_Flyer'] = np.where(unique_awards['awards_string'].str.contains('Frequent Flyer'),1,0)
-    unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards_string'].str.contains('Elite Spaceflyer'),1,0)
-    unique_awards['Moonwalker'] = np.where(unique_awards['awards_string'].str.contains('Moonwalker'),1,0)
-    unique_awards['Memorial'] = np.where(unique_awards['awards_string'].str.contains('Memorial'),1,0)
-    unique_awards['Crossed_80KM'] = np.where(unique_awards['awards_string'].str.contains('Crossed 80km Line'),1,0)
+    unique_awards['ISS_Visitor'] = np.where(unique_awards['awards'].str.contains('ISS Visitor'),1,0)
+    unique_awards['Crossed_Karman'] = np.where(unique_awards['awards'].str.contains('Crossed Kármán Line'),1,0)
+    unique_awards['Elite_Spacewalker'] = np.where(unique_awards['awards'].str.contains('Elite Spacewalker'),1,0)
+    unique_awards['Space_Resident'] = np.where(unique_awards['awards'].str.contains('Space Resident'),1,0)
+    unique_awards['Frequent_Walker'] = np.where(unique_awards['awards'].str.contains('Frequent Walker'),1,0)
+    unique_awards['Frequent_Flyer'] = np.where(unique_awards['awards'].str.contains('Frequent Flyer'),1,0)
+    unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards'].str.contains('Elite Spaceflyer'),1,0)
+    unique_awards['Moonwalker'] = np.where(unique_awards['awards'].str.contains('Moonwalker'),1,0)
+    unique_awards['Memorial'] = np.where(unique_awards['awards'].str.contains('Memorial'),1,0)
+    unique_awards['Crossed_80KM'] = np.where(unique_awards['awards'].str.contains('Crossed 80km Line'),1,0)
 
-    del unique_awards['awards'], unique_awards['awards_string'], unique_awards['country']
+    del unique_awards['awards'], unique_awards['country']
 
 
     num1 = len(unique_awards[unique_awards['Crossed_80KM']==1]['astronaut_name'].unique())
@@ -807,6 +828,20 @@ def set_astro_options(selected_astronaut):
     return [{'label': i, 'value': i} for i in country_astro_dict_sorted[selected_astronaut]], country_astro_dict_sorted[selected_astronaut][0],
 
 
+#Configure callback for defining dependent dropdown boxe from slider
+@app.callback(
+    Output('dropdown3', 'options'), #--> filter missions
+    Input('range_slider', 'value') #--> choose ly
+)
+def set_astro_options(selected_ly_range):
+    return [{'label': i, 'value': i} for i in ly_miss_dict_sorted[selected_ly_range]],
+
+
+#     filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
+
+
+
+
 
 #Configure callback for cards - individual astros
 @app.callback(
@@ -827,6 +862,8 @@ def astros_and_stuff(dd2):
     #Total # of astronauts card
     filtered = astro_db[astro_db['astronaut_name']==dd2]
     filtered_table = filtered[['mission_name','shortDescription']]
+    filtered_table = filtered_table.rename(columns={'mission_name': 'Mission Name', 'shortDescription': 'Description'})
+
     #Metric #1 - Number of Missions
     #metric1 = len(filtered['mission_name'].unique())
 
@@ -845,7 +882,8 @@ def astros_and_stuff(dd2):
     metric4 = "{:,}".format(total_min_sw)
 
     award_row = filtered['awards'].iloc[0]
-    awards_list = [html.Div(i) for i in award_row]
+    award_row_fixed = ast.literal_eval(award_row)
+    awards_list = [html.Div(i) for i in award_row_fixed]
 
     mission_col_list = filtered['mission_name'].tolist()
     mission_list = [html.Div(i) for i in mission_col_list]
