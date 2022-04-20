@@ -25,8 +25,7 @@ import plotly.graph_objects as go
 import ast
 
 #Read in processed data from github
-astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv')
-
+astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv', encoding = "ISO-8859-1")
 # #Download the astronaut database from SuperCluster
 # astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
 # astronauts_db = requests.get(astronaut_db_url).json()
@@ -50,13 +49,11 @@ astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/Ast
 # exec(data1)
 
 
-
-
-# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ê',' ')
-# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Krmn','Karman')
-# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('©','')
-# bio_data['bio_cleaned'] = bio_data['bio_cleaned'].str.replace('Ã','')
-
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Karman')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ê',' ')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Karman')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
 
 # #Make astronaut and mission dataframes
 # df1 = pd.json_normalize(astronauts_db['astronauts'])
@@ -421,23 +418,24 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                     dbc.Row([
                         dbc.Col([
                             html.Img(id='bio_pic', style={'height':'300px', 'width':'200px'}),
-                            html.Br(),
+                            #html.Br(),
+                            
+                        ],width=3),
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**Biography: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id='bio_paragraph',style={'color':'white'})
+                        ],width=6),
+  
+                     
+                        dbc.Col([
+                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.P(id="award_list",style={'color':'white'}),
                             html.Label(dcc.Markdown('''**List of Missions: **'''),style={'color':'white','text-decoration': 'underline'}),                        
                             html.P(
                                 id="mission_list",
                                 style={'overflow':'auto','maxHeight':'400px','color':'white'}
                             )
-                        ],width=3),
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**Astronaut Bio: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id='bio_paragraph',style={'color':'white'})
-                        ],width=7),
-  
-                     
-                        dbc.Col([
-                            html.Label(dcc.Markdown('''**List of Awards: **'''),style={'color':'white','text-decoration': 'underline'}),                        
-                            html.P(id="award_list",style={'color':'white'})
-                        ],width=2)
+                        ],width=3)
                     ]),
                     dbc.Row([
                         dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
@@ -467,6 +465,29 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                children=[
                    dbc.Row([
                        dbc.Col([
+                           #Item 1 of 3 --> The Instructions Button
+                            dbc.Button("Click Here for Detailed Instructions",id='open2',block=True,size='lg'),
+                            html.Div([
+                                dbc.Modal(
+                                    children=[
+                                        dbc.ModalHeader("Instructions"),
+                                        dbc.ModalBody(
+                                            children=[
+                                                html.P('This page allows the user to visualize the connections between astronauts and the missions for which they participated.  The blue nodes in the graph represent a mission, while the grey nodes represent the astronauts who participated in the mission.'),
+                                                html.P('The user can select a range of launch years to visualize more or fewer connections of missions.  For the best performance, try to select a range of launch years less than or equal to 10 years.  To view a specific mission, the user can search using the dropdown box.  To reveal detailed information about the mission including the astronauts who participated, the launch date, and a brief description, the user can click on the blue node.  Additionally, the user can zoom into the graph to view the mission and astronaut names.')
+                                            ]
+                                        ),
+                                        dbc.ModalFooter(
+                                            dbc.Button("Close", id="close2")#,color='Secondary',className='me-1')
+                                        ),
+                                    ],id="modal2", size="xl",scrollable=True
+
+                                )
+                            ])
+                       ],width=4),
+                       dbc.Col([
+                            #Item 2 of 3 --> The Range Slider for Launch Years
+                            html.Label(dcc.Markdown('''**Select a range of years: **'''),style={'color':'white'}),                        
                             dcc.RangeSlider(
                                     id='range_slider',
                                     min=year_choices.min(),
@@ -488,17 +509,18 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                     }
                                 ),
 
-                       ],width=6),
+                       ],width=4),
                           dbc.Col([
+                            #Item 3 of 3 --> The Mission Dropdown Box
+                            html.Label(dcc.Markdown('''**Select a specific mission: **'''),style={'color':'white'}),                        
                             dcc.Dropdown(
                                 id='dropdown3',
                                 style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in mission_choices],
-                                #value=mission_choices[0]
+                                options=[{'label': i, 'value': i} for i in mission_choices] + [{'label': 'Select all', 'value': 'all_values'}],
+                                value='all_values',  
+                                multi=True,
                             )
-                       ],width=6)
-           
-  
+                       ],width=4)
                    ]),
                    dbc.Row([
                        dbc.Col([
@@ -524,8 +546,9 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                 )
                             )
                        ],width=6),
+                       html.Br(),
                        dbc.Col([
-                            html.Label(dcc.Markdown('''**Click on a blue node to reveal information about a mission**'''),style={'color':'white','text-decoration': 'underline'}),                        
+                            html.Label(dcc.Markdown('''**Click on a blue node to reveal information about a mission**'''),style={'color':'white'}),                        
                             html.Div(id = 'nodes',style={'color':'white'}),
                             html.Div(id = 'edges',style={'color':'white'})
                        ],width=6),
@@ -575,6 +598,10 @@ def network(range_slider1):#,dd3):
     filtered = astro_db[['mission_name','astronaut_name','launch_year']]
     filtered['Weights'] = 1
     filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
+    # if dd3 == ['Select all']:
+    #     filtered = filtered
+    # else:
+    #     filtered = filtered[filtered['mission_name'].isin(dd3)]
     #filtered = filtered[filtered['country']==dd3]
 
     new_df = filtered
@@ -994,10 +1021,23 @@ def toggle_modal0(n1, n2, is_open):
     State("modal1", "is_open")
 )
 
-def toggle_modal0(n1, n2, is_open):
+def toggle_modal1(n1, n2, is_open):
     if n1 or n2:
         return not is_open
     return is_open
+
+@app.callback(
+    Output("modal2", "is_open"),
+    Input("open2", "n_clicks"), 
+    Input("close2", "n_clicks"),
+    State("modal2", "is_open")
+)
+
+def toggle_modal2(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
 
 
 if __name__=='__main__':
