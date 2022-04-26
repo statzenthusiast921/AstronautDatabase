@@ -293,10 +293,32 @@ app.layout = html.Div([
         
 dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_selected_style,
         children=[
-        
-            
             dbc.Row([
                 dbc.Col([
+                    dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
+                    #Button for Award Description
+                    html.Div([
+                        dbc.Modal(
+                            children=[
+                                dbc.ModalHeader("Instructions"),
+                                dbc.ModalBody(
+                                    children=[
+                                        html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
+                                        html.P('Visited the International Space Station.'),
+                                        html.P('Top 5% for total spacewalking time.'),
+                                        
+                                    ]
+                                ),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close", id="close3")#,color='Secondary',className='me-1')
+                                ),
+                            ],id="modal3", size="xl",scrollable=True
+
+                        )
+                    ])
+                ],width=6),
+                dbc.Col([
+                    html.Label(dcc.Markdown('''**Select a year: **'''),style={'color':'white'}),                        
                     dcc.Slider(
                         min=year_choices.min(),
                         max=year_choices.max(),
@@ -315,7 +337,8 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                             2020: '2020'
                         }
                     )
-                ])
+                ],width=6)
+            
             ]),
             dbc.Row([
                 #Row of cards
@@ -384,13 +407,32 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                children=[
                    dbc.Row([
                        dbc.Col([
+                           dbc.Button("Click Here for Detailed Instructions",id='open4',block=True,size='lg'),
+                            #Button for Instructions
+                                html.Div([
+                                    dbc.Modal(
+                                        children=[
+                                            dbc.ModalHeader("Instructions"),
+                                            dbc.ModalBody(
+                                                children=[
+                                                    html.P('things and stuff'),
+                                                ]
+                                            ),
+                                            dbc.ModalFooter(
+                                                dbc.Button("Close", id="close4")#,color='Secondary',className='me-1')
+                                            ),
+                                        ],id="modal4", size="xl",scrollable=True
+                                    )
+                                ])
+                       ],width=4),
+                       dbc.Col([
                             dcc.Dropdown(
                                 id='dropdown1',
                                 style={'color':'black'},
                                 options=[{'label': i, 'value': i} for i in country_choices],
                                 value=country_choices[-1]
                             )
-                       ],width=6),
+                       ],width=4),
                         dbc.Col([
                             dcc.Dropdown(
                                 id='dropdown2',
@@ -398,7 +440,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                 options=[{'label': i, 'value': i} for i in astronaut_choices],
                                 value=astronaut_choices[0]
                             )
-                       ],width=6)
+                       ],width=4)
                    ]),
                     dbc.Row([
                         #Row of cards
@@ -584,6 +626,20 @@ def render_content(tab):
         ])
 
 
+@app.callback(
+    Output('dropdown3', 'options'), #--> filter letters
+    Input('range_slider', 'value') #--> choose number range
+)
+def set_letter_options(selected_ly_range):
+    return [
+        {
+        'label': ly_miss_dict_sorted[i], 
+        'value': ly_miss_dict_sorted[i]
+        } for i in range(
+            int(selected_ly_range[0]), 
+            int(selected_ly_range[1])+1
+            )
+    ]
 
 #Configure callback for network graph
 @app.callback(
@@ -833,17 +889,31 @@ def countries_and_stuff(slider0):
     new_df = pd.DataFrame(od.items(), columns=['# Astronauts', 'Awards'])
     
     new_df = new_df[new_df['# Astronauts']>0]
-    
-    bar_fig = px.bar(new_df,
-        x = 'Awards',
-        y = '# Astronauts',
+
+    #Check representation here - might not be what you think
+    #were looking at awards per year but might be actually showing cumulative awards regardless of launch year - just the awards of the astronaut who launched that year
+    tree_fig = px.treemap(
+        new_df, 
+        path = ['Awards'],
+        values = '# Astronauts',
         template='plotly_dark'
     )
-    bar_fig
+    
+    # fig.update_layout(
+    #     treemapcolorway = colors, #defines the colors in the treemap
+    #     margin = dict(t=50, l=25, r=25, b=25)
+    # )
+    
+    # bar_fig = px.bar(new_df,
+    #     x = 'Awards',
+    #     y = '# Astronauts',
+    #     template='plotly_dark'
+    # )
+    # bar_fig
     #bar_fig.update_xaxes(tickangle=90)
 
 
-    return card1, card2, card3, fig, bar_fig
+    return card1, card2, card3, fig, tree_fig
 
 #Configure callback for defining dependent dropdown boxes
 @app.callback(
@@ -853,19 +923,6 @@ def countries_and_stuff(slider0):
 )
 def set_astro_options(selected_astronaut):
     return [{'label': i, 'value': i} for i in country_astro_dict_sorted[selected_astronaut]], country_astro_dict_sorted[selected_astronaut][0],
-
-
-#Configure callback for defining dependent dropdown boxe from slider
-# @app.callback(
-#     Output('dropdown3', 'options'), #--> filter missions
-#     Input('range_slider', 'value') #--> choose ly
-# )
-# def set_astro_options(selected_ly_range):
-#     return [{'label': i, 'value': i} for i in ly_miss_dict_sorted[selected_ly_range]],
-
-
-#     filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
-
 
 
 
@@ -915,22 +972,6 @@ def astros_and_stuff(dd2):
     mission_col_list = filtered['mission_name'].tolist()
     mission_list = [html.Div(i) for i in mission_col_list]
 
-
-
-    # card4 = dbc.Card([
-    #     dbc.CardBody([
-    #         html.P('# Missions'),
-    #         html.H5(f"{metric1}"),
-    #     ])
-    # ],
-    # style={'display': 'inline-block',
-    #        'width': '100%',
-    #        'text-align': 'center',
-    #        'background-color': '#70747c',
-    #        'color':'white',
-    #        'fontWeight': 'bold',
-    #        'fontSize':16},
-    # outline=True)
 
     card5 = dbc.Card([
         dbc.CardBody([
@@ -1034,6 +1075,30 @@ def toggle_modal1(n1, n2, is_open):
 )
 
 def toggle_modal2(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+@app.callback(
+    Output("modal3", "is_open"),
+    Input("open3", "n_clicks"), 
+    Input("close3", "n_clicks"),
+    State("modal3", "is_open")
+)
+
+def toggle_modal3(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+@app.callback(
+    Output("modal4", "is_open"),
+    Input("open4", "n_clicks"), 
+    Input("close4", "n_clicks"),
+    State("modal4", "is_open")
+)
+
+def toggle_modal4(n1, n2, is_open):
     if n1 or n2:
         return not is_open
     return is_open
