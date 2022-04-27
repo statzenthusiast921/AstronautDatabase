@@ -296,16 +296,16 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
             dbc.Row([
                 dbc.Col([
                     dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
-                    #Button for Award Description
+                    #Button for Instructions
                     html.Div([
                         dbc.Modal(
                             children=[
                                 dbc.ModalHeader("Instructions"),
                                 dbc.ModalBody(
                                     children=[
-                                        html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
-                                        html.P('Visited the International Space Station.'),
-                                        html.P('Top 5% for total spacewalking time.'),
+                                        html.P('Click on either of the dropdown boxes to update the graphs below.'),
+                                        html.P('Using the slider will update the left graph and reveal the countries that participated in a mission in the selected year.  Using the dropdown box will update the right graph and reveal the awards won by a selected country.')
+                                      
                                         
                                     ]
                                 ),
@@ -316,7 +316,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
 
                         )
                     ])
-                ],width=6),
+                ],width=4),
                 dbc.Col([
                     html.Label(dcc.Markdown('''**Select a year: **'''),style={'color':'white'}),                        
                     dcc.Slider(
@@ -337,28 +337,25 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                             2020: '2020'
                         }
                     )
-                ],width=6)
+                ],width=4),
+                dbc.Col([
+                    dcc.Dropdown(
+                        id='dropdown4',
+                        style={'color':'black'},
+                        options=[{'label': i, 'value': i} for i in country_choices],
+                        value=country_choices[-1]
+                    )
+                ])
             
             ]),
-            dbc.Row([
-                #Row of cards
-                dbc.Col([
-                    dbc.Card(id='card1')
-                ],width=4),
-                dbc.Col([
-                    dbc.Card(id='card2')
-                ],width=4),
-                 dbc.Col([
-                    dbc.Card(id='card3')
-                ],width=4)
-            ]),
+
             dbc.Row([
                 #Graph row - Timeline chart and bar chart of awards
                 dbc.Col([
                     dcc.Graph(id='num_astros_chart')
                 ],width=6),
                 dbc.Col([
-                    dcc.Graph(id='award_bar_chart')
+                    dcc.Graph(id='tree_map')
                 ],width=6)
             ]),
             dbc.Row([
@@ -415,7 +412,11 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                             dbc.ModalHeader("Instructions"),
                                             dbc.ModalBody(
                                                 children=[
-                                                    html.P('things and stuff'),
+                                                    html.P('Click on the dropdown boxes to select a country and then select a specific astronaut.'),
+                                                    html.P('These choices will reveal:'),
+                                                    html.P('1.) A biography for the astronaut'),
+                                                    html.P('2.) The missions for which they participated'),
+                                                    html.P('3.) The awards they have earned')
                                                 ]
                                             ),
                                             dbc.ModalFooter(
@@ -443,10 +444,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                        ],width=4)
                    ]),
                     dbc.Row([
-                        #Row of cards
-                        # dbc.Col([
-                        #     dbc.Card(id='card4')
-                        # ],width=3),
+        
                         dbc.Col([
                             dbc.Card(id='card5')
                         ],width=4),
@@ -755,73 +753,13 @@ def myfun(x):
 
 #Configure callback for cards and graphs - country stats
 @app.callback(
-    Output('card1','children'),
-    Output('card2','children'),
-    Output('card3','children'),
-
     Output('num_astros_chart','figure'),
-    Output('award_bar_chart','figure'),
     Input('slider0','value')
 )
 def countries_and_stuff(slider0):
     
-    #Total # of astronauts card
     filtered = astro_db[astro_db['launch_year']==slider0]
-    metric1 = len(filtered['astronaut_name'].unique())
     filtered = filtered.drop_duplicates(subset='astronaut_name', keep="first")
-    
-    total_min = int(filtered['totalMinutesInSpace'].sum())
-    metric2 = "{:,}".format(total_min)
-
-    total_sw = int(filtered['spacewalkCount'].sum())
-    metric3 = "{:,}".format(total_sw)
-
-
-    card1 = dbc.Card([
-        dbc.CardBody([
-            html.P('# Astronauts in Space Program'),
-            html.H5(f"{metric1}"),
-        ])
-    ],
-    style={'display': 'inline-block',
-           'width': '100%',
-           'text-align': 'center',
-           'background-color': '#70747c',
-           'color':'white',
-           'fontWeight': 'bold',
-           'fontSize':16},
-    outline=True)
-
-    card2 = dbc.Card([
-        dbc.CardBody([
-            html.P('Total Min in Space - NEED TO FIX'),
-            html.H5("@ astro level, want mission"),
-        ])
-    ],
-    style={'display': 'inline-block',
-           'width': '100%',
-           'text-align': 'center',
-           'background-color': '#70747c',
-           'color':'white',
-           'fontWeight': 'bold',
-           'fontSize':16},
-    outline=True)
-
-    card3 = dbc.Card([
-        dbc.CardBody([
-            html.P('Total # of Spacewalks'),
-            html.H5(f"{metric3}"),
-        ])
-    ],
-    style={'display': 'inline-block',
-           'width': '100%',
-           'text-align': 'center',
-           'background-color': '#70747c',
-           'color':'white',
-           'fontWeight': 'bold',
-           'fontSize':16},
-    outline=True)
-
 
     #Lets make bar graph of # astronauts per country in the year
     filtered['ones'] = 1
@@ -837,12 +775,25 @@ def countries_and_stuff(slider0):
         template='plotly_dark',
         labels={'ones':'# Astronauts','country':'Country'}
     )
-    #fig.update_traces(marker=dict(color='white'))
 
-    #Pull out unique awards per country
-    unique_awards = filtered[['astronaut_name','country','awards']]
-    #unique_awards['awards_string'] = [','.join(map(str, l)) for l in unique_awards['awards']]
     
+    return fig
+
+
+
+#Configure callback for cards and graphs - country stats
+@app.callback(
+    Output('tree_map','figure'),
+    Input('dropdown4','value')
+)
+def countries_and_stuff(dd4):
+    
+    filtered = astro_db[astro_db['country']==dd4]
+    filtered = filtered.drop_duplicates(subset='astronaut_name', keep="first")
+
+   
+    #Pull out unique awards per country
+    unique_awards = filtered[['astronaut_name','country','awards']]    
     
     unique_awards['ISS_Visitor'] = np.where(unique_awards['awards'].str.contains('ISS Visitor'),1,0)
     unique_awards['Crossed_Karman'] = np.where(unique_awards['awards'].str.contains('Crossed Kármán Line'),1,0)
@@ -890,8 +841,6 @@ def countries_and_stuff(slider0):
     
     new_df = new_df[new_df['# Astronauts']>0]
 
-    #Check representation here - might not be what you think
-    #were looking at awards per year but might be actually showing cumulative awards regardless of launch year - just the awards of the astronaut who launched that year
     tree_fig = px.treemap(
         new_df, 
         path = ['Awards'],
@@ -899,21 +848,9 @@ def countries_and_stuff(slider0):
         template='plotly_dark'
     )
     
-    # fig.update_layout(
-    #     treemapcolorway = colors, #defines the colors in the treemap
-    #     margin = dict(t=50, l=25, r=25, b=25)
-    # )
-    
-    # bar_fig = px.bar(new_df,
-    #     x = 'Awards',
-    #     y = '# Astronauts',
-    #     template='plotly_dark'
-    # )
-    # bar_fig
-    #bar_fig.update_xaxes(tickangle=90)
 
 
-    return card1, card2, card3, fig, tree_fig
+    return tree_fig
 
 #Configure callback for defining dependent dropdown boxes
 @app.callback(
