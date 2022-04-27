@@ -55,6 +55,9 @@ astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Karman
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
 
+#Cut data off at December 31, 2021
+astro_db = astro_db[astro_db['launch_year']<2022]
+
 # #Make astronaut and mission dataframes
 # df1 = pd.json_normalize(astronauts_db['astronauts'])
 # df2 = pd.json_normalize(astronauts_db['missions'])
@@ -265,7 +268,7 @@ app.layout = html.Div([
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
                        html.P("This dashboard was created as a tool to do several things: ",style={'color':'white'}),
-                       html.P("1.) Visualize the networks of astronauts and understand how they are all connected.",style={'color':'white'}),
+                       html.P("1.) Visualize the networks of astronauts to understand how they are all connected.",style={'color':'white'}),
                        html.P("2.) Get practice with web-scraping tools.",style={'color':'white'}),
                        html.P("3.) A third thing",style={'color':'white'}),
 
@@ -284,7 +287,8 @@ app.layout = html.Div([
                        html.P(dcc.Markdown('''**What are the limitations of this data?**'''),style={'color':'white'}),
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
-                       html.P("When assigning a country as a feature of an astronaut, there is no clear distinction for Russian cosmonauts who participated in their nation's space program before vs. after the fall of the Soviet Union.  This is only an issue for cosmonauts who went into space around the late 1980s and early 1990s.  Further, it was difficult to determine how to categorize a cosmonaut who participated in a mission before the fall of the Soviet Union and then participated in another mission after the fall of the Soviet Union.",style={'color':'white'})
+                       html.P("1.) When assigning a country as a feature of an astronaut, there is no clear distinction for Russian cosmonauts who participated in their nation's space program before vs. after the fall of the Soviet Union.  This is only an issue for cosmonauts who went into space around the late 1980s and early 1990s.  Further, it was difficult to determine how to categorize a cosmonaut who participated in a mission before the fall of the Soviet Union and then participated in another mission after the fall of the Soviet Union. The first country listed on their profile was utilized.",style={'color':'white'}),
+                       html.P("2.) Initially, the code was run to scrape the SuperCluster Database each time the dashboard was opened.  This process severely slowed down the processing time of the dashboard, thus the data was downloaded and stored in a Github repository and cut off after December 31, 2021.",style={'color':'white'})
                    ])
 
 
@@ -294,29 +298,7 @@ app.layout = html.Div([
 dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_selected_style,
         children=[
             dbc.Row([
-                dbc.Col([
-                    dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
-                    #Button for Instructions
-                    html.Div([
-                        dbc.Modal(
-                            children=[
-                                dbc.ModalHeader("Instructions"),
-                                dbc.ModalBody(
-                                    children=[
-                                        html.P('Click on either of the dropdown boxes to update the graphs below.'),
-                                        html.P('Using the slider will update the left graph and reveal the countries that participated in a mission in the selected year.  Using the dropdown box will update the right graph and reveal the awards won by a selected country.')
-                                      
-                                        
-                                    ]
-                                ),
-                                dbc.ModalFooter(
-                                    dbc.Button("Close", id="close3")#,color='Secondary',className='me-1')
-                                ),
-                            ],id="modal3", size="xl",scrollable=True
-
-                        )
-                    ])
-                ],width=4),
+              
                 dbc.Col([
                     html.Label(dcc.Markdown('''**Select a year: **'''),style={'color':'white'}),                        
                     dcc.Slider(
@@ -337,17 +319,19 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                             2020: '2020'
                         }
                     )
-                ],width=4),
+                ],width=6),
                 dbc.Col([
+                    html.Label(dcc.Markdown('''**Select a country: **'''),style={'color':'white'}),                        
                     dcc.Dropdown(
                         id='dropdown4',
                         style={'color':'black'},
                         options=[{'label': i, 'value': i} for i in country_choices],
                         value=country_choices[-1]
                     )
-                ])
+                ],width=6)
             
             ]),
+            
 
             dbc.Row([
                 #Graph row - Timeline chart and bar chart of awards
@@ -358,45 +342,69 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                     dcc.Graph(id='tree_map')
                 ],width=6)
             ]),
+          
             dbc.Row([
-                dbc.Button("Click Here for Award Descriptions",id='open0',block=True,size='lg'),
-            
-                #Button for Award Description
-                html.Div([
-                    dbc.Modal(
-                        children=[
-                            dbc.ModalHeader("Award Descriptions"),
-                            dbc.ModalBody(
-                                children=[
-                                    # html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
-                                    # html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
-                                    html.P(dcc.Markdown('''**1.) Crossed Kármán Line**''')),
-                                    html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
-                                    html.P(dcc.Markdown('''**2.) ISS Visitor**''')),
-                                    html.P('Visited the International Space Station.'),
-                                    html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
-                                    html.P('Top 5% for total spacewalking time.'),
-                                    html.P(dcc.Markdown('''**4.) Space Resident**''')),
-                                    html.P('Spent over a month in space.'),
-                                    html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
-                                    html.P('Top 5% for number of space walks.'),
-                                    html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
-                                    html.P('Top 5% for number of missions.'),
-                                    html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
-                                    html.P('Top 5% for total time in space.'),
-                                    html.P(dcc.Markdown('''**8.) Moonwalker**''')),
-                                    html.P('Walked on the moon.'),
-                                    html.P(dcc.Markdown('''**9.) Memorial**''')),
-                                    html.P('Gave their life in the pursuit of space exploration.')
-                            
-                                ]
-                            ),
-                            dbc.ModalFooter(
-                                dbc.Button("Close", id="close0")#,color='Secondary',className='me-1')
-                            ),
-                        ],id="modal0", size="xl",scrollable=True
+                #Column for Button 1 - 1/2 page width
+                dbc.Col([
+                    dbc.Button("Click Here for Award Descriptions",id='open0',size='lg'),
+                    #Button for Award Description
+                    html.Div([
+                        dbc.Modal(
+                            children=[
+                                dbc.ModalHeader("Award Descriptions"),
+                                dbc.ModalBody(
+                                    children=[
+                                        # html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
+                                        # html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
+                                        html.P(dcc.Markdown('''**1.) Crossed Kármán Line**''')),
+                                        html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
+                                        html.P(dcc.Markdown('''**2.) ISS Visitor**''')),
+                                        html.P('Visited the International Space Station.'),
+                                        html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
+                                        html.P('Top 5% for total spacewalking time.'),
+                                        html.P(dcc.Markdown('''**4.) Space Resident**''')),
+                                        html.P('Spent over a month in space.'),
+                                        html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
+                                        html.P('Top 5% for number of space walks.'),
+                                        html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
+                                        html.P('Top 5% for number of missions.'),
+                                        html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
+                                        html.P('Top 5% for total time in space.'),
+                                        html.P(dcc.Markdown('''**8.) Moonwalker**''')),
+                                        html.P('Walked on the moon.'),
+                                        html.P(dcc.Markdown('''**9.) Memorial**''')),
+                                        html.P('Gave their life in the pursuit of space exploration.')
+                                
+                                    ]
+                                ),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close", id="close0")#,color='Secondary',className='me-1')
+                                ),
+                            ],id="modal0", size="xl",scrollable=True
 
-                    )
+                        )
+                    ])
+                ]),
+                #Button #2 - 1/2 page width
+                dbc.Col([
+                    dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
+                    #Button for Instructions
+                    html.Div([
+                        dbc.Modal(
+                            children=[
+                                dbc.ModalHeader("Instructions"),
+                                dbc.ModalBody(
+                                    children=[
+                                        html.P('Click on either of the dropdown boxes to update the graphs below.'),
+                                        html.P('Using the slider will update the left graph and reveal the countries that participated in a mission in the selected year.  Using the dropdown box will update the right graph and reveal the awards won by a selected country.')
+                                    ]
+                                ),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close", id="close3")#,color='Secondary',className='me-1')
+                                ),
+                            ],id="modal3", size="xl",scrollable=True
+                        )
+                    ])                
                 ])
             ])
         ]),
@@ -751,7 +759,7 @@ def myfun(x):
 
 
 
-#Configure callback for cards and graphs - country stats
+#Configure callback for bar graphs - country stats
 @app.callback(
     Output('num_astros_chart','figure'),
     Input('slider0','value')
@@ -773,7 +781,8 @@ def countries_and_stuff(slider0):
         #markers=True,
         orientation='h',
         template='plotly_dark',
-        labels={'ones':'# Astronauts','country':'Country'}
+        labels={'ones':'# Astronauts','country':'Country'},
+        title=f'# Astronauts by Country in {slider0}'
     )
 
     
@@ -796,7 +805,7 @@ def countries_and_stuff(dd4):
     unique_awards = filtered[['astronaut_name','country','awards']]    
     
     unique_awards['ISS_Visitor'] = np.where(unique_awards['awards'].str.contains('ISS Visitor'),1,0)
-    unique_awards['Crossed_Karman'] = np.where(unique_awards['awards'].str.contains('Crossed Kármán Line'),1,0)
+    unique_awards['Crossed_Karman'] = np.where(unique_awards['awards'].str.contains('Crossed K'),1,0)
     unique_awards['Elite_Spacewalker'] = np.where(unique_awards['awards'].str.contains('Elite Spacewalker'),1,0)
     unique_awards['Space_Resident'] = np.where(unique_awards['awards'].str.contains('Space Resident'),1,0)
     unique_awards['Frequent_Walker'] = np.where(unique_awards['awards'].str.contains('Frequent Walker'),1,0)
@@ -804,40 +813,37 @@ def countries_and_stuff(dd4):
     unique_awards['Elite_Spaceflyer'] = np.where(unique_awards['awards'].str.contains('Elite Spaceflyer'),1,0)
     unique_awards['Moonwalker'] = np.where(unique_awards['awards'].str.contains('Moonwalker'),1,0)
     unique_awards['Memorial'] = np.where(unique_awards['awards'].str.contains('Memorial'),1,0)
-    unique_awards['Crossed_80KM'] = np.where(unique_awards['awards'].str.contains('Crossed 80km Line'),1,0)
 
     del unique_awards['awards'], unique_awards['country']
 
 
-    num1 = len(unique_awards[unique_awards['Crossed_80KM']==1]['astronaut_name'].unique())
-    num2 = len(unique_awards[unique_awards['Crossed_Karman']==1]['astronaut_name'].unique())
-    num3 = len(unique_awards[unique_awards['ISS_Visitor']==1]['astronaut_name'].unique())
-    num4 = len(unique_awards[unique_awards['Elite_Spacewalker']==1]['astronaut_name'].unique())
-    num5 = len(unique_awards[unique_awards['Space_Resident']==1]['astronaut_name'].unique())
-    num6 = len(unique_awards[unique_awards['Frequent_Walker']==1]['astronaut_name'].unique())
-    num7 = len(unique_awards[unique_awards['Frequent_Flyer']==1]['astronaut_name'].unique())
-    num8 = len(unique_awards[unique_awards['Elite_Spaceflyer']==1]['astronaut_name'].unique())
-    num9 = len(unique_awards[unique_awards['Moonwalker']==1]['astronaut_name'].unique())
-    num10 = len(unique_awards[unique_awards['Memorial']==1]['astronaut_name'].unique())
+    num1 = len(unique_awards[unique_awards['Crossed_Karman']==1]['astronaut_name'].unique())
+    num2 = len(unique_awards[unique_awards['ISS_Visitor']==1]['astronaut_name'].unique())
+    num3 = len(unique_awards[unique_awards['Elite_Spacewalker']==1]['astronaut_name'].unique())
+    num4 = len(unique_awards[unique_awards['Space_Resident']==1]['astronaut_name'].unique())
+    num5 = len(unique_awards[unique_awards['Frequent_Walker']==1]['astronaut_name'].unique())
+    num6 = len(unique_awards[unique_awards['Frequent_Flyer']==1]['astronaut_name'].unique())
+    num7 = len(unique_awards[unique_awards['Elite_Spaceflyer']==1]['astronaut_name'].unique())
+    num8 = len(unique_awards[unique_awards['Moonwalker']==1]['astronaut_name'].unique())
+    num9 = len(unique_awards[unique_awards['Memorial']==1]['astronaut_name'].unique())
 
 
     bar_dict = {
-        num1: 'Crossed 80KM Line',
-        num2: 'Crossed Kármán Line',
-        num3: 'ISS Visitor',
-        num4: 'Elite Spacewalker',
-        num5: 'Space Resident',
-        num6: 'Frequent Walker',
-        num7: 'Frequent Flyer',
-        num8: 'Elite Spaceflyer',
-        num9: 'Moonwalker',
-        num10: 'Memorial'
+        'Crossed Kármán Line': num1,
+        'ISS Visitor': num2,
+        'Elite Spacewalker': num3,
+        'Space Resident': num4,
+        'Frequent Walker': num5,
+        'Frequent Flyer': num6,
+        'Elite Spaceflyer': num7,
+        'Moonwalker': num8,
+        'Memorial': num9
     }
     
 
 
     od = collections.OrderedDict(sorted(bar_dict.items(),reverse=True))
-    new_df = pd.DataFrame(od.items(), columns=['# Astronauts', 'Awards'])
+    new_df = pd.DataFrame(od.items(), columns=['Awards','# Astronauts'])
     
     new_df = new_df[new_df['# Astronauts']>0]
 
@@ -845,9 +851,25 @@ def countries_and_stuff(dd4):
         new_df, 
         path = ['Awards'],
         values = '# Astronauts',
-        template='plotly_dark'
+        template='plotly_dark',
+        title=f'Awards Earned by {dd4}',
+        color = 'Awards',
+        color_discrete_map={
+            'Crossed Kármán Line':'#626ffb', 
+            'Elite Spacewalker':'#b064fc', 
+            'Space Resident': '#ef563b',
+            'Frequent Walker': '#f45498',
+            'Frequent Flyer': '#ff94fc',
+            'Elite Spaceflyer': '#a8f064',
+            'Moonwalker': '#24cce6',
+            'Memorial': '#ffa45c',
+            'ISS Visitor': '#00cc96'
+        }   
     )
-    
+
+    tree_fig.update_traces(
+        hovertemplate='# Astronauts=%{value}'
+    )
 
 
     return tree_fig
