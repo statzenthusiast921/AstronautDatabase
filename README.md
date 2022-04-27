@@ -16,3 +16,5 @@ Scraping the data proved to be tricky as the countries of origin did not populat
 - How to assign countries to cosmonauts around the fall of the Soviet Union (USSR vs. Russia)
 
 The first problem was resolved by assigning a country based on where the mission originated (eg: Astronaut born in UK, but participated in NASA mission was listed under United States of America).  The second problem was resolved by assigning the first country listed under the astronaut profile on the SuperCluster website.
+
+Another challenge involved the speed at which the dashboard was loading.  Initially, the entire scraping process was performed from scratch to construct a dataset each time the dashboard was loaded.  Building the dashboard in this way slowed the processing speed down immensely. Thus, a static version of the dataset was downloaded after scraping and all records were cut off after December 31, 2021.
