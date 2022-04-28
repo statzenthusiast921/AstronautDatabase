@@ -55,6 +55,13 @@ astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Karman
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
 
+astro_db['awards'] = astro_db['awards'].str.replace('KÃ¡rmÃ¡n','Karman')
+astro_db['shortDescription'] = astro_db['shortDescription'].str.replace('â','')
+astro_db['shortDescription'] = astro_db['shortDescription'].str.replace('â ',' ')
+astro_db['shortDescription'] = astro_db['shortDescription'].str.replace("âs","'s")
+
+
+
 #Cut data off at December 31, 2021
 astro_db = astro_db[astro_db['launch_year']<2022]
 
