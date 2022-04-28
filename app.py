@@ -259,7 +259,7 @@ app.layout = html.Div([
         dcc.Tab(label='Welcome',value='tab-1',style=tab_style, selected_style=tab_selected_style,
                children=[
                    html.Div([
-                       html.H1(dcc.Markdown('''**My Astronaut Database Dashboard**''')),
+                       html.H1(dcc.Markdown('''**Welcome to my Astronaut Database Dashboard!**''')),
                        html.Br()
                    ]),
                    
@@ -267,10 +267,10 @@ app.layout = html.Div([
                         html.P(dcc.Markdown('''**What is the purpose of this dashboard?**'''),style={'color':'white'}),
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
-                       html.P("This dashboard was created as a tool to do several things: ",style={'color':'white'}),
-                       html.P("1.) Visualize the networks of astronauts to understand how they are all connected.",style={'color':'white'}),
-                       html.P("2.) Get practice with web-scraping tools.",style={'color':'white'}),
-                       html.P("3.) A third thing",style={'color':'white'}),
+                       html.P("This dashboard was created as a tool to: ",style={'color':'white'}),
+                       html.P("1.) Understand the accomplishments and level of activity of countries over time in building space programs",style={'color':'white'}),
+                       html.P("2.) Understand the accomplishemnts of individual astronauts",style={'color':'white'}),
+                       html.P("3.) Visualize networks of astronauts connected by missions for which they participated",style={'color':'white'}),
 
 
                        html.Br()
@@ -288,7 +288,7 @@ app.layout = html.Div([
                    ],style={'text-decoration': 'underline'}),
                    html.Div([
                        html.P("1.) When assigning a country as a feature of an astronaut, there is no clear distinction for Russian cosmonauts who participated in their nation's space program before vs. after the fall of the Soviet Union.  This is only an issue for cosmonauts who went into space around the late 1980s and early 1990s.  Further, it was difficult to determine how to categorize a cosmonaut who participated in a mission before the fall of the Soviet Union and then participated in another mission after the fall of the Soviet Union. The first country listed on their profile was utilized.",style={'color':'white'}),
-                       html.P("2.) Initially, the code was run to scrape the SuperCluster Database each time the dashboard was opened.  This process severely slowed down the processing time of the dashboard, thus the data was downloaded and stored in a Github repository and cut off after December 31, 2021.",style={'color':'white'})
+                       html.P("2.) Initially, the entire scraping process was performed from scratch to construct a dataset each time the dashboard was loaded. Building the dashboard in this way slowed the processing speed down immensely. Thus, a static version of the dataset was downloaded after scraping and all records were cut off after December 31, 2021.",style={'color':'white'})
                    ])
 
 
@@ -298,9 +298,77 @@ app.layout = html.Div([
 dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_selected_style,
         children=[
             dbc.Row([
+                #Button #1 - 1/2 page width
+                dbc.Col([
+                    html.Div([
+                        dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
+                    ],className="d-grid gap-2"),
+                    #Button for Instructions
+                    html.Div([
+                        dbc.Modal(
+                            children=[
+                                dbc.ModalHeader("Instructions"),
+                                dbc.ModalBody(
+                                    children=[
+                                        html.P('Click on either of the dropdown boxes to update the graphs below.'),
+                                        html.P('Using the slider will update the left graph and reveal the countries that participated in a mission in the selected year.  Using the dropdown box will update the right graph and reveal the awards won by a selected country.')
+                                    ]
+                                ),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close", id="close3")#,color='Secondary',className='me-1')
+                                ),
+                            ],id="modal3", size="xl",scrollable=True
+                        )
+                    ])                
+                ]),
+                #Column for Button 2 - 1/2 page width
+                dbc.Col([
+                    html.Div([
+                        dbc.Button("Click Here for Award Descriptions",id='open0',size='lg'),
+                    ],className="d-grid gap-2"),
+                    #Button for Award Description
+                    html.Div([
+                        dbc.Modal(
+                            children=[
+                                dbc.ModalHeader("Award Descriptions"),
+                                dbc.ModalBody(
+                                    children=[
+                                        # html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
+                                        # html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
+                                        html.P(dcc.Markdown('''**1.) Crossed Kármán Line**''')),
+                                        html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
+                                        html.P(dcc.Markdown('''**2.) ISS Visitor**''')),
+                                        html.P('Visited the International Space Station.'),
+                                        html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
+                                        html.P('Top 5% for total spacewalking time.'),
+                                        html.P(dcc.Markdown('''**4.) Space Resident**''')),
+                                        html.P('Spent over a month in space.'),
+                                        html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
+                                        html.P('Top 5% for number of space walks.'),
+                                        html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
+                                        html.P('Top 5% for number of missions.'),
+                                        html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
+                                        html.P('Top 5% for total time in space.'),
+                                        html.P(dcc.Markdown('''**8.) Moonwalker**''')),
+                                        html.P('Walked on the moon.'),
+                                        html.P(dcc.Markdown('''**9.) Memorial**''')),
+                                        html.P('Gave their life in the pursuit of space exploration.')
+                                
+                                    ]
+                                ),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close", id="close0")#,color='Secondary',className='me-1')
+                                ),
+                            ],id="modal0", size="xl",scrollable=True
+
+                        )
+                    ])
+                ]),
+            ]),
+            dbc.Row([
               
                 dbc.Col([
-                    html.Label(dcc.Markdown('''**Select a year: **'''),style={'color':'white'}),                        
+                    html.Label(dcc.Markdown('''**Select a launch year: **'''),style={'color':'white'}),                        
                     dcc.Slider(
                         min=year_choices.min(),
                         max=year_choices.max(),
@@ -341,78 +409,15 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                 dbc.Col([
                     dcc.Graph(id='tree_map')
                 ],width=6)
-            ]),
-          
-            dbc.Row([
-                #Column for Button 1 - 1/2 page width
-                dbc.Col([
-                    dbc.Button("Click Here for Award Descriptions",id='open0',size='lg'),
-                    #Button for Award Description
-                    html.Div([
-                        dbc.Modal(
-                            children=[
-                                dbc.ModalHeader("Award Descriptions"),
-                                dbc.ModalBody(
-                                    children=[
-                                        # html.P(dcc.Markdown('''**1.) Crossed 80KM Line**''')),
-                                        # html.P('Crossed the NASA Space Line (80KM), which is the minimum altitude at which NASA considers a person to have flown in outer space.'),
-                                        html.P(dcc.Markdown('''**1.) Crossed Kármán Line**''')),
-                                        html.P('Crossed the Kármán Line (100 km), the internationally accepted boundary of space.'),
-                                        html.P(dcc.Markdown('''**2.) ISS Visitor**''')),
-                                        html.P('Visited the International Space Station.'),
-                                        html.P(dcc.Markdown('''**3.) Elite Spacewalker**''')),
-                                        html.P('Top 5% for total spacewalking time.'),
-                                        html.P(dcc.Markdown('''**4.) Space Resident**''')),
-                                        html.P('Spent over a month in space.'),
-                                        html.P(dcc.Markdown('''**5.): Frequent Walker**''')),
-                                        html.P('Top 5% for number of space walks.'),
-                                        html.P(dcc.Markdown('''**6.) Frequent Flyer**''')),
-                                        html.P('Top 5% for number of missions.'),
-                                        html.P(dcc.Markdown('''**7.) Elite Spaceflyer**''')),
-                                        html.P('Top 5% for total time in space.'),
-                                        html.P(dcc.Markdown('''**8.) Moonwalker**''')),
-                                        html.P('Walked on the moon.'),
-                                        html.P(dcc.Markdown('''**9.) Memorial**''')),
-                                        html.P('Gave their life in the pursuit of space exploration.')
-                                
-                                    ]
-                                ),
-                                dbc.ModalFooter(
-                                    dbc.Button("Close", id="close0")#,color='Secondary',className='me-1')
-                                ),
-                            ],id="modal0", size="xl",scrollable=True
-
-                        )
-                    ])
-                ]),
-                #Button #2 - 1/2 page width
-                dbc.Col([
-                    dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
-                    #Button for Instructions
-                    html.Div([
-                        dbc.Modal(
-                            children=[
-                                dbc.ModalHeader("Instructions"),
-                                dbc.ModalBody(
-                                    children=[
-                                        html.P('Click on either of the dropdown boxes to update the graphs below.'),
-                                        html.P('Using the slider will update the left graph and reveal the countries that participated in a mission in the selected year.  Using the dropdown box will update the right graph and reveal the awards won by a selected country.')
-                                    ]
-                                ),
-                                dbc.ModalFooter(
-                                    dbc.Button("Close", id="close3")#,color='Secondary',className='me-1')
-                                ),
-                            ],id="modal3", size="xl",scrollable=True
-                        )
-                    ])                
-                ])
             ])
         ]),
         dcc.Tab(label='Astronauts',value='tab-3',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
                        dbc.Col([
-                           dbc.Button("Click Here for Detailed Instructions",id='open4',block=True,size='lg'),
+                           html.Div([
+                                dbc.Button("Click Here for Detailed Instructions",id='open4',block=True,size='lg'),
+                           ],className="d-grid gap-2"),
                             #Button for Instructions
                                 html.Div([
                                     dbc.Modal(
@@ -433,23 +438,50 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                         ],id="modal4", size="xl",scrollable=True
                                     )
                                 ])
-                       ],width=4),
+                       ],width=6),
                        dbc.Col([
+                            html.Div([
+                                dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
+                            ],className="d-grid gap-2"),
+                            #Button for Award Description
+                        html.Div([
+                            dbc.Modal(
+                                children=[
+                                    dbc.ModalHeader("Mission Descriptions"),
+                                    dbc.ModalBody(
+                                        children=[
+                                            html.P(
+                                                id='mission_table',
+                                                style={'overflow':'auto','maxHeight':'400px'}
+                                            ),
+                                        ]
+                                    ),
+                                    dbc.ModalFooter(
+                                        dbc.Button("Close", id="close1")#,color='Secondary',className='me-1')
+                                    ),
+                                ],id="modal1", size="xl",scrollable=True
+
+                            )
+                        ])
+                       ],width=6),
+                       dbc.Col([
+                            html.Label(dcc.Markdown('''**Select a country: **'''),style={'color':'white'}),                        
                             dcc.Dropdown(
                                 id='dropdown1',
                                 style={'color':'black'},
                                 options=[{'label': i, 'value': i} for i in country_choices],
                                 value=country_choices[-1]
                             )
-                       ],width=4),
+                       ],width=6),
                         dbc.Col([
+                            html.Label(dcc.Markdown('''**Select an astronaut: **'''),style={'color':'white'}),                       
                             dcc.Dropdown(
                                 id='dropdown2',
                                 style={'color':'black'},
                                 options=[{'label': i, 'value': i} for i in astronaut_choices],
                                 value=astronaut_choices[0]
                             )
-                       ],width=4)
+                       ],width=6)
                    ]),
                     dbc.Row([
         
@@ -484,37 +516,17 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                 style={'overflow':'auto','maxHeight':'400px','color':'white'}
                             )
                         ],width=3)
-                    ]),
-                    dbc.Row([
-                        dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
-                    #Button for Award Description
-                        html.Div([
-                            dbc.Modal(
-                                children=[
-                                    dbc.ModalHeader("Mission Descriptions"),
-                                    dbc.ModalBody(
-                                        children=[
-                                            html.P(
-                                                id='mission_table',
-                                                style={'overflow':'auto','maxHeight':'400px'}
-                                            ),
-                                        ]
-                                    ),
-                                    dbc.ModalFooter(
-                                        dbc.Button("Close", id="close1")#,color='Secondary',className='me-1')
-                                    ),
-                                ],id="modal1", size="xl",scrollable=True
-
-                            )
-                        ])
                     ])
+                     
                ]),
         dcc.Tab(label='Missions',value='tab-4',style=tab_style, selected_style=tab_selected_style,
                children=[
                    dbc.Row([
                        dbc.Col([
                            #Item 1 of 3 --> The Instructions Button
-                            dbc.Button("Click Here for Detailed Instructions",id='open2',block=True,size='lg'),
+                           html.Div([
+                                dbc.Button("Click Here for Detailed Instructions",id='open2',block=True,size='lg'),
+                           ],className="d-grid gap-2"),
                             html.Div([
                                 dbc.Modal(
                                     children=[
@@ -535,7 +547,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                        ],width=4),
                        dbc.Col([
                             #Item 2 of 3 --> The Range Slider for Launch Years
-                            html.Label(dcc.Markdown('''**Select a range of years: **'''),style={'color':'white'}),                        
+                            html.Label(dcc.Markdown('''**Select a range of launch years: **'''),style={'color':'white'}),                        
                             dcc.RangeSlider(
                                     id='range_slider',
                                     min=year_choices.min(),
@@ -689,7 +701,6 @@ def network(range_slider1):#,dd3):
         'label': node_name,
         'shape':'dot',
         'color':'grey',
-
         'size':15
         })       
         for _, node_name in enumerate(node_list)]
@@ -782,7 +793,8 @@ def countries_and_stuff(slider0):
         orientation='h',
         template='plotly_dark',
         labels={'ones':'# Astronauts','country':'Country'},
-        title=f'# Astronauts by Country in {slider0}'
+        title=f'# Astronauts by Country in {slider0}',
+        text_auto=True
     )
 
     
