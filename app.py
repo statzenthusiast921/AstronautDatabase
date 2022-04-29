@@ -49,21 +49,21 @@ astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/Ast
 # exec(data1)
 
 
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Karman')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Kármán')
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ê',' ')
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Karman')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Kármán')
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
 
-astro_db['awards'] = astro_db['awards'].str.replace('KÃ¡rmÃ¡n','Karman')
+astro_db['awards'] = astro_db['awards'].str.replace('KÃ¡rmÃ¡n','Kármán')
 astro_db['shortDescription'] = astro_db['shortDescription'].str.replace('â','')
 astro_db['shortDescription'] = astro_db['shortDescription'].str.replace('â ',' ')
 astro_db['shortDescription'] = astro_db['shortDescription'].str.replace("âs","'s")
 
 
 
-#Cut data off at December 31, 2021
-astro_db = astro_db[astro_db['launch_year']<2022]
+#Cut data off after December 31, 2021 and before January 1
+astro_db = astro_db[(astro_db['launch_year']<2022) & (astro_db['launch_year']>1960)]
 
 # #Make astronaut and mission dataframes
 # df1 = pd.json_normalize(astronauts_db['astronauts'])
@@ -384,8 +384,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                         value=year_choices.max(), 
                         id='slider0',
                         marks={
-                            1950: '1950',
-                            1960: '1960',
+                            1961: '1961',
                             1970: '1970',
                             1980: '1980',
                             1990: '1990',
@@ -411,7 +410,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
             dbc.Row([
                 #Graph row - Timeline chart and bar chart of awards
                 dbc.Col([
-                    dcc.Graph(id='num_astros_chart')
+                    dcc.Graph(id='num_astros_country')
                 ],width=6),
                 dbc.Col([
                     dcc.Graph(id='tree_map')
@@ -565,8 +564,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                     pushable=2,
                                     tooltip={"placement": "bottom", "always_visible": True},
                                     marks={
-                                        1950: '1950',
-                                        1960: '1960',
+                                        1961: '1961',
                                         1970: '1970',
                                         1980: '1980',
                                         1990: '1990',
@@ -583,9 +581,8 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                             dcc.Dropdown(
                                 id='dropdown3',
                                 style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in mission_choices] + [{'label': 'Select all', 'value': 'all_values'}],
-                                value='all_values',  
-                                multi=True,
+                                options=[{'label': i, 'value': i} for i in mission_choices],
+                                value=mission_choices[0]
                             )
                        ],width=4)
                    ]),
@@ -651,135 +648,10 @@ def render_content(tab):
         ])
 
 
+
+#Tab #2: Country --> # Astronauts by Country Bar Graph
 @app.callback(
-    Output('dropdown3', 'options'), #--> filter letters
-    Input('range_slider', 'value') #--> choose number range
-)
-def set_letter_options(selected_ly_range):
-    return [
-        {
-        'label': ly_miss_dict_sorted[i], 
-        'value': ly_miss_dict_sorted[i]
-        } for i in range(
-            int(selected_ly_range[0]), 
-            int(selected_ly_range[1])+1
-            )
-    ]
-
-#Configure callback for network graph
-@app.callback(
-    Output('ng','data'),
-    Input('range_slider','value'),
-    #Input('dropdown3','value')
-
-)
-
-def network(range_slider1):#,dd3):
-    
-    filtered = astro_db[['mission_name','astronaut_name','launch_year']]
-    filtered['Weights'] = 1
-    filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
-    # if dd3 == ['Select all']:
-    #     filtered = filtered
-    # else:
-    #     filtered = filtered[filtered['mission_name'].isin(dd3)]
-    #filtered = filtered[filtered['country']==dd3]
-
-    new_df = filtered
-    new_df.rename(columns={new_df.columns[0]: "Source"}, inplace = True)
-    new_df.rename(columns={new_df.columns[1]: "Target"}, inplace = True)
-
-    node_list = list(
-        set(new_df['Source'].unique().tolist()+new_df['Target'].unique().tolist())
-    )
-
-    nodes = [
-        ({
-        'id': node_name, 
-        'label': node_name,
-        'shape':'dot',
-        'color':'#626ffb',
-        'size':15
-        })
-        if node_name in new_df['Source'].unique()
-        else
-        ({
-        'id': node_name, 
-        'label': node_name,
-        'shape':'dot',
-        'color':'grey',
-        'size':15
-        })       
-        for _, node_name in enumerate(node_list)]
-
-    #Create edges from df
-    edges=[]
-    for row in new_df.to_dict(orient='records'):
-        source, target = row['Source'], row['Target']
-        edges.append({
-            'id':str(source) + "__" + str(target),
-            'from': source,
-            'to': target,
-            'width': 2
-        })
-
-    data = {'nodes':nodes, 'edges': edges}
-
-    return data
-
-
-
-#Configure callback for clicking on nodes in network graph
-@app.callback(
-    Output('nodes', 'children'),
-    Output('edges','children'),
-    Input('ng', 'selection')
-)
-def myfun(x): 
-    s = "Mission Description: "
-    c = ""
-    line_break = html.Br()
-
-    if len(x['nodes']) > 0 : 
-        s += str(x['nodes'][0])
-        mission_name = s.split(": ",1)[1]
-        header = s.split(": ",1)[0] + ": " 
-
-        b = astro_db[astro_db['mission_name']==mission_name]
-        c = [
-            "Mission Name: ", mission_name, 
-            line_break, 
-            header, b['shortDescription'].values[0],
-            line_break, 
-            "Launch Date: ", b['launch_date'].values[0]
-        ]
-        d = [html.Div(i) for i in c]
-    else:
-        d=""
-
-
-    s2 = ''
-    header = ['Astronauts: ']
-    if len(x['edges']) > 0 : 
-        s2 = [html.Div(i) for i in x['edges']]
-        test = list(map(str, s2))
-        subs = [item.split('__') for item in test]
-        b = [el[1] for el in subs]
-        sub2 = [item.split("')") for item in b]
-        b2 = [el2[0] for el2 in sub2]
-        #print(len(b2))
-        b3 = header+b2
-        b4 = [line_break] + [html.Div(i) for i in b3]
-    else:
-        b4=""
-    return d, b4
-
-
-
-
-#Configure callback for bar graphs - country stats
-@app.callback(
-    Output('num_astros_chart','figure'),
+    Output('num_astros_country','figure'),
     Input('slider0','value')
 )
 def countries_and_stuff(slider0):
@@ -809,7 +681,7 @@ def countries_and_stuff(slider0):
 
 
 
-#Configure callback for cards and graphs - country stats
+#Tab #2: Country --> # Astronauts by Award Treemap Graph
 @app.callback(
     Output('tree_map','figure'),
     Input('dropdown4','value')
@@ -893,7 +765,7 @@ def countries_and_stuff(dd4):
 
     return tree_fig
 
-#Configure callback for defining dependent dropdown boxes
+#Tab #3: Astronauts --> Filter Astronaut Choices Based on Country Selection
 @app.callback(
     Output('dropdown2', 'options'), #--> filter astronauts
     Output('dropdown2', 'value'),
@@ -905,9 +777,8 @@ def set_astro_options(selected_astronaut):
 
 
 
-#Configure callback for cards - individual astros
+#Tab #3: Astronauts --> All Astronaut Info Controlled by Dropdown Selection
 @app.callback(
-    #Output('card4','children'),
     Output('card5','children'),
     Output('card6','children'),
     Output('card7','children'),
@@ -1020,6 +891,172 @@ def astros_and_stuff(dd2):
 
 
     return card5, card6, card7, mission_table, mission_list, awards_list, img, bio
+
+
+
+#Tab #4: Missions --> Use Range Slider (Launch Years) To Filter Missions
+
+@app.callback(
+    Output('dropdown3', 'options'), #--> filter missions
+    Output('dropdown3','value'),
+    Input('range_slider', 'value') #--> choose launch years
+)
+def set_letter_options(selected_ly_range):
+    values =  [
+        ly_miss_dict_sorted[i] for i in 
+        range(
+            int(selected_ly_range[0]), 
+            int(selected_ly_range[1])+1
+        )
+    ]
+
+
+     
+    new_values = []
+    for val in values:
+        if isinstance(val, list):
+            for item in val:
+                new_values.append(item)
+        else:
+            new_values.append(val)
+
+    sorted_list = sorted(new_values)
+   
+    return [{'label':i,'value':i} for i in sorted_list], sorted_list[0]
+
+#Tab #4: Missions --> Network Graph
+@app.callback(
+    Output('ng','data'),
+    Input('range_slider','value'),
+    Input('dropdown3','value')
+
+)
+
+def network(range_slider1,dd3):
+    
+    filtered = astro_db[['mission_name','astronaut_name','launch_year']]
+    filtered['Weights'] = 1
+    filtered = filtered[(filtered['launch_year']>=range_slider1[0]) & (filtered['launch_year']<=range_slider1[1])]
+
+    new_df = filtered
+    new_df.rename(columns={new_df.columns[0]: "Source"}, inplace = True)
+    new_df.rename(columns={new_df.columns[1]: "Target"}, inplace = True)
+
+    node_list = list(
+        set(new_df['Source'].unique().tolist()+new_df['Target'].unique().tolist())
+    )
+
+    nodes = [
+        ({
+        'id': node_name, 
+        'label': node_name,
+        'shape':'dot',
+        'color':'#626ffb',
+        'size':15
+        })
+        if node_name in new_df['Source'].unique()
+        else
+        ({
+        'id': node_name, 
+        'label': node_name,
+        'shape':'dot',
+        'color':'grey',
+        'size':15
+        })
+
+        for _, node_name in enumerate(node_list)]
+        
+
+    #Create edges from df
+    edges=[]
+    for row in new_df.to_dict(orient='records'):
+        source, target = row['Source'], row['Target']
+        edges.append({
+            'id':str(source) + "__" + str(target),
+            'from': source,
+            'to': target,
+            'width': 2
+        })
+
+    data = {'nodes':nodes, 'edges': edges}
+
+    return data
+
+
+
+#Tab #4: Missions --> Clicking on Nodes in Network Graph
+@app.callback(
+    Output('nodes', 'children'),
+    Output('edges','children'),
+    Input('ng', 'selection'),
+    Input('dropdown3','value')
+)
+def myfun(x,dd3): 
+    s = "Mission Description: "
+    c = ""
+    line_break = html.Br()
+    mission_data = astro_db[astro_db['mission_name']==dd3]
+
+    if len(x['nodes']) > 0 : 
+        s += str(x['nodes'][0])
+        mission_name = s.split(": ",1)[1]
+        header = s.split(": ",1)[0] + ": " 
+
+        b = astro_db[astro_db['mission_name']==mission_name]
+        c = [
+            "Mission Name: ", mission_name, 
+            line_break, 
+            header, b['shortDescription'].values[0],
+            line_break, 
+            "Launch Date: ", b['launch_date'].values[0]
+        ]
+        d = [html.Div(i) for i in c]
+    else:
+        header1 = "Mission Name: "
+        mission_name = mission_data['mission_name'].unique()[0]
+
+        header2 = "Mission Description: "
+        short_desc = mission_data['shortDescription'].unique()[0]
+
+        header3 = "Launch Date: "
+        launch_date = mission_data['launch_date'].unique()[0]
+
+        block1 = [
+            header1, mission_name,
+            line_break,
+            header2, short_desc,
+            line_break,
+            header3, launch_date,
+            line_break
+            ]
+        
+        d = [html.Div(i) for i in block1]
+
+
+
+    s2 = ''
+    header = ['Astronauts: ']
+    if len(x['edges']) > 0 : 
+        s2 = [html.Div(i) for i in x['edges']]
+        test = list(map(str, s2))
+        subs = [item.split('__') for item in test]
+        b = [el[1] for el in subs]
+        sub2 = [item.split("')") for item in b]
+        b2 = [el2[0] for el2 in sub2]
+        #print(len(b2))
+        b3 = header+b2
+        b4 = [line_break] + [html.Div(i) for i in b3]
+    else:
+        header4 = 'Astronauts:'
+        astronauts = mission_data['astronaut_name'].unique().tolist()
+
+      
+        b4 = [header4] + [html.Div(i) for i in astronauts]
+
+        #b4=""
+    return d, b4
+
+
 
 @app.callback(
     Output("modal0", "is_open"),
