@@ -951,6 +951,15 @@ def network(range_slider1,dd3):
         'id': node_name, 
         'label': node_name,
         'shape':'dot',
+        'color':'yellow',
+        'size':15
+        })
+        if node_name == dd3
+        else
+        ({
+        'id': node_name, 
+        'label': node_name,
+        'shape':'dot',
         'color':'#626ffb',
         'size':15
         })
@@ -964,7 +973,8 @@ def network(range_slider1,dd3):
         'size':15
         })
 
-        for _, node_name in enumerate(node_list)]
+        for _, node_name in enumerate(node_list)
+        ]
         
 
     #Create edges from df
@@ -989,19 +999,19 @@ def network(range_slider1,dd3):
     Output('nodes', 'children'),
     Output('edges','children'),
     Input('ng', 'selection'),
-    Input('dropdown3','value')
 )
-def myfun(x,dd3): 
+def myfun(x): 
     s = "Mission Description: "
     c = ""
     line_break = html.Br()
-    mission_data = astro_db[astro_db['mission_name']==dd3]
-
+    
     if len(x['nodes']) > 0 : 
+        
+
         s += str(x['nodes'][0])
         mission_name = s.split(": ",1)[1]
         header = s.split(": ",1)[0] + ": " 
-
+        
         b = astro_db[astro_db['mission_name']==mission_name]
         c = [
             "Mission Name: ", mission_name, 
@@ -1012,26 +1022,7 @@ def myfun(x,dd3):
         ]
         d = [html.Div(i) for i in c]
     else:
-        header1 = "Mission Name: "
-        mission_name = mission_data['mission_name'].unique()[0]
-
-        header2 = "Mission Description: "
-        short_desc = mission_data['shortDescription'].unique()[0]
-
-        header3 = "Launch Date: "
-        launch_date = mission_data['launch_date'].unique()[0]
-
-        block1 = [
-            header1, mission_name,
-            line_break,
-            header2, short_desc,
-            line_break,
-            header3, launch_date,
-            line_break
-            ]
-        
-        d = [html.Div(i) for i in block1]
-
+        d=""
 
 
     s2 = ''
@@ -1047,15 +1038,50 @@ def myfun(x,dd3):
         b3 = header+b2
         b4 = [line_break] + [html.Div(i) for i in b3]
     else:
-        header4 = 'Astronauts:'
-        astronauts = mission_data['astronaut_name'].unique().tolist()
-
-      
-        b4 = [header4] + [html.Div(i) for i in astronauts]
-
-        #b4=""
+        
+        b4=""
     return d, b4
 
+
+# #Tab #4: Missions --> Clicking on Nodes in Network Graph
+# @app.callback(
+#     Output('nodes', 'children'),
+#     Output('edges','children'),
+#     Input('dropdown3','value')
+# )
+# def myfun(dd3): 
+
+#     line_break = html.Br()
+#     mission_data = astro_db[astro_db['mission_name']==dd3]
+    
+ 
+#     header1 = "Mission Name: "
+#     mission_name = mission_data['mission_name'].unique()[0]
+
+#     header2 = "Mission Description: "
+#     short_desc = mission_data['shortDescription'].unique()[0]
+
+#     header3 = "Launch Date: "
+#     launch_date = mission_data['launch_date'].unique()[0]
+
+#     block1 = [
+#         header1, mission_name,
+#         line_break,
+#         header2, short_desc,
+#         line_break,
+#         header3, launch_date,
+#         line_break
+#         ]
+        
+#     d = [html.Div(i) for i in block1]
+
+#     header4 = 'Astronauts:'
+#     astronauts = mission_data['astronaut_name'].unique().tolist()
+
+      
+#     b4 = [header4] + [html.Div(i) for i in astronauts]
+
+#     return d, b4
 
 
 @app.callback(
