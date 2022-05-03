@@ -1,5 +1,4 @@
 mission_name,launch_year,astronaut_name
-Altas V 541 (AV-028),2011,[nan]
 Apollo 10,1969,"['Thomas P. Stafford', 'John W. Young', 'Eugene A. Cernan']"
 Apollo 11,1969,"['Neil A. Armstrong', 'Michael Collins', 'Buzz Aldrin']"
 Apollo 12,1969,"['Charles Conrad Jr.', 'Richard F. Gordon Jr.', 'Alan L. Bean']"
@@ -12,38 +11,12 @@ Apollo 7,1968,"['Walter M. Schirra Jr.', 'Walter Cunningham', 'Donn F. Eisele']"
 Apollo 8,1968,"['Frank Borman', 'James A. Lovell Jr.', 'William A. Anders']"
 Apollo 9,1969,"['James A. McDivitt', 'David R. Scott', 'Russell L. Schweickart']"
 Apollo-Soyuz (Apollo-Soyuz Test Project),1975,"['Thomas P. Stafford', 'Vance D. Brand', 'Donald K. Slayton']"
-Apollo-Soyuz Test Project,1975,[nan]
-Beresheet,2019,[nan]
-Bion 1 (Kosmos 605),1973,[nan]
-Bion 10 (Kosmos 2229),1992,[nan]
-Bion 11,1996,[nan]
-Bion 2 (Kosmos 690),1974,[nan]
-Bion 3 (Kosmos 782),1975,[nan]
-Bion 4 (Kosmos 936),1977,[nan]
-Bion 5 (Kosmos 1129),1979,[nan]
-Bion 6 (Kosmos 1514),1983,[nan]
-Bion 7 (Kosmos 1667),1985,[nan]
-Bion 8 (Kosmos 1887),1987,[nan]
-Bion 9 (Kosmos 2044),1989,[nan]
-Bion-M No. 1,2013,[nan]
-Biosatellite 3,1969,[nan]
-Chandrayaan-2,2019,[nan]
-Chang'e 3,2013,[nan]
-Chang'e 4,2018,[nan]
-Cygnus CRS Orb-1,2014,[nan]
-Delta II 7925 D240,1996,[nan]
-Delta II 7925-9.5,2003,[nan]
-Delta II 7925H-9.5,2003,[nan]
-Falcon Heavy FH-001,2018,[nan]
 Flight 15P (SpaceShipOne),2004,['Michael W. Melvill']
 Flight 16P (SpaceShipOne),2004,['Michael W. Melvill']
 Flight 17P (SpaceShipOne),2004,['William B. Binnie']
 Flight 77 (X-15),1963,['Joseph A. Walker']
 Flight 90 (X-15),1963,['Joseph A. Walker']
 Flight 91 (X-15),1963,['Joseph A. Walker']
-Fobos-Grunt,2011,[nan]
-Foton-M No. 4,2014,[nan]
-Foton-M3,2007,[nan]
 Gemini 10,1966,"['John W. Young', 'Michael Collins']"
 Gemini 11,1966,"['Charles Conrad Jr.', 'Richard F. Gordon Jr.']"
 Gemini 12,1966,"['James A. Lovell Jr.', 'Buzz Aldrin']"
@@ -54,26 +27,7 @@ Gemini 6A,1965,"['Walter M. Schirra Jr.', 'Thomas P. Stafford']"
 Gemini 7,1965,"['Frank Borman', 'James A. Lovell Jr.']"
 Gemini 8,1966,"['Neil A. Armstrong', 'David R. Scott']"
 Gemini 9A,1966,"['Thomas P. Stafford', 'Eugene A. Cernan']"
-Genesis I,2006,[nan]
-Genesis II,2007,[nan]
-Hayabusa,2003,[nan]
-Hayabusa2 MIVERVA-II,2014,[nan]
-ISS Hand Launch,2006,[nan]
 Inspiration4,2021,"['Jared Isaacman', 'Dr. Sian Proctor', 'Hayley Arceneaux', 'Christopher Sembroski']"
-Kavoshgar-3,2010,[nan]
-Kavoshgar-8,2013,[nan]
-Korabl-Sputnik 4 (Sputnik 9),1961,[nan]
-Korabl-Sputnik 5 (Sputnik 10),1961,[nan]
-Kosmos 110,1966,[nan]
-Kosmos-368,1970,[nan]
-Kounotori 3 (HTV-3),2012,[nan]
-Kounotori 4 (HTV-4),2013,[nan]
-Luna 17,1970,[nan]
-Luna 21,1973,[nan]
-Lunar Atmosphere and Dust Environment Explorer Mission,2013,[nan]
-MA-5 Mercury SC9  ,1961,[nan]
-Mars 2020,2020,[nan]
-Mercury 5  Redstone,1961,[nan]
 Mercury-Atlas 6 (Friendship 7),1962,['John H. Glenn Jr.']
 Mercury-Atlas 7 (Aurora 7),1962,['M. Scott Carpenter']
 Mercury-Atlas 8 (Sigma 7),1962,['Walter M. Schirra Jr.']
@@ -83,11 +37,6 @@ Mercury-Redstone 4 (Liberty Bell 7),1961,['Virgil I. Grissom']
 NS-16,2021,"['Wally Funk', 'Jeff Bezos', 'Mark Bezos', 'Oliver Daemen']"
 NS-18,2021,"['William Shatner', 'Dr. Chris Boshuizen', 'Audrey Powers', 'Glen de Vries']"
 NS-19,2021,"['Laura Shepard Churchley', 'Michael Strahan', 'Dylan Taylor', 'Evan Dick', 'Lane Bess', 'Cameron Bess']"
-OSIRIS-REx,2016,[nan]
-Pishgam,2013,[nan]
-Progress M-01M,2008,[nan]
-Progress M-24M,2014,[nan]
-Rigel 04,1969,[nan]
 STS-1 (Columbia),1981,"['John W. Young', 'Robert L. Crippen']"
 STS-100 (Endeavour),2001,"['Kent V. Rominger', 'Jeffrey S. Ashby', 'Chris Hadfield', 'John L. Phillips', 'Scott E. Parazynski', 'Umberto Guidoni', 'Yury V. Lonchakov']"
 STS-101 (Atlantis),2000,"['James D. Halsell Jr.', 'Scott J. Horowitz', 'James S. Voss', 'Yury Usachov', 'Jeffrey N. Williams', 'Mary E. Weber', 'Susan J. Helms']"
@@ -170,10 +119,8 @@ STS-51-J (Atlantis),1985,"['Karol J. Bobko', 'Ronald J. Grabe', 'David C. Hilmer
 STS-51-L (Challenger),1986,"['Francis R. Scobee', 'Michael J. Smith', 'Ellison S. Onizuka', 'Judith A. Resnik', 'Ronald E. McNair', 'Gregory B. Jarvis', 'S. Christa McAuliffe']"
 STS-52 (Columbia),1992,"['James D. Wetherbee', 'William M. Shepherd', 'Tamara E. Jernigan', 'Steve MacLean', 'Charles L. Veach', 'Michael A. Baker']"
 STS-53 (Discovery),1992,"['David M. Walker', 'Robert D. Cabana', 'Guion S. Bluford Jr.', 'Michael R. Clifford', 'James S. Voss']"
-STS-54 (Columbia),1993,[nan]
 STS-54 (Endeavour),1993,"['Donald R. McMonagle', 'John H. Casper', 'Mario Runco Jr.', 'Gregory J. Harbaugh', 'Susan J. Helms']"
 STS-55 (Columbia),1993,"['Steven R. Nagel', 'Terence T. Henricks', 'Jerry L. Ross', 'Charles J. Precourt', 'Bernard A. Harris Jr.', 'Ulrich Walter', 'Hans Schlegel']"
-STS-56 (Columbia),1993,[nan]
 STS-56 (Discovery),1993,"['Kenneth D. Cameron', 'Kenneth D. Cockrell', 'C. Michael Foale', 'Ellen L. Ochoa', 'Stephen S. Oswald']"
 STS-57 (Endeavour),1993,"['Ronald J. Grabe', 'Brian Duffy', 'G. David Low', 'Nancy J. Currie-Gregg', 'Peter J. K. Wisoff', 'Janice E. Voss']"
 STS-58 (Columbia),1993,"['John E. Blaha', 'Richard A. Searfoss', 'Margaret R. Seddon', 'William S. McArthur Jr.', 'David A. Wolf', 'Shannon W. Lucid', 'Martin J. Fettman']"
@@ -184,7 +131,7 @@ STS-61 (Endeavour),1993,"['Richard O. Covey', 'Kenneth D. Bowersox', 'Kathryn C.
 STS-61-A (Challenger),1985,"['Henry W. Hartsfield Jr.', 'Steven R. Nagel', 'Bonnie J. Dunbar', 'James F. Buchli', 'Guion S. Bluford Jr.', 'Reinhard Furrer', 'Ernst Messerschmid', 'Wubbo Ockels']"
 STS-61-B (Atlantis),1985,"['Brewster H. Shaw Jr.', ""Bryan D. O'Connor"", 'Jerry L. Ross', 'Charles D. Walker', 'Rodolfo Neri Vela', 'Mary L. Cleave', 'Sherwood C. Spring']"
 STS-61-C (Columbia),1986,"['Robert L. Gibson', 'Charles F. Bolden Jr.', 'George D. Nelson', 'Steven A. Hawley', 'Franklin R. Chang DÃ\xadaz', 'Clarence W. Nelson II', 'Robert J. Cenker']"
-STS-62 (Columbia),1994,"[nan, 'Andrew M. Allen', 'John H. Casper', 'Pierre J. Thuot', 'Charles D. Gemar', 'Marsha S. Ivins']"
+STS-62 (Columbia),1994,"[ 'Andrew M. Allen', 'John H. Casper', 'Pierre J. Thuot', 'Charles D. Gemar', 'Marsha S. Ivins']"
 STS-63 (Discovery),1995,"['James D. Wetherbee', 'Eileen M. Collins', 'Bernard A. Harris Jr.', 'C. Michael Foale', 'Janice E. Voss', 'Vladimir G. Titov']"
 STS-64 (Discovery),1994,"['Richard N. Richards', 'Carl J. Meade', 'Mark C. Lee', 'Jerry M. Linenger', 'L. Blaine Hammond Jr.', 'Susan J. Helms']"
 STS-65 (Columbia),1994,"['Robert D. Cabana', 'James D. Halsell Jr.', 'Richard J. Hieb', 'Carl E. Walz', 'Leroy Chiao', 'Donald A. Thomas', 'Chiaki Mukai']"
@@ -225,19 +172,16 @@ STS-96 (Discovery),1999,"['Kent V. Rominger', 'Rick D. Husband', 'Daniel T. Barr
 STS-97 (Endeavour),2000,"['Brent W. Jett', 'Carlos I. Noriega', 'Michael J. Bloomfield', 'Joseph R. Tanner', 'Marc Garneau']"
 STS-98 (Atlantis),2001,"['Kenneth D. Cockrell', 'Marsha S. Ivins', 'Mark L. Polansky', 'Robert L. Curbeam Jr.', 'Thomas D. Jones']"
 STS-99 (Endeavour),2000,"['Janet L. Kavandi', 'Kevin R. Kregel', 'Dominic L. P. Gorie', 'Gerhard Thiele', 'Janice E. Voss', 'Mamoru Mohri']"
-Salyut 5 (OPS-3),1976,[nan]
 Shenzhou 10,2013,"['Nie Haisheng', 'Zhang Xiaoguang', 'Wang Yaping']"
 Shenzhou 11,2016,"['Jing Haipeng', 'Chen Dong']"
 Shenzhou 12,2021,"['Nie Haisheng', 'Liu Boming', 'Tang Hongbo']"
 Shenzhou 13,2021,"['Zhai Zhigang', 'Wang Yaping', 'Ye Guangfu']"
-Shenzhou 2,2001,[nan]
 Shenzhou 5,2003,['Yang Liwei']
 Shenzhou 6,2005,"['Fei Junlong', 'Nie Haisheng']"
 Shenzhou 7,2008,"['Zhai Zhigang', 'Liu Boming', 'Jing Haipeng']"
 Shenzhou 9,2012,"['Jing Haipeng', 'Liu Wang', 'Liu Yang']"
 Skylab 2,1973,"['Charles Conrad Jr.', 'Joseph P. Kerwin', 'Paul J. Weitz']"
 Skylab 3,1973,"['Alan L. Bean', 'Owen K. Garriott', 'Jack R. Lousma']"
-Skylab 3 (Apollo CSM-117),1973,[nan]
 Skylab 4,1973,"['Gerald P. Carr', 'Edward G. Gibson', 'William R. Pogue']"
 Soyuz 1,1967,['Vladimir Komarov']
 Soyuz 10,1971,"['Vladimir Shatalov', 'Aleksei Yeliseyev', 'Nikolay Rukavishnikov']"
@@ -251,7 +195,6 @@ Soyuz 17,1975,"['Aleksei Gubarev', 'Georgy Grechko']"
 Soyuz 18,1975,"['Pyotr Klimuk', 'Vitaly Sevastyanov']"
 Soyuz 18a,1975,"['Vasily Lazarev', 'Oleg G. Makarov']"
 Soyuz 19 (Apollo-Soyuz Test Project),1975,"['Alexei Leonov', 'Valeri Kubasov']"
-Soyuz 20,1975,[nan]
 Soyuz 21,1976,"['Boris Volynov', 'Vitaly Zholobov']"
 Soyuz 22,1976,"['Valery Bykovsky', 'Vladimir Aksyonov']"
 Soyuz 23,1976,"['Vyacheslav Zudov', 'Valery Rozhdestvensky']"
@@ -291,7 +234,6 @@ Soyuz MS-10,2018,"['Nick Hague', 'Aleksey Ovchinin']"
 Soyuz MS-11,2018,"['Oleg Kononenko', 'David Saint-Jacques', 'Anne McClain']"
 Soyuz MS-12,2019,"['Aleksey Ovchinin', 'Christina H. Koch', 'Nick Hague']"
 Soyuz MS-13,2019,"['Andrew R. Morgan', 'Aleksandr A. Skvortsov', 'Luca Parmitano']"
-Soyuz MS-14,2019,[nan]
 Soyuz MS-15,2019,"['Oleg Skripochka', 'Hazza Al Mansouri', 'Jessica U. Meir']"
 Soyuz MS-16,2020,"['Anatoli Ivanishin', 'Ivan V. Vagner', 'Christopher J. Cassidy']"
 Soyuz MS-17,2020,"['Sergey N. Ryzhikov', 'Sergey Kud-Sverchkov', 'Kathleen Rubins']"
@@ -388,34 +330,14 @@ Soyuz TMA-6,2005,"['Sergei Krikalev', 'John L. Phillips', 'Roberto Vittori']"
 Soyuz TMA-7,2005,"['Valeri Tokarev', 'William S. McArthur Jr.', 'Gregory H. Olsen']"
 Soyuz TMA-8,2006,"['Pavel Vinogradov', 'Marcos C. Pontes', 'Jeffrey N. Williams']"
 Soyuz TMA-9,2006,"['Mikhail Tyurin', 'Michael E. LÃ³pez-AlegrÃ\xada', 'Anousheh Ansari']"
-Space Flyer Unit,1995,[nan]
-SpaceX CRS-10,2017,[nan]
-SpaceX CRS-11,2017,[nan]
-SpaceX CRS-12,2017,[nan]
-SpaceX CRS-13,2017,[nan]
-SpaceX CRS-15,2018,[nan]
-SpaceX CRS-16,2018,[nan]
-SpaceX CRS-19,2019,[nan]
-SpaceX CRS-4,2014,[nan]
-SpaceX CRS-6,2015,[nan]
-SpaceX CRS-8,2016,[nan]
-SpaceX CRS-9,2016,[nan]
-SpaceX Crew Dragon Demo-1,2019,[nan]
 SpaceX Crew-1,2020,"['SÃ´ichi Noguchi', 'Shannon Walker', 'Michael S. Hopkins', 'Victor J. Glover']"
 SpaceX Crew-2,2021,"['Robert S. Kimbrough', 'K. Megan McArthur', 'Akihiko Hoshide', 'Thomas Pesquet']"
 SpaceX Crew-3,2021,"['Raja Chari', 'Thomas H. Marshburn', 'Matthias Maurer', 'Kayla Barron']"
 SpaceX DM-2,2020,"['Robert L. Behnken', 'Douglas G. Hurley']"
-T-7A (S2),1966,[nan]
-The Orbiting Frog Otolith (OFO),1970,[nan]
 Unity 22,2021,"['David W. D. Mackay', 'Mike Masucci', 'Beth Moses', 'Colin Bennett', 'Sirisha Bandla', 'Sir Richard Branson']"
 VSS Unity VF-01,2019,"['David W. D. Mackay', 'Mike Masucci', 'Beth Moses']"
 VSS Unity VF-03,2021,"['Frederick W. Sturckow', 'David W. D. Mackay']"
 VSS Unity VP-03,2018,"['Mark P. Stucky', 'Frederick W. Sturckow']"
-Veronique AG124,1961,[nan]
-Veronique AG136,1962,[nan]
-Veronique AG137,1962,[nan]
-Vesta 04,1967,[nan]
-Vesta 05,1967,[nan]
 Voskhod 1,1964,"['Vladimir Komarov', 'Konstantin Feoktistov', 'Boris Yegorov']"
 Voskhod 2,1965,"['Pavel Belyayev', 'Alexei Leonov']"
 Vostok 1,1961,['Yuri Gagarin']
@@ -424,8 +346,6 @@ Vostok 3,1962,['Andriyan Nikolayev']
 Vostok 4,1962,['Pavel Popovich']
 Vostok 5,1963,['Valery Bykovsky']
 Vostok 6,1963,['Valentina Tereshkova']
-VÃ©ronique AG147,1963,[nan]
-X-1 Panther,1970,[nan]
 X-15 Flight 138,1965,['Joe H. Engle']
 X-15 Flight 143,1965,['Joe H. Engle']
 X-15 Flight 150,1965,['John B. McKay']
@@ -436,6 +356,3 @@ X-15 Flight 191,1967,['Michael J. Adams']
 X-15 Flight 197,1968,['William H. Dana']
 X-15 Flight 62,1962,['Robert M. White']
 X-15 Flight 87,1963,['Robert A. Rushworth']
-Zond 5,1968,[nan]
-Zond 7,1969,[nan]
-Zond 8,1970,[nan]
