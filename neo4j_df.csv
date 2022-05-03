@@ -1,0 +1,441 @@
+mission_name,launch_year,astronaut_name
+Altas V 541 (AV-028),2011,[nan]
+Apollo 10,1969,"['Thomas P. Stafford', 'John W. Young', 'Eugene A. Cernan']"
+Apollo 11,1969,"['Neil A. Armstrong', 'Michael Collins', 'Buzz Aldrin']"
+Apollo 12,1969,"['Charles Conrad Jr.', 'Richard F. Gordon Jr.', 'Alan L. Bean']"
+Apollo 13,1970,"['James A. Lovell Jr.', 'John L. Swigert Jr.', 'Fred W. Haise Jr.']"
+Apollo 14,1971,"['Edgar D. Mitchell', 'Alan B. Shepard Jr.', 'Stuart A. Roosa']"
+Apollo 15,1971,"['David R. Scott', 'Alfred M. Worden', 'James B. Irwin']"
+Apollo 16,1972,"['John W. Young', 'Thomas K. Mattingly II', 'Charles M. Duke Jr.']"
+Apollo 17,1972,"['Eugene A. Cernan', 'Ronald E. Evans Jr.', 'Harrison H. Schmitt']"
+Apollo 7,1968,"['Walter M. Schirra Jr.', 'Walter Cunningham', 'Donn F. Eisele']"
+Apollo 8,1968,"['Frank Borman', 'James A. Lovell Jr.', 'William A. Anders']"
+Apollo 9,1969,"['James A. McDivitt', 'David R. Scott', 'Russell L. Schweickart']"
+Apollo-Soyuz (Apollo-Soyuz Test Project),1975,"['Thomas P. Stafford', 'Vance D. Brand', 'Donald K. Slayton']"
+Apollo-Soyuz Test Project,1975,[nan]
+Beresheet,2019,[nan]
+Bion 1 (Kosmos 605),1973,[nan]
+Bion 10 (Kosmos 2229),1992,[nan]
+Bion 11,1996,[nan]
+Bion 2 (Kosmos 690),1974,[nan]
+Bion 3 (Kosmos 782),1975,[nan]
+Bion 4 (Kosmos 936),1977,[nan]
+Bion 5 (Kosmos 1129),1979,[nan]
+Bion 6 (Kosmos 1514),1983,[nan]
+Bion 7 (Kosmos 1667),1985,[nan]
+Bion 8 (Kosmos 1887),1987,[nan]
+Bion 9 (Kosmos 2044),1989,[nan]
+Bion-M No. 1,2013,[nan]
+Biosatellite 3,1969,[nan]
+Chandrayaan-2,2019,[nan]
+Chang'e 3,2013,[nan]
+Chang'e 4,2018,[nan]
+Cygnus CRS Orb-1,2014,[nan]
+Delta II 7925 D240,1996,[nan]
+Delta II 7925-9.5,2003,[nan]
+Delta II 7925H-9.5,2003,[nan]
+Falcon Heavy FH-001,2018,[nan]
+Flight 15P (SpaceShipOne),2004,['Michael W. Melvill']
+Flight 16P (SpaceShipOne),2004,['Michael W. Melvill']
+Flight 17P (SpaceShipOne),2004,['William B. Binnie']
+Flight 77 (X-15),1963,['Joseph A. Walker']
+Flight 90 (X-15),1963,['Joseph A. Walker']
+Flight 91 (X-15),1963,['Joseph A. Walker']
+Fobos-Grunt,2011,[nan]
+Foton-M No. 4,2014,[nan]
+Foton-M3,2007,[nan]
+Gemini 10,1966,"['John W. Young', 'Michael Collins']"
+Gemini 11,1966,"['Charles Conrad Jr.', 'Richard F. Gordon Jr.']"
+Gemini 12,1966,"['James A. Lovell Jr.', 'Buzz Aldrin']"
+Gemini 3,1965,"['Virgil I. Grissom', 'John W. Young']"
+Gemini 4,1965,"['James A. McDivitt', 'Edward H. White II']"
+Gemini 5,1965,"['L. Gordon Cooper Jr.', 'Charles Conrad Jr.']"
+Gemini 6A,1965,"['Walter M. Schirra Jr.', 'Thomas P. Stafford']"
+Gemini 7,1965,"['Frank Borman', 'James A. Lovell Jr.']"
+Gemini 8,1966,"['Neil A. Armstrong', 'David R. Scott']"
+Gemini 9A,1966,"['Thomas P. Stafford', 'Eugene A. Cernan']"
+Genesis I,2006,[nan]
+Genesis II,2007,[nan]
+Hayabusa,2003,[nan]
+Hayabusa2 MIVERVA-II,2014,[nan]
+ISS Hand Launch,2006,[nan]
+Inspiration4,2021,"['Jared Isaacman', 'Dr. Sian Proctor', 'Hayley Arceneaux', 'Christopher Sembroski']"
+Kavoshgar-3,2010,[nan]
+Kavoshgar-8,2013,[nan]
+Korabl-Sputnik 4 (Sputnik 9),1961,[nan]
+Korabl-Sputnik 5 (Sputnik 10),1961,[nan]
+Kosmos 110,1966,[nan]
+Kosmos-368,1970,[nan]
+Kounotori 3 (HTV-3),2012,[nan]
+Kounotori 4 (HTV-4),2013,[nan]
+Luna 17,1970,[nan]
+Luna 21,1973,[nan]
+Lunar Atmosphere and Dust Environment Explorer Mission,2013,[nan]
+MA-5 Mercury SC9  ,1961,[nan]
+Mars 2020,2020,[nan]
+Mercury 5  Redstone,1961,[nan]
+Mercury-Atlas 6 (Friendship 7),1962,['John H. Glenn Jr.']
+Mercury-Atlas 7 (Aurora 7),1962,['M. Scott Carpenter']
+Mercury-Atlas 8 (Sigma 7),1962,['Walter M. Schirra Jr.']
+Mercury-Atlas 9 (Faith 7),1963,['L. Gordon Cooper Jr.']
+Mercury-Redstone 3 (Freedom 7),1961,['Alan B. Shepard Jr.']
+Mercury-Redstone 4 (Liberty Bell 7),1961,['Virgil I. Grissom']
+NS-16,2021,"['Wally Funk', 'Jeff Bezos', 'Mark Bezos', 'Oliver Daemen']"
+NS-18,2021,"['William Shatner', 'Dr. Chris Boshuizen', 'Audrey Powers', 'Glen de Vries']"
+NS-19,2021,"['Laura Shepard Churchley', 'Michael Strahan', 'Dylan Taylor', 'Evan Dick', 'Lane Bess', 'Cameron Bess']"
+OSIRIS-REx,2016,[nan]
+Pishgam,2013,[nan]
+Progress M-01M,2008,[nan]
+Progress M-24M,2014,[nan]
+Rigel 04,1969,[nan]
+STS-1 (Columbia),1981,"['John W. Young', 'Robert L. Crippen']"
+STS-100 (Endeavour),2001,"['Kent V. Rominger', 'Jeffrey S. Ashby', 'Chris Hadfield', 'John L. Phillips', 'Scott E. Parazynski', 'Umberto Guidoni', 'Yury V. Lonchakov']"
+STS-101 (Atlantis),2000,"['James D. Halsell Jr.', 'Scott J. Horowitz', 'James S. Voss', 'Yury Usachov', 'Jeffrey N. Williams', 'Mary E. Weber', 'Susan J. Helms']"
+STS-102 (Discovery),2001,"['James D. Wetherbee', 'Andrew S. W. Thomas', 'Yury Usachov', 'James S. Voss', 'James M. Kelly', 'Paul W. Richards', 'Susan J. Helms']"
+STS-103 (Discovery),1999,"['Curtis L. Brown Jr.', 'John M. Grunsfeld', 'Jean-FranÃ§ois Clervoy', 'C. Michael Foale', 'Steven L. Smith', 'Claude Nicollier', 'Scott J. Kelly']"
+STS-104 (Atlantis),2001,"['Charles O. Hobaugh', 'Michael L. Gernhardt', 'James F. Reilly II', 'Janet L. Kavandi', 'Steven W. Lindsey']"
+STS-105 (Discovery),2001,"['Scott J. Horowitz', 'Frederick W. Sturckow', 'Patrick G. Forrester', 'Daniel T. Barry', 'Frank L. Culbertson Jr.', 'Mikhail Tyurin', 'Vladimir N. Dezhurov']"
+STS-106 (Atlantis),2000,"['Terrence W. Wilcutt', 'Scott D. Altman', 'Edward T. Lu', 'Richard A. Mastracchio', 'Daniel C. Burbank', 'Yuri Malenchenko', 'Boris Morukov']"
+STS-107 (Columbia),2003,"['David M. Brown', 'Rick D. Husband', 'Kalpana Chawla', 'Michael P. Anderson', 'Ilan Ramon', 'Laurel B. Clark', 'William C. McCool']"
+STS-108 (Endeavour),2001,"['Daniel W. Bursch', 'Mark E. Kelly', 'Dominic L. P. Gorie', 'Linda M. Godwin', 'Daniel M. Tani', 'Yury Onufriyenko', 'Carl E. Walz']"
+STS-109 (Columbia),2002,"['Scott D. Altman', 'Duane G. Carey', 'John M. Grunsfeld', 'Nancy J. Currie-Gregg', 'Richard M. Linnehan', 'James H. Newman', 'Michael J. Massimino']"
+STS-110 (Atlantis),2002,"['Michael J. Bloomfield', 'Rex J. Walheim', 'Ellen L. Ochoa', 'Jerry L. Ross', 'Steven L. Smith', 'Lee M. Morin', 'Stephen N. Frick']"
+STS-111 (Endeavour),2002,"['Philippe Perrin', 'Franklin R. Chang DÃ\xadaz', 'Valery Korzun', 'Sergei Treshchov', 'Kenneth D. Cockrell', 'Paul S. Lockhart', 'Peggy A. Whitson']"
+STS-112 (Atlantis),2002,"['Jeffrey S. Ashby', 'Pamela A. Melroy', 'Piers J. Sellers', 'Sandra H. Magnus', 'David A. Wolf', 'Fyodor Yurchikhin']"
+STS-113 (Endeavour),2002,"['Donald R. Pettit', 'James D. Wetherbee', 'Michael E. LÃ³pez-AlegrÃ\xada', 'Kenneth D. Bowersox', 'Nikolai Budarin', 'John B. Herrington', 'Paul S. Lockhart']"
+STS-114 (Discovery),2005,"['Charles J. Camarda', 'Eileen M. Collins', 'SÃ´ichi Noguchi', 'Stephen K. Robinson', 'Andrew S. W. Thomas', 'Wendy B. Lawrence', 'James M. Kelly']"
+STS-115 (Atlantis),2006,"['Brent W. Jett', 'Heidemarie M. Stefanyshyn-Piper', 'Christopher J. Ferguson', 'Steve MacLean', 'Daniel C. Burbank', 'Joseph R. Tanner']"
+STS-116 (Discovery),2006,"['Mark L. Polansky', 'Robert L. Curbeam Jr.', 'Christer Fuglesang', 'Sunita L. Williams', 'Joan E. Higginbotham', 'Nicholas J. M. Patrick', 'William A. Oefelein']"
+STS-117 (Atlantis),2007,"['Frederick W. Sturckow', 'Lee J. Archambault', 'Patrick G. Forrester', 'Steven R. Swanson', 'John D. Olivas', 'James F. Reilly II', 'Clayton C. Anderson']"
+STS-118 (Endeavour),2007,"['Alvin Drew', 'Barbara R. Morgan', 'Charles O. Hobaugh', 'Richard A. Mastracchio', 'Dafydd Williams', 'Scott J. Kelly', 'Tracy E. Caldwell Dyson']"
+STS-119 (Discovery),2009,"['Lee J. Archambault', 'Dominic A. Antonelli', 'Joseph M. Acaba', 'Steven R. Swanson', 'Richard R. Arnold II', 'John L. Phillips', 'Koichi Wakata']"
+STS-120 (Discovery),2007,"['Pamela A. Melroy', 'George D. Zamka', 'Douglas H. Wheelock', 'Stephanie D. Wilson', 'Scott E. Parazynski', 'Paolo Nespoli', 'Daniel M. Tani']"
+STS-121 (Discovery),2006,"['Lisa M. Nowak', 'Mark E. Kelly', 'Michael E. Fossum', 'Stephanie D. Wilson', 'Piers J. Sellers', 'Thomas Reiter', 'Steven W. Lindsey']"
+STS-122 (Atlantis),2008,"['Alan G. Poindexter', 'Rex J. Walheim', 'Hans Schlegel', 'LÃ©opold Eyharts', 'Leland D. Melvin', 'Stanley G. Love', 'Stephen N. Frick']"
+STS-123 (Endeavour),2008,"['Dominic L. P. Gorie', 'Gregory H. Johnson', 'Robert L. Behnken', 'Michael J. Foreman', 'Richard M. Linnehan', 'Takao Doi', 'Garrett E. Reisman']"
+STS-124 (Discovery),2008,"['Gregory E. Chamitoff', 'Kenneth T. Ham', 'Mark E. Kelly', 'Michael E. Fossum', 'Ronald J. Garan Jr.', 'Karen L. Nyberg', 'Akihiko Hoshide']"
+STS-125 (Atlantis),2009,"['Andrew J. Feustel', 'Gregory C. Johnson', 'Michael T. Good', 'Scott D. Altman', 'K. Megan McArthur', 'John M. Grunsfeld', 'Michael J. Massimino']"
+STS-126 (Endeavour),2008,"['Donald R. Pettit', 'Eric A. Boe', 'Heidemarie M. Stefanyshyn-Piper', 'Christopher J. Ferguson', 'Robert S. Kimbrough', 'Sandra H. Magnus', 'Stephen G. Bowen']"
+STS-127 (Endeavour),2009,"['Mark L. Polansky', 'Douglas G. Hurley', 'Christopher J. Cassidy', 'Julie Payette', 'Thomas H. Marshburn', 'David A. Wolf', 'Timothy L. Kopra']"
+STS-128 (Discovery),2009,"['JosÃ© M. HernÃ¡ndez', 'Kevin A. Ford', 'Nicole P. Stott', 'Frederick W. Sturckow', 'Patrick G. Forrester', 'John D. Olivas', 'Christer Fuglesang']"
+STS-129 (Atlantis),2009,"['Barry E. Wilmore', 'Charles O. Hobaugh', 'Leland D. Melvin', 'Randolph J. Bresnik', 'Michael J. Foreman', 'Robert L. Satcher Jr.']"
+STS-130 (Endeavour),2010,"['Nicholas J. M. Patrick', 'George D. Zamka', 'Kathryn P. Hire', 'Stephen K. Robinson', 'Robert L. Behnken', 'Terry W. Virts Jr.']"
+STS-131 (Discovery),2010,"['Alan G. Poindexter', 'James P. Dutton Jr.', 'Richard A. Mastracchio', 'Dorothy M. Metcalf-Lindenburger', 'Stephanie D. Wilson', 'Naoko Yamazaki', 'Clayton C. Anderson']"
+STS-132 (Atlantis),2010,"['Kenneth T. Ham', 'Michael T. Good', 'Dominic A. Antonelli', 'Garrett E. Reisman', 'Piers J. Sellers', 'Stephen G. Bowen']"
+STS-133 (Discovery),2011,"['Alvin Drew', 'Eric A. Boe', 'Michael R. Barratt', 'Nicole P. Stott', 'Stephen G. Bowen', 'Steven W. Lindsey']"
+STS-134 (Endeavour),2011,"['Andrew J. Feustel', 'Gregory E. Chamitoff', 'Mark E. Kelly', 'Gregory H. Johnson', 'E. Michael Fincke', 'Roberto Vittori']"
+STS-135 (Atlantis),2011,"['Christopher J. Ferguson', 'Douglas G. Hurley', 'Sandra H. Magnus', 'Rex J. Walheim']"
+STS-2 (Columbia),1981,"['Joe H. Engle', 'Richard H. Truly']"
+STS-26 (Discovery),1988,"['Frederick H. Hauck', 'Richard O. Covey', 'John M. Lounge', 'David C. Hilmers', 'George D. Nelson']"
+STS-27 (Atlantis),1988,"['Guy S. Gardner', 'Robert L. Gibson', 'Richard M. Mullane', 'Jerry L. Ross', 'William M. Shepherd']"
+STS-28 (Columbia),1989,"['Brewster H. Shaw Jr.', 'James C. Adamson', 'Richard N. Richards', 'David C. Leestma', 'Mark N. Brown']"
+STS-29 (Discovery),1989,"['Michael L. Coats', 'John E. Blaha', 'Robert C. Springer', 'James F. Buchli', 'James P. Bagian']"
+STS-3 (Columbia),1982,"['Jack R. Lousma', 'C. Gordon Fullerton']"
+STS-30 (Atlantis),1989,"['David M. Walker', 'Ronald J. Grabe', 'Mark C. Lee', 'Norman E. Thagard', 'Mary L. Cleave']"
+STS-31 (Discovery),1990,"['Charles F. Bolden Jr.', 'Steven A. Hawley', 'Kathryn D. Sullivan', 'Bruce McCandless II', 'Loren J. Shriver']"
+STS-32 (Columbia),1990,"['Daniel C. Brandenstein', 'James D. Wetherbee', 'Bonnie J. Dunbar', 'G. David Low', 'Marsha S. Ivins']"
+STS-33 (Discovery),1989,"['Frederick D. Gregory', 'John E. Blaha', 'Manley L. Carter Jr.', 'F. Story Musgrave', 'Kathryn C. Thornton']"
+STS-34 (Atlantis),1989,"['Ellen S. Baker', 'Donald E. Williams', 'Shannon W. Lucid', 'Franklin R. Chang DÃ\xadaz', 'Michael J. McCulley']"
+STS-35 (Columbia),1990,"['Guy S. Gardner', 'Vance D. Brand', 'Jeffrey A. Hoffman', 'John M. Lounge', 'Robert A. Parker', 'Ronald A. Parise', 'Samuel T. Durrance']"
+STS-36 (Atlantis),1990,"['John O. Creighton', 'John H. Casper', 'Pierre J. Thuot', 'David C. Hilmers', 'Richard M. Mullane']"
+STS-37 (Atlantis),1991,"['Kenneth D. Cameron', 'Steven R. Nagel', 'Linda M. Godwin', 'Jerry L. Ross', 'Jerome Apt III']"
+STS-38 (Atlantis),1990,"['Richard O. Covey', 'Frank L. Culbertson Jr.', 'Carl J. Meade', 'Robert C. Springer', 'Charles D. Gemar']"
+STS-39 (Discovery),1991,"['Charles L. Veach', 'Donald R. McMonagle', 'L. Blaine Hammond Jr.', 'Michael L. Coats', 'Gregory J. Harbaugh', 'Guion S. Bluford Jr.', 'Richard J. Hieb']"
+STS-4 (Columbia),1982,"['Thomas K. Mattingly II', 'Henry W. Hartsfield Jr.']"
+STS-40 (Columbia),1991,"[""Bryan D. O'Connor"", 'F. Andrew Gaffney', 'Sidney M. Gutierrez', 'James P. Bagian', 'Tamara E. Jernigan', 'Margaret R. Seddon', 'Millie Hughes-Fulford']"
+STS-41 (Discovery),1990,"['Richard N. Richards', 'Robert D. Cabana', 'Bruce E. Melnick', 'William M. Shepherd', 'Thomas D. Akers']"
+STS-41-B (Challenger),1984,"['Bruce McCandless II', 'Vance D. Brand', 'Robert L. Gibson', 'Ronald E. McNair', 'Robert L. Stewart']"
+STS-41-C (Challenger),1984,"['Robert L. Crippen', 'Francis R. Scobee', 'Terry J. Hart', 'James D. van Hoften', 'George D. Nelson']"
+STS-41-D (Discovery),1984,"['Henry W. Hartsfield Jr.', 'Michael L. Coats', 'Richard M. Mullane', 'Steven A. Hawley', 'Judith A. Resnik', 'Charles D. Walker']"
+STS-41-G (Challenger),1984,"['Robert L. Crippen', 'Jon A. McBride', 'Kathryn D. Sullivan', 'Sally Ride', 'David C. Leestma', 'Paul D. Scully-Power', 'Marc Garneau']"
+STS-42 (Discovery),1992,"['Ronald J. Grabe', 'Norman E. Thagard', 'David C. Hilmers', 'Roberta Bondar', 'Ulf Merbold', 'Stephen S. Oswald', 'William F. Readdy']"
+STS-43 (Atlantis),1991,"['James C. Adamson', 'John E. Blaha', 'Shannon W. Lucid', 'G. David Low', 'Michael A. Baker']"
+STS-44 (Atlantis),1991,"['Frederick D. Gregory', 'Terence T. Henricks', 'James S. Voss', 'F. Story Musgrave', 'Mario Runco Jr.', 'Thomas J. Hennen']"
+STS-45 (Atlantis),1992,"['Byron K. Lichtenberg', 'Charles F. Bolden Jr.', 'Brian Duffy', 'Kathryn D. Sullivan', 'David C. Leestma', 'C. Michael Foale', 'Dirk Frimout']"
+STS-46 (Atlantis),1992,"['Andrew M. Allen', 'Loren J. Shriver', 'Claude Nicollier', 'Jeffrey A. Hoffman', 'Franklin R. Chang DÃ\xadaz', 'Franco Malerba', 'Marsha S. Ivins']"
+STS-47 (Endeavour),1992,"['Robert L. Gibson', 'Curtis L. Brown Jr.', 'Mark C. Lee', 'Jerome Apt III', 'N. Jan Davis', 'Mae C. Jemison', 'Mamoru Mohri']"
+STS-48 (Discovery),1991,"['John O. Creighton', 'Kenneth S. Reightler Jr.', 'Charles D. Gemar', 'James F. Buchli', 'Mark N. Brown']"
+STS-49 (Endeavour),1992,"['Daniel C. Brandenstein', 'Kevin P. Chilton', 'Richard J. Hieb', 'Bruce E. Melnick', 'Pierre J. Thuot', 'Kathryn C. Thornton', 'Thomas D. Akers']"
+STS-5 (Columbia),1982,"['Vance D. Brand', 'Robert F. Overmyer', 'Joseph P. Allen', 'William B. Lenoir']"
+STS-50 (Columbia),1992,"['Richard N. Richards', 'Kenneth D. Bowersox', 'Bonnie J. Dunbar', 'Carl J. Meade', 'Ellen S. Baker', 'Eugene H. Trinh', 'Lawrence J. Delucas']"
+STS-51 (Discovery),1993,"['Frank L. Culbertson Jr.', 'James H. Newman', 'Carl E. Walz', 'Daniel W. Bursch', 'William F. Readdy']"
+STS-51-A (Discovery),1984,"['Frederick H. Hauck', 'David M. Walker', 'Joseph P. Allen', 'Anna L. Fisher', 'Dale A. Gardner']"
+STS-51-B (Challenger),1985,"['Robert F. Overmyer', 'Frederick D. Gregory', 'Don L. Lind', 'Norman E. Thagard', 'William E. Thornton', 'Lodewijk van den Berg', 'Taylor G. Wang']"
+STS-51-C (Discovery),1985,"['Gary E. Payton', 'Thomas K. Mattingly II', 'Ellison S. Onizuka', 'James F. Buchli', 'Loren J. Shriver']"
+STS-51-D (Discovery),1985,"['Karol J. Bobko', 'Donald E. Williams', 'Margaret R. Seddon', 'S. David Griggs', 'Jeffrey A. Hoffman', 'Charles D. Walker', 'Jake Garn']"
+STS-51-F (Challenger),1985,"['C. Gordon Fullerton', 'Roy D. Bridges Jr.', 'Karl G. Henize', 'F. Story Musgrave', 'Anthony W. England', 'Loren W. Acton', 'John-David F. Bartoe']"
+STS-51-G (Discovery),1985,"['Daniel C. Brandenstein', 'John O. Creighton', 'John M. Fabian', 'Steven R. Nagel', 'Shannon W. Lucid', 'Patrick Baudry', 'Sultan bin Salman Al Saud']"
+STS-51-I (Discovery),1985,"['Joe H. Engle', 'Richard O. Covey', 'James D. van Hoften', 'John M. Lounge', 'William F. Fisher']"
+STS-51-J (Atlantis),1985,"['Karol J. Bobko', 'Ronald J. Grabe', 'David C. Hilmers', 'Robert L. Stewart', 'William A. Pailes']"
+STS-51-L (Challenger),1986,"['Francis R. Scobee', 'Michael J. Smith', 'Ellison S. Onizuka', 'Judith A. Resnik', 'Ronald E. McNair', 'Gregory B. Jarvis', 'S. Christa McAuliffe']"
+STS-52 (Columbia),1992,"['James D. Wetherbee', 'William M. Shepherd', 'Tamara E. Jernigan', 'Steve MacLean', 'Charles L. Veach', 'Michael A. Baker']"
+STS-53 (Discovery),1992,"['David M. Walker', 'Robert D. Cabana', 'Guion S. Bluford Jr.', 'Michael R. Clifford', 'James S. Voss']"
+STS-54 (Columbia),1993,[nan]
+STS-54 (Endeavour),1993,"['Donald R. McMonagle', 'John H. Casper', 'Mario Runco Jr.', 'Gregory J. Harbaugh', 'Susan J. Helms']"
+STS-55 (Columbia),1993,"['Steven R. Nagel', 'Terence T. Henricks', 'Jerry L. Ross', 'Charles J. Precourt', 'Bernard A. Harris Jr.', 'Ulrich Walter', 'Hans Schlegel']"
+STS-56 (Columbia),1993,[nan]
+STS-56 (Discovery),1993,"['Kenneth D. Cameron', 'Kenneth D. Cockrell', 'C. Michael Foale', 'Ellen L. Ochoa', 'Stephen S. Oswald']"
+STS-57 (Endeavour),1993,"['Ronald J. Grabe', 'Brian Duffy', 'G. David Low', 'Nancy J. Currie-Gregg', 'Peter J. K. Wisoff', 'Janice E. Voss']"
+STS-58 (Columbia),1993,"['John E. Blaha', 'Richard A. Searfoss', 'Margaret R. Seddon', 'William S. McArthur Jr.', 'David A. Wolf', 'Shannon W. Lucid', 'Martin J. Fettman']"
+STS-59 (Endeavour),1994,"['Sidney M. Gutierrez', 'Kevin P. Chilton', 'Jerome Apt III', 'Michael R. Clifford', 'Linda M. Godwin', 'Thomas D. Jones']"
+STS-6 (Challenger),1983,"['Donald H. Peterson', 'Paul J. Weitz', 'Karol J. Bobko', 'F. Story Musgrave']"
+STS-60 (Discovery),1994,"['Ronald M. Sega', 'Charles F. Bolden Jr.', 'Kenneth S. Reightler Jr.', 'N. Jan Davis', 'Franklin R. Chang DÃ\xadaz', 'Sergei Krikalev']"
+STS-61 (Endeavour),1993,"['Richard O. Covey', 'Kenneth D. Bowersox', 'Kathryn C. Thornton', 'Claude Nicollier', 'Jeffrey A. Hoffman', 'F. Story Musgrave', 'Thomas D. Akers']"
+STS-61-A (Challenger),1985,"['Henry W. Hartsfield Jr.', 'Steven R. Nagel', 'Bonnie J. Dunbar', 'James F. Buchli', 'Guion S. Bluford Jr.', 'Reinhard Furrer', 'Ernst Messerschmid', 'Wubbo Ockels']"
+STS-61-B (Atlantis),1985,"['Brewster H. Shaw Jr.', ""Bryan D. O'Connor"", 'Jerry L. Ross', 'Charles D. Walker', 'Rodolfo Neri Vela', 'Mary L. Cleave', 'Sherwood C. Spring']"
+STS-61-C (Columbia),1986,"['Robert L. Gibson', 'Charles F. Bolden Jr.', 'George D. Nelson', 'Steven A. Hawley', 'Franklin R. Chang DÃ\xadaz', 'Clarence W. Nelson II', 'Robert J. Cenker']"
+STS-62 (Columbia),1994,"[nan, 'Andrew M. Allen', 'John H. Casper', 'Pierre J. Thuot', 'Charles D. Gemar', 'Marsha S. Ivins']"
+STS-63 (Discovery),1995,"['James D. Wetherbee', 'Eileen M. Collins', 'Bernard A. Harris Jr.', 'C. Michael Foale', 'Janice E. Voss', 'Vladimir G. Titov']"
+STS-64 (Discovery),1994,"['Richard N. Richards', 'Carl J. Meade', 'Mark C. Lee', 'Jerry M. Linenger', 'L. Blaine Hammond Jr.', 'Susan J. Helms']"
+STS-65 (Columbia),1994,"['Robert D. Cabana', 'James D. Halsell Jr.', 'Richard J. Hieb', 'Carl E. Walz', 'Leroy Chiao', 'Donald A. Thomas', 'Chiaki Mukai']"
+STS-66 (Atlantis),1994,"['Curtis L. Brown Jr.', 'Ellen L. Ochoa', 'Joseph R. Tanner', 'Jean-FranÃ§ois Clervoy', 'Scott E. Parazynski', 'Donald R. McMonagle']"
+STS-67 (Endeavour),1995,"['John M. Grunsfeld', 'Wendy B. Lawrence', 'Tamara E. Jernigan', 'Ronald A. Parise', 'Samuel T. Durrance', 'Stephen S. Oswald', 'William G. Gregory']"
+STS-68 (Endeavour),1994,"['Terrence W. Wilcutt', 'Steven L. Smith', 'Peter J. K. Wisoff', 'Thomas D. Jones', 'Daniel W. Bursch', 'Michael A. Baker']"
+STS-69 (Endeavour),1995,"['Kenneth D. Cockrell', 'David M. Walker', 'James S. Voss', 'James H. Newman', 'Michael L. Gernhardt']"
+STS-7 (Challenger),1983,"['Robert L. Crippen', 'Frederick H. Hauck', 'John M. Fabian', 'Sally Ride', 'Norman E. Thagard']"
+STS-70 (Discovery),1995,"['Kevin R. Kregel', 'Mary E. Weber', 'Terence T. Henricks', 'Donald A. Thomas', 'Nancy J. Currie-Gregg']"
+STS-71 (Atlantis),1995,"['Ellen S. Baker', 'Robert L. Gibson', 'Charles J. Precourt', 'Gregory J. Harbaugh', 'Bonnie J. Dunbar', 'Anatoly Solovyev', 'Nikolai Budarin']"
+STS-72 (Endeavour),1996,"['Brent W. Jett', 'Brian Duffy', 'Leroy Chiao', 'Koichi Wakata', 'Daniel T. Barry', 'Winston E. Scott']"
+STS-73 (Columbia),1995,"['Kenneth D. Bowersox', 'Kent V. Rominger', 'Catherine G. Coleman', 'Michael E. LÃ³pez-AlegrÃ\xada', 'Kathryn C. Thornton', 'Frederick W. Leslie', 'Albert Sacco Jr.']"
+STS-74 (Atlantis),1995,"['Kenneth D. Cameron', 'James D. Halsell Jr.', 'Chris Hadfield', 'Jerry L. Ross', 'William S. McArthur Jr.']"
+STS-75 (Columbia),1996,"['Andrew M. Allen', 'Scott J. Horowitz', 'Jeffrey A. Hoffman', 'Maurizio Cheli', 'Claude Nicollier', 'Franklin R. Chang DÃ\xadaz', 'Umberto Guidoni']"
+STS-76 (Atlantis),1996,"['Kevin P. Chilton', 'Richard A. Searfoss', 'Michael R. Clifford', 'Linda M. Godwin', 'Shannon W. Lucid', 'Ronald M. Sega']"
+STS-77 (Endeavour),1996,"['Daniel W. Bursch', 'John H. Casper', 'Curtis L. Brown Jr.', 'Andrew S. W. Thomas', 'Mario Runco Jr.', 'Marc Garneau']"
+STS-78 (Columbia),1996,"['Charles E. Brady Jr.', 'Terence T. Henricks', 'Richard M. Linnehan', 'Jean-Jacques Favier', 'Robert Thirsk', 'Kevin R. Kregel', 'Susan J. Helms']"
+STS-79 (Atlantis),1996,"['Terrence W. Wilcutt', 'Jerome Apt III', 'Thomas D. Akers', 'Carl E. Walz', 'John E. Blaha', 'William F. Readdy']"
+STS-8 (Challenger),1983,"['Richard H. Truly', 'Daniel C. Brandenstein', 'Guion S. Bluford Jr.', 'Dale A. Gardner', 'William E. Thornton']"
+STS-80 (Columbia),1996,"['Kenneth D. Cockrell', 'Kent V. Rominger', 'F. Story Musgrave', 'Thomas D. Jones', 'Tamara E. Jernigan']"
+STS-81 (Atlantis),1997,"['Brent W. Jett', 'Peter J. K. Wisoff', 'John M. Grunsfeld', 'Jerry M. Linenger', 'Marsha S. Ivins', 'Michael A. Baker']"
+STS-82 (Discovery),1997,"['Kenneth D. Bowersox', 'Scott J. Horowitz', 'Joseph R. Tanner', 'Steven A. Hawley', 'Gregory J. Harbaugh', 'Mark C. Lee', 'Steven L. Smith']"
+STS-83 (Columbia),1997,"['James D. Halsell Jr.', 'Susan L. Kilrain Still', 'Janice E. Voss', 'Michael L. Gernhardt', 'Donald A. Thomas', 'Roger K. Crouch', 'Gregory T. Linteris']"
+STS-84 (Atlantis),1997,"['Carlos I. Noriega', 'Charles J. Precourt', 'Eileen M. Collins', 'Jean-FranÃ§ois Clervoy', 'Edward T. Lu', 'Yelena V. Kondakova', 'C. Michael Foale']"
+STS-85 (Discovery),1997,"['Curtis L. Brown Jr.', 'Kent V. Rominger', 'N. Jan Davis', 'Robert L. Curbeam Jr.', 'Stephen K. Robinson', 'Bjarni Tryggvason']"
+STS-86 (Atlantis),1997,"['James D. Wetherbee', 'Michael J. Bloomfield', 'Vladimir G. Titov', 'Scott E. Parazynski', 'Jean-Loup ChrÃ©tien', 'Wendy B. Lawrence', 'David A. Wolf']"
+STS-87 (Columbia),1997,"['Kalpana Chawla', 'Takao Doi', 'Leonid Kadeniuk', 'Kevin R. Kregel', 'Steven W. Lindsey', 'Winston E. Scott']"
+STS-88 (Endeavour),1998,"['Robert D. Cabana', 'Frederick W. Sturckow', 'Jerry L. Ross', 'Nancy J. Currie-Gregg', 'James H. Newman', 'Sergei Krikalev']"
+STS-89 (Endeavour),1998,"['Terrence W. Wilcutt', 'Joe F. Edwards Jr.', 'James F. Reilly II', 'Michael P. Anderson', 'Bonnie J. Dunbar', 'Salizhan Sharipov', 'Andrew S. W. Thomas']"
+STS-9 (Columbia),1983,"['Brewster H. Shaw Jr.', 'Byron K. Lichtenberg', 'Robert A. Parker', 'John W. Young', 'Owen K. Garriott', 'Ulf Merbold']"
+STS-90 (Columbia),1998,"['Richard A. Searfoss', 'Scott D. Altman', 'Dafydd Williams', 'Kathryn P. Hire', 'Richard M. Linnehan', 'Jay C. Buckey', 'James A. Pawelczyk']"
+STS-91 (Discovery),1998,"['Charles J. Precourt', 'Dominic L. P. Gorie', 'Franklin R. Chang DÃ\xadaz', 'Wendy B. Lawrence', 'Valery Ryumin', 'Janet L. Kavandi']"
+STS-92 (Discovery),2000,"['Brian Duffy', 'Pamela A. Melroy', 'Koichi Wakata', 'William S. McArthur Jr.', 'Peter J. K. Wisoff', 'Michael E. LÃ³pez-AlegrÃ\xada', 'Leroy Chiao']"
+STS-93 (Columbia),1999,"['Eileen M. Collins', 'Jeffrey S. Ashby', 'Michel Tognini', 'Steven A. Hawley', 'Catherine G. Coleman']"
+STS-94 (Columbia),1997,"['James D. Halsell Jr.', 'Susan L. Kilrain Still', 'Janice E. Voss', 'Michael L. Gernhardt', 'Donald A. Thomas', 'Roger K. Crouch', 'Gregory T. Linteris']"
+STS-95 (Discovery),1998,"['Curtis L. Brown Jr.', 'Pedro Duque', 'Scott E. Parazynski', 'Stephen K. Robinson', 'Chiaki Mukai', 'John H. Glenn Jr.', 'Steven W. Lindsey']"
+STS-96 (Discovery),1999,"['Kent V. Rominger', 'Rick D. Husband', 'Daniel T. Barry', 'Ellen L. Ochoa', 'Tamara E. Jernigan', 'Julie Payette', 'Valeri Tokarev']"
+STS-97 (Endeavour),2000,"['Brent W. Jett', 'Carlos I. Noriega', 'Michael J. Bloomfield', 'Joseph R. Tanner', 'Marc Garneau']"
+STS-98 (Atlantis),2001,"['Kenneth D. Cockrell', 'Marsha S. Ivins', 'Mark L. Polansky', 'Robert L. Curbeam Jr.', 'Thomas D. Jones']"
+STS-99 (Endeavour),2000,"['Janet L. Kavandi', 'Kevin R. Kregel', 'Dominic L. P. Gorie', 'Gerhard Thiele', 'Janice E. Voss', 'Mamoru Mohri']"
+Salyut 5 (OPS-3),1976,[nan]
+Shenzhou 10,2013,"['Nie Haisheng', 'Zhang Xiaoguang', 'Wang Yaping']"
+Shenzhou 11,2016,"['Jing Haipeng', 'Chen Dong']"
+Shenzhou 12,2021,"['Nie Haisheng', 'Liu Boming', 'Tang Hongbo']"
+Shenzhou 13,2021,"['Zhai Zhigang', 'Wang Yaping', 'Ye Guangfu']"
+Shenzhou 2,2001,[nan]
+Shenzhou 5,2003,['Yang Liwei']
+Shenzhou 6,2005,"['Fei Junlong', 'Nie Haisheng']"
+Shenzhou 7,2008,"['Zhai Zhigang', 'Liu Boming', 'Jing Haipeng']"
+Shenzhou 9,2012,"['Jing Haipeng', 'Liu Wang', 'Liu Yang']"
+Skylab 2,1973,"['Charles Conrad Jr.', 'Joseph P. Kerwin', 'Paul J. Weitz']"
+Skylab 3,1973,"['Alan L. Bean', 'Owen K. Garriott', 'Jack R. Lousma']"
+Skylab 3 (Apollo CSM-117),1973,[nan]
+Skylab 4,1973,"['Gerald P. Carr', 'Edward G. Gibson', 'William R. Pogue']"
+Soyuz 1,1967,['Vladimir Komarov']
+Soyuz 10,1971,"['Vladimir Shatalov', 'Aleksei Yeliseyev', 'Nikolay Rukavishnikov']"
+Soyuz 11,1971,"['Georgy Dobrovolsky', 'Vladislav Volkov', 'Viktor Patsayev']"
+Soyuz 12,1973,"['Vasily Lazarev', 'Oleg G. Makarov']"
+Soyuz 13,1973,"['Pyotr Klimuk', 'Valentin Lebedev']"
+Soyuz 14,1974,"['Pavel Popovich', 'Yury Artyukhin']"
+Soyuz 15,1974,"['Gennadi Sarafanov', 'Lev Dyomin']"
+Soyuz 16,1974,"['Anatoly Filipchenko', 'Nikolay Rukavishnikov']"
+Soyuz 17,1975,"['Aleksei Gubarev', 'Georgy Grechko']"
+Soyuz 18,1975,"['Pyotr Klimuk', 'Vitaly Sevastyanov']"
+Soyuz 18a,1975,"['Vasily Lazarev', 'Oleg G. Makarov']"
+Soyuz 19 (Apollo-Soyuz Test Project),1975,"['Alexei Leonov', 'Valeri Kubasov']"
+Soyuz 20,1975,[nan]
+Soyuz 21,1976,"['Boris Volynov', 'Vitaly Zholobov']"
+Soyuz 22,1976,"['Valery Bykovsky', 'Vladimir Aksyonov']"
+Soyuz 23,1976,"['Vyacheslav Zudov', 'Valery Rozhdestvensky']"
+Soyuz 24,1977,"['Viktor Gorbatko', 'Yury Glazkov']"
+Soyuz 25,1977,"['Vladimir Kovalyonok', 'Valery Ryumin']"
+Soyuz 26,1977,"['Yury Romanenko', 'Georgy Grechko']"
+Soyuz 27,1978,"['Vladimir Dzhanibekov', 'Oleg G. Makarov']"
+Soyuz 28,1978,"['Aleksei Gubarev', 'Vladimir Remek']"
+Soyuz 29,1978,"['Vladimir Kovalyonok', 'Aleksandr Ivanchenkov']"
+Soyuz 3,1968,['Georgy Beregovoy']
+Soyuz 30,1978,"['Pyotr Klimuk', 'Miroslaw Hermaszewski']"
+Soyuz 31,1978,"['Valery Bykovsky', 'Sigmund JÃ¤hn']"
+Soyuz 32,1979,"['Vladimir Lyakhov', 'Valery Ryumin']"
+Soyuz 33,1979,"['Nikolay Rukavishnikov', 'Georgi Ivanov']"
+Soyuz 35,1980,"['Leonid Popov', 'Valery Ryumin']"
+Soyuz 36,1980,"['Valeri Kubasov', 'Bertalan Farkas']"
+Soyuz 37,1980,"['Viktor Gorbatko', 'Pháº¡m TuÃ¢n']"
+Soyuz 38,1980,"['Yury Romanenko', 'Arnaldo T. MÃ©ndez']"
+Soyuz 39,1981,"['Vladimir Dzhanibekov', 'JÃ¼gderdemidiin GÃ¼rragchaa']"
+Soyuz 4,1969,['Vladimir Shatalov']
+Soyuz 40,1981,"['Leonid Popov', 'Dumitru D. Prunariu']"
+Soyuz 5,1969,"['Boris Volynov', 'Aleksei Yeliseyev', 'Yevgeny Khrunov']"
+Soyuz 6,1969,"['Georgy Shonin', 'Valeri Kubasov']"
+Soyuz 7,1969,"['Anatoly Filipchenko', 'Vladislav Volkov', 'Viktor Gorbatko']"
+Soyuz 8,1969,"['Vladimir Shatalov', 'Aleksei Yeliseyev']"
+Soyuz 9,1970,"['Andriyan Nikolayev', 'Vitaly Sevastyanov']"
+Soyuz MS-01,2016,"['Anatoli Ivanishin', 'Takuya Å\x8cnishi', 'Kathleen Rubins']"
+Soyuz MS-02,2016,"['Sergey N. Ryzhikov', 'Andrei Borisenko', 'Robert S. Kimbrough']"
+Soyuz MS-03,2016,"['Peggy A. Whitson', 'Oleg Novitskiy', 'Thomas Pesquet']"
+Soyuz MS-04,2017,"['Jack D. Fischer', 'Fyodor Yurchikhin']"
+Soyuz MS-05,2017,"['Sergey N. Ryazansky', 'Paolo Nespoli', 'Randolph J. Bresnik']"
+Soyuz MS-06,2017,"['Alexander Misurkin', 'Mark Vande Hei', 'Joseph M. Acaba']"
+Soyuz MS-07,2017,"['Scott D. Tingle', 'Anton N. Shkaplerov', 'Norishige Kanai']"
+Soyuz MS-08,2018,"['Andrew J. Feustel', 'Oleg Artemyev', 'Richard R. Arnold II']"
+Soyuz MS-09,2018,"['Serena M. AuÃ±Ã³n-Chancellor', 'Sergey V. Prokopyev', 'Alexander Gerst']"
+Soyuz MS-10,2018,"['Nick Hague', 'Aleksey Ovchinin']"
+Soyuz MS-11,2018,"['Oleg Kononenko', 'David Saint-Jacques', 'Anne McClain']"
+Soyuz MS-12,2019,"['Aleksey Ovchinin', 'Christina H. Koch', 'Nick Hague']"
+Soyuz MS-13,2019,"['Andrew R. Morgan', 'Aleksandr A. Skvortsov', 'Luca Parmitano']"
+Soyuz MS-14,2019,[nan]
+Soyuz MS-15,2019,"['Oleg Skripochka', 'Hazza Al Mansouri', 'Jessica U. Meir']"
+Soyuz MS-16,2020,"['Anatoli Ivanishin', 'Ivan V. Vagner', 'Christopher J. Cassidy']"
+Soyuz MS-17,2020,"['Sergey N. Ryzhikov', 'Sergey Kud-Sverchkov', 'Kathleen Rubins']"
+Soyuz MS-18,2021,"['Mark Vande Hei', 'Oleg Novitskiy', 'Pyotr Dubrov']"
+Soyuz MS-19,2021,"['Anton N. Shkaplerov', 'Yulia Peresild', 'Klim Shipenko']"
+Soyuz MS-20,2021,"['Alexander Misurkin', 'Yusaku Maezawa', 'Yozo Hirano']"
+Soyuz T-10,1984,"['Leonid Kizim', 'Vladimir Solovyov', 'Oleg Atkov']"
+Soyuz T-10-1,1983,"['Vladimir G. Titov', 'Gennadi Strekalov']"
+Soyuz T-11,1984,"['Yury V. Malyshev', 'Gennadi Strekalov', 'Rakesh Sharma']"
+Soyuz T-12,1984,"['Vladimir Dzhanibekov', 'Svetlana Savitskaya', 'Igor Volk']"
+Soyuz T-13,1985,"['Vladimir Dzhanibekov', 'Viktor Savinykh']"
+Soyuz T-14,1985,"['Vladimir Vasyutin', 'Georgy Grechko', 'Aleksandr A. Volkov']"
+Soyuz T-15,1986,"['Leonid Kizim', 'Vladimir Solovyov']"
+Soyuz T-2,1980,"['Yury V. Malyshev', 'Vladimir Aksyonov']"
+Soyuz T-3,1980,"['Leonid Kizim', 'Oleg G. Makarov', 'Gennadi Strekalov']"
+Soyuz T-4,1981,"['Vladimir Kovalyonok', 'Viktor Savinykh']"
+Soyuz T-5,1982,"['Anatoly Berezovoy', 'Valentin Lebedev']"
+Soyuz T-6,1982,"['Vladimir Dzhanibekov', 'Aleksandr Ivanchenkov', 'Jean-Loup ChrÃ©tien']"
+Soyuz T-7,1982,"['Leonid Popov', 'Aleksandr Serebrov', 'Svetlana Savitskaya']"
+Soyuz T-8,1983,"['Vladimir G. Titov', 'Gennadi Strekalov', 'Aleksandr Serebrov']"
+Soyuz T-9,1983,"['Vladimir Lyakhov', 'Alexander P. Aleksandrov']"
+Soyuz TM-10,1990,"['Gennadi Manakov', 'Gennadi Strekalov']"
+Soyuz TM-11,1990,"['Viktor M. Afanasyev', 'Musa Manarov', 'Toyohiro Akiyama']"
+Soyuz TM-12,1991,"['Anatoly Artsebarsky', 'Sergei Krikalev', 'Helen Sharman']"
+Soyuz TM-13,1991,"['Aleksandr A. Volkov', 'Toktar Aubakirov', 'Franz A. ViehbÃ¶ck']"
+Soyuz TM-14,1992,"['Aleksandr Viktorenko', 'Aleksandr Kaleri', 'Klaus-Dietrich Flade']"
+Soyuz TM-15,1992,"['Anatoly Solovyev', 'Sergei Avdeyev', 'Michel Tognini']"
+Soyuz TM-16,1993,"['Gennadi Manakov', 'Aleksandr Poleshchuk']"
+Soyuz TM-17,1993,"['Vasily Tsibliyev', 'Aleksandr Serebrov', 'Jean-Pierre HaignerÃ©']"
+Soyuz TM-18,1994,"['Viktor M. Afanasyev', 'Yury Usachov', 'Valeri Polyakov']"
+Soyuz TM-19,1994,"['Yuri Malenchenko', 'Talgat Musabayev']"
+Soyuz TM-2,1987,"['Yury Romanenko', 'Aleksandr Laveykin']"
+Soyuz TM-20,1994,"['Aleksandr Viktorenko', 'Yelena V. Kondakova', 'Ulf Merbold']"
+Soyuz TM-21,1995,"['Vladimir N. Dezhurov', 'Gennadi Strekalov', 'Norman E. Thagard']"
+Soyuz TM-22,1995,"['Yuri Gidzenko', 'Sergei Avdeyev', 'Thomas Reiter']"
+Soyuz TM-23,1996,"['Yury Onufriyenko', 'Yury Usachov']"
+Soyuz TM-24,1996,"['Valery Korzun', 'Aleksandr Kaleri', 'Claudie HaignerÃ©']"
+Soyuz TM-25,1997,"['Vasily Tsibliyev', 'Aleksandr Lazutkin', 'Reinhold Ewald']"
+Soyuz TM-26,1997,"['Anatoly Solovyev', 'Pavel Vinogradov']"
+Soyuz TM-27,1998,"['Talgat Musabayev', 'Nikolai Budarin', 'LÃ©opold Eyharts']"
+Soyuz TM-28,1998,"['Gennady Padalka', 'Sergei Avdeyev', 'Yuri Baturin']"
+Soyuz TM-29,1999,"['Viktor M. Afanasyev', 'Jean-Pierre HaignerÃ©', 'Ivan Bella']"
+Soyuz TM-3,1987,"['Aleksandr Viktorenko', 'Alexander P. Aleksandrov', 'Muhammed Faris']"
+Soyuz TM-30,2000,"['Sergei Zalyotin', 'Aleksandr Kaleri']"
+Soyuz TM-31,2000,"['Yuri Gidzenko', 'Sergei Krikalev', 'William M. Shepherd']"
+Soyuz TM-32,2001,"['Talgat Musabayev', 'Yuri Baturin', 'Dennis A. Tito']"
+Soyuz TM-33,2001,"['Viktor M. Afanasyev', 'Claudie HaignerÃ©', 'Konstantin Kozeyev']"
+Soyuz TM-34,2002,"['Yuri Gidzenko', 'Roberto Vittori', 'Mark Shuttleworth']"
+Soyuz TM-4,1987,"['Vladimir G. Titov', 'Musa Manarov', 'Anatoli Levchenko']"
+Soyuz TM-5,1988,"['Anatoly Solovyev', 'Viktor Savinykh', 'Aleksandr P. Aleksandrov']"
+Soyuz TM-6,1988,"['Vladimir Lyakhov', 'Valeri Polyakov', 'Abdul Ahad Mohmand']"
+Soyuz TM-7,1988,"['Aleksandr A. Volkov', 'Sergei Krikalev', 'Jean-Loup ChrÃ©tien']"
+Soyuz TM-8,1989,"['Aleksandr Viktorenko', 'Aleksandr Serebrov']"
+Soyuz TM-9,1990,"['Anatoly Solovyev', 'Aleksandr N. Balandin']"
+Soyuz TMA-01M,2010,"['Aleksandr Kaleri', 'Oleg Skripochka', 'Scott J. Kelly']"
+Soyuz TMA-02M,2011,"['Michael E. Fossum', 'Sergey A. Volkov', 'Satoshi Furukawa']"
+Soyuz TMA-03M,2011,"['Donald R. Pettit', 'Oleg Kononenko', 'AndrÃ© Kuipers']"
+Soyuz TMA-04M,2012,"['Gennady Padalka', 'Sergei Revin', 'Joseph M. Acaba']"
+Soyuz TMA-05M,2012,"['Yuri Malenchenko', 'Sunita L. Williams', 'Akihiko Hoshide']"
+Soyuz TMA-06M,2012,"['Kevin A. Ford', 'Oleg Novitskiy', 'Evgeny Tarelkin']"
+Soyuz TMA-07M,2012,"['Roman Romanenko', 'Chris Hadfield', 'Thomas H. Marshburn']"
+Soyuz TMA-08M,2013,"['Pavel Vinogradov', 'Alexander Misurkin', 'Christopher J. Cassidy']"
+Soyuz TMA-09M,2013,"['Fyodor Yurchikhin', 'Karen L. Nyberg', 'Luca Parmitano']"
+Soyuz TMA-1,2002,"['Sergei Zalyotin', 'Frank De Winne', 'Yury V. Lonchakov']"
+Soyuz TMA-10,2007,"['Oleg Kotov', 'Fyodor Yurchikhin', 'Charles Simonyi']"
+Soyuz TMA-10M,2013,"['Michael S. Hopkins', 'Oleg Kotov', 'Sergey N. Ryazansky']"
+Soyuz TMA-11,2007,"['Yuri Malenchenko', 'Sheikh Muszaphar Shukor Al Masrie', 'Peggy A. Whitson']"
+Soyuz TMA-11M,2013,"['Mikhail Tyurin', 'Richard A. Mastracchio', 'Koichi Wakata']"
+Soyuz TMA-12,2008,"['Sergey A. Volkov', 'Oleg Kononenko', 'Yi So-yeon']"
+Soyuz TMA-12M,2014,"['Aleksandr A. Skvortsov', 'Oleg Artemyev', 'Steven R. Swanson']"
+Soyuz TMA-13,2008,"['Yury V. Lonchakov', 'E. Michael Fincke', 'Richard A. Garriott']"
+Soyuz TMA-13M,2014,"['Gregory R. Wiseman', 'Maksim V. Surayev', 'Alexander Gerst']"
+Soyuz TMA-14,2009,"['Michael R. Barratt', 'Gennady Padalka', 'Charles Simonyi']"
+Soyuz TMA-14M,2014,"['Aleksandr Samokutyayev', 'Yelena Serova', 'Barry E. Wilmore']"
+Soyuz TMA-15,2009,"['Roman Romanenko', 'Frank De Winne', 'Robert Thirsk']"
+Soyuz TMA-15M,2014,"['Anton N. Shkaplerov', 'Samantha Cristoforetti', 'Terry W. Virts Jr.']"
+Soyuz TMA-16,2009,"['Jeffrey N. Williams', 'Maksim V. Surayev', 'Guy LalibertÃ©']"
+Soyuz TMA-16M,2015,"['Gennady Padalka', 'Mikhail B. Korniyenko', 'Scott J. Kelly']"
+Soyuz TMA-17,2009,"['Oleg Kotov', 'Timothy J. Creamer', 'SÃ´ichi Noguchi']"
+Soyuz TMA-17M,2015,"['Kjell N. Lindgren', 'Oleg Kononenko', 'Kimiya Yui']"
+Soyuz TMA-18,2010,"['Aleksandr A. Skvortsov', 'Mikhail B. Korniyenko', 'Tracy E. Caldwell Dyson']"
+Soyuz TMA-18M,2015,"['Sergey A. Volkov', 'Andreas E. Mogensen', 'Aidyn A. Aimbetov']"
+Soyuz TMA-19,2010,"['Fyodor Yurchikhin', 'Shannon Walker', 'Douglas H. Wheelock']"
+Soyuz TMA-19M,2015,"['Yuri Malenchenko', 'Timothy L. Kopra', 'Timothy Peake']"
+Soyuz TMA-2,2003,"['Yuri Malenchenko', 'Edward T. Lu']"
+Soyuz TMA-20,2010,"['Dmitri Kondratyev', 'Catherine G. Coleman', 'Paolo Nespoli']"
+Soyuz TMA-20M,2016,"['Jeffrey N. Williams', 'Aleksey Ovchinin', 'Oleg Skripochka']"
+Soyuz TMA-21,2011,"['Ronald J. Garan Jr.', 'Aleksandr Samokutyayev', 'Andrei Borisenko']"
+Soyuz TMA-22,2011,"['Anton N. Shkaplerov', 'Anatoli Ivanishin', 'Daniel C. Burbank']"
+Soyuz TMA-3,2003,"['Aleksandr Kaleri', 'C. Michael Foale', 'Pedro Duque']"
+Soyuz TMA-4,2004,"['Gennady Padalka', 'E. Michael Fincke', 'AndrÃ© Kuipers']"
+Soyuz TMA-5,2004,"['Salizhan Sharipov', 'Leroy Chiao', 'Yuri Sharginy']"
+Soyuz TMA-6,2005,"['Sergei Krikalev', 'John L. Phillips', 'Roberto Vittori']"
+Soyuz TMA-7,2005,"['Valeri Tokarev', 'William S. McArthur Jr.', 'Gregory H. Olsen']"
+Soyuz TMA-8,2006,"['Pavel Vinogradov', 'Marcos C. Pontes', 'Jeffrey N. Williams']"
+Soyuz TMA-9,2006,"['Mikhail Tyurin', 'Michael E. LÃ³pez-AlegrÃ\xada', 'Anousheh Ansari']"
+Space Flyer Unit,1995,[nan]
+SpaceX CRS-10,2017,[nan]
+SpaceX CRS-11,2017,[nan]
+SpaceX CRS-12,2017,[nan]
+SpaceX CRS-13,2017,[nan]
+SpaceX CRS-15,2018,[nan]
+SpaceX CRS-16,2018,[nan]
+SpaceX CRS-19,2019,[nan]
+SpaceX CRS-4,2014,[nan]
+SpaceX CRS-6,2015,[nan]
+SpaceX CRS-8,2016,[nan]
+SpaceX CRS-9,2016,[nan]
+SpaceX Crew Dragon Demo-1,2019,[nan]
+SpaceX Crew-1,2020,"['SÃ´ichi Noguchi', 'Shannon Walker', 'Michael S. Hopkins', 'Victor J. Glover']"
+SpaceX Crew-2,2021,"['Robert S. Kimbrough', 'K. Megan McArthur', 'Akihiko Hoshide', 'Thomas Pesquet']"
+SpaceX Crew-3,2021,"['Raja Chari', 'Thomas H. Marshburn', 'Matthias Maurer', 'Kayla Barron']"
+SpaceX DM-2,2020,"['Robert L. Behnken', 'Douglas G. Hurley']"
+T-7A (S2),1966,[nan]
+The Orbiting Frog Otolith (OFO),1970,[nan]
+Unity 22,2021,"['David W. D. Mackay', 'Mike Masucci', 'Beth Moses', 'Colin Bennett', 'Sirisha Bandla', 'Sir Richard Branson']"
+VSS Unity VF-01,2019,"['David W. D. Mackay', 'Mike Masucci', 'Beth Moses']"
+VSS Unity VF-03,2021,"['Frederick W. Sturckow', 'David W. D. Mackay']"
+VSS Unity VP-03,2018,"['Mark P. Stucky', 'Frederick W. Sturckow']"
+Veronique AG124,1961,[nan]
+Veronique AG136,1962,[nan]
+Veronique AG137,1962,[nan]
+Vesta 04,1967,[nan]
+Vesta 05,1967,[nan]
+Voskhod 1,1964,"['Vladimir Komarov', 'Konstantin Feoktistov', 'Boris Yegorov']"
+Voskhod 2,1965,"['Pavel Belyayev', 'Alexei Leonov']"
+Vostok 1,1961,['Yuri Gagarin']
+Vostok 2,1961,['Gherman Titov']
+Vostok 3,1962,['Andriyan Nikolayev']
+Vostok 4,1962,['Pavel Popovich']
+Vostok 5,1963,['Valery Bykovsky']
+Vostok 6,1963,['Valentina Tereshkova']
+VÃ©ronique AG147,1963,[nan]
+X-1 Panther,1970,[nan]
+X-15 Flight 138,1965,['Joe H. Engle']
+X-15 Flight 143,1965,['Joe H. Engle']
+X-15 Flight 150,1965,['John B. McKay']
+X-15 Flight 153,1965,['Joe H. Engle']
+X-15 Flight 174,1966,['William H. Dana']
+X-15 Flight 190,1967,['William J. Knight']
+X-15 Flight 191,1967,['Michael J. Adams']
+X-15 Flight 197,1968,['William H. Dana']
+X-15 Flight 62,1962,['Robert M. White']
+X-15 Flight 87,1963,['Robert A. Rushworth']
+Zond 5,1968,[nan]
+Zond 7,1969,[nan]
+Zond 8,1970,[nan]
