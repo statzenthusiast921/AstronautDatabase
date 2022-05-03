@@ -1,5 +1,4 @@
 #Import packages
-
 from enum import unique
 import pandas as pd
 import numpy as np
@@ -10,8 +9,8 @@ from dash import dcc, html
 #import urllib.request
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
-#import json
-import requests
+import json
+#import requests
 #from IPython.display import JSON
 import visdcc
 #import itertools as it
@@ -27,7 +26,6 @@ import ast
 
 #Read in processed data from github
 astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv', encoding = "ISO-8859-1")
-
 # #Download the astronaut database from SuperCluster
 # astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
 # astronauts_db = requests.get(astronaut_db_url).json()
@@ -315,7 +313,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                 #Button #1 - 1/2 page width
                 dbc.Col([
                     html.Div([
-                        dbc.Button("Click Here for Detailed Instructions",id='open3',block=True,size='lg'),
+                        dbc.Button("Click Here for Detailed Instructions",id='open3',size='lg',color="secondary", className="me-1"),
                     ],className="d-grid gap-2"),
                     #Button for Instructions
                     html.Div([
@@ -338,7 +336,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                 #Column for Button 2 - 1/2 page width
                 dbc.Col([
                     html.Div([
-                        dbc.Button("Click Here for Award Descriptions",id='open0',size='lg'),
+                        dbc.Button("Click Here for Award Descriptions",id='open0',size='lg',color="secondary", className="me-1"),
                     ],className="d-grid gap-2"),
                     #Button for Award Description
                     html.Div([
@@ -429,7 +427,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                    dbc.Row([
                        dbc.Col([
                            html.Div([
-                                dbc.Button("Click Here for Detailed Instructions",id='open4',block=True,size='lg'),
+                                dbc.Button("Click Here for Detailed Instructions",id='open4',size='lg',color="secondary", className="me-1"),
                            ],className="d-grid gap-2"),
                             #Button for Instructions
                                 html.Div([
@@ -454,7 +452,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                        ],width=6),
                        dbc.Col([
                             html.Div([
-                                dbc.Button("Click Here for Mission Descriptions",id='open1',block=True,size='lg'),
+                                dbc.Button("Click Here for Mission Descriptions",id='open1',size='lg',color="secondary", className="me-1"),
                             ],className="d-grid gap-2"),
                             #Button for Award Description
                         html.Div([
@@ -538,7 +536,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                        dbc.Col([
                            #Item 1 of 3 --> The Instructions Button
                            html.Div([
-                                dbc.Button("Click Here for Detailed Instructions",id='open2',block=True,size='lg'),
+                                dbc.Button("Click Here for Detailed Instructions",id='open2',size='lg',color="secondary", className="me-1"),
                            ],className="d-grid gap-2"),
                             html.Div([
                                 dbc.Modal(
