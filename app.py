@@ -1,4 +1,5 @@
 #Import packages
+
 from enum import unique
 import pandas as pd
 import numpy as np
@@ -6,14 +7,14 @@ import os
 import plotly.express as px
 import dash
 from dash import dcc, html
-import urllib.request
+#import urllib.request
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
-import json
+#import json
 import requests
-from IPython.display import JSON
+#from IPython.display import JSON
 import visdcc
-import itertools as it
+#import itertools as it
 import re
 import collections
 from dash import dash_table as dt
@@ -21,11 +22,12 @@ from dash import dash_table as dt
 from PIL import Image
 import requests
 from io import BytesIO
-import plotly.graph_objects as go
+#import plotly.graph_objects as go
 import ast
 
 #Read in processed data from github
 astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv', encoding = "ISO-8859-1")
+
 # #Download the astronaut database from SuperCluster
 # astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
 # astronauts_db = requests.get(astronaut_db_url).json()
@@ -47,6 +49,7 @@ astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/Ast
 # response1 = urllib.request.urlopen(code1)
 # data1 = response1.read()
 # exec(data1)
+from natsort import natsorted, ns
 
 
 astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Kármán')
@@ -228,7 +231,11 @@ country_astro_dict = df_for_dict.groupby('country')['astronaut_name'].apply(list
 country_astro_dict_sorted = {l: sorted(m) for l, m in country_astro_dict.items()} #sort value by list
 
 #5.) List of Missions
-mission_choices = sorted(astro_db['mission_name'].unique())
+mission_choices = astro_db['mission_name'].unique().tolist()
+
+
+mission_choices = natsorted(mission_choices, key=lambda y: y.lower())
+
 
 #6.) Launch Year --> Mission Dictionary
 df2_for_dict = astro_db[['launch_year','mission_name']]
@@ -550,7 +557,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
 
                                 )
                             ])
-                       ],width=4),
+                       ],width=6),
                        dbc.Col([
                             #Item 2 of 3 --> The Range Slider for Launch Years
                             html.Label(dcc.Markdown('''**Select a range of launch years: **'''),style={'color':'white'}),                        
@@ -574,20 +581,29 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                                     }
                                 ),
 
-                       ],width=4),
-                          dbc.Col([
-                            #Item 3 of 3 --> The Mission Dropdown Box
-                            html.Label(dcc.Markdown('''**Select a specific mission: **'''),style={'color':'white'}),                        
-                            dcc.Dropdown(
-                                id='dropdown3',
-                                style={'color':'black'},
-                                options=[{'label': i, 'value': i} for i in mission_choices],
-                                value=mission_choices[0]
-                            )
-                       ],width=4)
+                       ],width=6),
+                       
                    ]),
                    dbc.Row([
                        dbc.Col([
+                           dbc.Row([
+                               dbc.Col([
+                                   html.Label(dcc.Markdown('''**Click on a blue node below to reveal information about a mission and zoom in to see node labels.**'''),style={'color':'white'}),                        
+                                   html.Li('Mission',style={'color':'#626ffb'}),        
+                                   html.Li('Astronaut',style={'color':'grey'})                 
+                
+
+                               ],width=6),
+                               dbc.Col([
+                                    html.Label(dcc.Markdown('''**Highlight a specific mission: **'''),style={'color':'white'}),                        
+                                    dcc.Dropdown(
+                                        id='dropdown3',
+                                        style={'color':'black'},
+                                        options=[{'label': i, 'value': i} for i in mission_choices],
+                                        value=mission_choices[0]
+                                    )
+                               ],width=6)
+                           ]),
                             visdcc.Network(
                                 id='ng',
                                 selection = {
@@ -612,7 +628,8 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                        ],width=6),
                        html.Br(),
                        dbc.Col([
-                            html.Label(dcc.Markdown('''**Click on a blue node to reveal information about a mission**'''),style={'color':'white'}),                        
+                            html.Br(),
+                            html.Label(dcc.Markdown('''**Mission Details: **'''),style={'color':'white'}),                        
                             html.Div(id = 'nodes',style={'color':'white'}),
                             html.Div(id = 'edges',style={'color':'white'})
                        ],width=6),
@@ -1009,6 +1026,7 @@ def myfun(x):
         
 
         s += str(x['nodes'][0])
+        #print(str(x['nodes'][0]))
         mission_name = s.split(": ",1)[1]
         header = s.split(": ",1)[0] + ": " 
         
@@ -1042,46 +1060,15 @@ def myfun(x):
         b4=""
     return d, b4
 
-
-# #Tab #4: Missions --> Clicking on Nodes in Network Graph
+#Tab #4: Missions --> Clicking on Nodes Updates Dropdown Box Value
 # @app.callback(
-#     Output('nodes', 'children'),
-#     Output('edges','children'),
-#     Input('dropdown3','value')
+#     Output('dropdown3', 'value'),
+#     Input('ng', 'selection'),
 # )
-# def myfun(dd3): 
-
-#     line_break = html.Br()
-#     mission_data = astro_db[astro_db['mission_name']==dd3]
-    
- 
-#     header1 = "Mission Name: "
-#     mission_name = mission_data['mission_name'].unique()[0]
-
-#     header2 = "Mission Description: "
-#     short_desc = mission_data['shortDescription'].unique()[0]
-
-#     header3 = "Launch Date: "
-#     launch_date = mission_data['launch_date'].unique()[0]
-
-#     block1 = [
-#         header1, mission_name,
-#         line_break,
-#         header2, short_desc,
-#         line_break,
-#         header3, launch_date,
-#         line_break
-#         ]
-        
-#     d = [html.Div(i) for i in block1]
-
-#     header4 = 'Astronauts:'
-#     astronauts = mission_data['astronaut_name'].unique().tolist()
-
-      
-#     b4 = [header4] + [html.Div(i) for i in astronauts]
-
-#     return d, b4
+# def node_updates_dd(x): 
+#     if len(x['nodes']) > 0 : 
+#         value = [str(x['nodes'][0])]
+#     return value
 
 
 @app.callback(
