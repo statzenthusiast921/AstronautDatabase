@@ -281,7 +281,7 @@ app.layout = html.Div([
                    html.Div([
                        html.P("This dashboard was created as a tool to: ",style={'color':'white'}),
                        html.P("1.) Understand the accomplishments and level of activity of countries over time in building space programs",style={'color':'white'}),
-                       html.P("2.) Understand the accomplishemnts of individual astronauts",style={'color':'white'}),
+                       html.P("2.) Understand the accomplishments of individual astronauts",style={'color':'white'}),
                        html.P("3.) Visualize networks of astronauts connected by missions for which they participated",style={'color':'white'}),
 
 
@@ -586,7 +586,7 @@ dcc.Tab(label='Countries',value='tab-2',style=tab_style, selected_style=tab_sele
                        dbc.Col([
                            dbc.Row([
                                dbc.Col([
-                                   html.Label(dcc.Markdown('''**Click on a blue node below to reveal information about a mission and zoom in to see node labels.**'''),style={'color':'white'}),                        
+                                   html.Label(dcc.Markdown('''**Click on a blue node below to reveal info about a mission on the right. You can also zoom in on the graph to reveal node labels.**'''),style={'color':'white'}),                        
                                    html.Li('Mission',style={'color':'#626ffb'}),        
                                    html.Li('Astronaut',style={'color':'grey'})                 
                 
@@ -1013,13 +1013,16 @@ def network(range_slider1,dd3):
 @app.callback(
     Output('nodes', 'children'),
     Output('edges','children'),
-    Input('ng', 'selection'),
+    Input('ng', 'selection')
 )
 def myfun(x): 
     s = "Mission Description: "
     c = ""
     line_break = html.Br()
+    #pre_click_df = astro_db[['mission_name','shortDescription','launch_date','astronaut_name']]
+    #pre_click_df = pre_click_df[pre_click_df['mission_name']=="Inspiration4"]
     
+
     if len(x['nodes']) > 0 : 
         
 
@@ -1038,8 +1041,15 @@ def myfun(x):
         ]
         d = [html.Div(i) for i in c]
     else:
+        # c = [
+        #     "Mission Name: ", pre_click_df['mission_name'].values[0],
+        #     line_break,
+        #     "Mission Description: ", pre_click_df['shortDescription'].values[0],
+        #     line_break,
+        #     "Launch Date: ", pre_click_df['launch_date'].values[0]
+        #     ]
         d=""
-
+        # d = [html.Div(i) for i in c]
 
     s2 = ''
     header = ['Astronauts: ']
@@ -1054,9 +1064,12 @@ def myfun(x):
         b3 = header+b2
         b4 = [line_break] + [html.Div(i) for i in b3]
     else:
-        
+        # s2 = [html.Div(i) for i in pre_click_df['astronaut_name']]
+        # b3 = header+s2
         b4=""
+        # b4 = [line_break] + [html.Div(i) for i in b3]
     return d, b4
+
 
 #Tab #4: Missions --> Clicking on Nodes Updates Dropdown Box Value
 # @app.callback(
