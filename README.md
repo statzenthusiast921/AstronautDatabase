@@ -6,7 +6,7 @@ The purpose of this project was to visualize the networks of all astronauts conn
 
 ### Link
 
-Astronaut Database App[https://astro-db-app-jz.herokuapp.com/]
+[Astronaut Database App](https://astro-db-app-jz.herokuapp.com/)
 
 ### Data
 
