@@ -11,7 +11,7 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 #import json
-import requests
+#import requests
 #from IPython.display import JSON
 import visdcc
 #import itertools as it
@@ -20,13 +20,12 @@ import collections
 from dash import dash_table as dt
 ### Read image from URL
 from PIL import Image
-import requests
 from io import BytesIO
 #import plotly.graph_objects as go
 import ast
 
 #Read in processed data from github
-astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data/astro_db.csv', encoding = "ISO-8859-1")
+astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/data/astro_db_full_data.csv', encoding = "ISO-8859-1")
 
 # #Download the astronaut database from SuperCluster
 # astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
@@ -52,11 +51,11 @@ astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/Ast
 from natsort import natsorted, ns
 
 
-# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Kármán')
-# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ê',' ')
-# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Kármán')
-# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
-# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Kármán')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ê',' ')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Kármán')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
+astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
 
 astro_db['awards'] = astro_db['awards'].str.replace('KÃ¡rmÃ¡n','Kármán')
 astro_db['shortDescription'] = astro_db['shortDescription'].str.replace('â','')
@@ -265,7 +264,8 @@ tab_selected_style = {
 }
 
 
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.DARKLY])
+
+app = dash.Dash(__name__,assets_folder=os.path.join(os.curdir,"assets"))
 server = app.server
 app.layout = html.Div([
     dcc.Tabs([
