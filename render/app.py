@@ -52,11 +52,11 @@ astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/Ast
 from natsort import natsorted, ns
 
 
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Kármán')
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ê',' ')
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Kármán')
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
-astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
+# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('KÃ¡rmÃ¡n','Kármán')
+# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ê',' ')
+# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Krmn','Kármán')
+# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('©','')
+# astro_db['bio_cleaned'] = astro_db['bio_cleaned'].str.replace('Ã','')
 
 astro_db['awards'] = astro_db['awards'].str.replace('KÃ¡rmÃ¡n','Kármán')
 astro_db['shortDescription'] = astro_db['shortDescription'].str.replace('â','')
