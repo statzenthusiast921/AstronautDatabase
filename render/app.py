@@ -26,7 +26,7 @@ from io import BytesIO
 import ast
 
 #Read in processed data from github
-astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv', encoding = "ISO-8859-1")
+astro_db = pd.read_csv('https://raw.githubusercontent.com/statzenthusiast921/AstronautDatabase/main/astro_db_full_data.csv')#, encoding = "ISO-8859-1")
 
 # #Download the astronaut database from SuperCluster
 # astronaut_db_url = 'https://supercluster-iadb.s3.us-east-2.amazonaws.com/adb.json'
