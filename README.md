@@ -9,7 +9,7 @@ The purpose of this project was to visualize the networks of all astronauts conn
 The data used for this analysis was scraped from the [SuperCluster Astronaut Database](https://www.supercluster.com/astronauts).
 
 ### Application
-[Click here] (https://astro-db-jz.onrender.com/).  The app might need a few minutes to "wake up".
+[Click here](https://astro-db-jz.onrender.com/).  The app might need a few minutes to "wake up".
 
 ### Challenges
 
