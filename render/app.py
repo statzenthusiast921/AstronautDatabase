@@ -11,7 +11,7 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 #import json
-#import requests
+import requests
 #from IPython.display import JSON
 import visdcc
 #import itertools as it
